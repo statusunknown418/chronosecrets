@@ -1,0 +1,16 @@
+{
+  "hasSrc": true,
+  "packages": [
+    "drizzle",
+    "next-auth",
+    "trpc",
+    "shadcn-ui",
+    "resend"
+  ],
+  "preferredPackageManager": "pnpm",
+  "rootPath": "src/",
+  "driver": "mysql",
+  "provider": "planetscale",
+  "orm": "drizzle",
+  "auth": "next-auth"
+}
