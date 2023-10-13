@@ -3,14 +3,12 @@ import { relations } from "drizzle-orm";
 import {
   index,
   int,
-  mysqlTableCreator,
+  mysqlTable,
   primaryKey,
   text,
   timestamp,
   varchar,
 } from "drizzle-orm/mysql-core";
-
-export const mysqlTable = mysqlTableCreator((name) => `wait4it_${name}`);
 
 export const users = mysqlTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
