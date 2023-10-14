@@ -1,6 +1,8 @@
 import {
   boolean,
   datetime,
+  index,
+  mysqlEnum,
   mysqlTable,
   serial,
   varchar,
@@ -9,24 +11,49 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { getSecrets } from "@/lib/api/secrets/queries";
+import { relations } from "drizzle-orm";
+import { users, usersToSecrets } from ".";
+import { attachments } from "./attachments";
 
-export const secrets = mysqlTable("secrets", {
-  id: serial("id").primaryKey(),
-  title: varchar("title", { length: 256 }).notNull(),
-  content: varchar("content", { length: 256 }),
-  revealingDate: datetime("revealing_date", { mode: "date" }).notNull(),
-  createdAt: datetime("created_at", { mode: "date" }),
-  editedAt: datetime("edited_at", { mode: "date" }),
-  revealed: boolean("revealed"),
-  createdByUserId: varchar("user_id", { length: 256 }).notNull(),
-  receiverId: varchar("receiver_id", { length: 256 }).notNull(),
-});
+export const secrets = mysqlTable(
+  "secrets",
+  {
+    id: serial("id").primaryKey(),
+    title: varchar("title", { length: 256 }).notNull(),
+    content: varchar("content", { length: 256 }),
+    revealingDate: datetime("revealing_date", { mode: "date" }).notNull(),
+    createdAt: datetime("created_at", { mode: "date" }),
+    revealed: boolean("revealed"),
+    encryptionType: mysqlEnum("encryption_type", [
+      "SHA256",
+      "DES",
+      "RSA",
+      "AES",
+    ]).default("RSA"),
+    editedAt: datetime("edited_at", { mode: "date" }),
+    wasEdited: boolean("was_edited").default(false),
+    createdByUserId: varchar("created_by_user_id", { length: 256 }).notNull(),
+  },
+  (t) => ({
+    titleIdx: index("title_idx").on(t.title),
+    revealingDateIdx: index("revealing_date_idx").on(t.revealingDate),
+    revealedIdx: index("revealed_idx").on(t.revealed),
+  })
+);
+
+export const secretsRelations = relations(secrets, ({ one, many }) => ({
+  creator: one(users, {
+    fields: [secrets.createdByUserId],
+    references: [users.id],
+  }),
+  receivers: many(usersToSecrets),
+  attachments: many(attachments),
+}));
 
 // Schema for secrets - used to validate API requests
 export const insertSecretSchema = createInsertSchema(secrets);
 
 export const insertSecretParams = createSelectSchema(secrets, {
-  editedAt: z.coerce.string(),
   revealed: z.coerce.boolean(),
 }).omit({
   id: true,

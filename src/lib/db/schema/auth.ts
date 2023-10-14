@@ -1,6 +1,7 @@
 import type { AdapterAccount } from "@auth/core/adapters";
 import { relations } from "drizzle-orm";
 import {
+  boolean,
   index,
   int,
   mysqlTable,
@@ -9,6 +10,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/mysql-core";
+import { secrets } from "./secrets";
 
 export const users = mysqlTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -21,8 +23,60 @@ export const users = mysqlTable("user", {
   image: varchar("image", { length: 255 }),
 });
 
+/**
+ * TODO: Friendships relations needs work
+ */
 export const usersRelations = relations(users, ({ many }) => ({
-  accounts: many(accounts),
+  secrets: many(secrets),
+  receiving: many(usersToSecrets),
+  friends: many(friendships, { relationName: "friends" }),
+}));
+
+export const usersToSecrets = mysqlTable(
+  "users_to_secrets",
+  {
+    userId: varchar("userId", { length: 255 }).notNull(),
+    secretId: int("secretId").notNull(),
+  },
+  (t) => ({
+    pk: primaryKey(t.userId, t.secretId),
+  })
+);
+
+export const usersToSecretsRelations = relations(usersToSecrets, ({ one }) => ({
+  receiver: one(users, {
+    fields: [usersToSecrets.userId],
+    references: [users.id],
+  }),
+  secret: one(secrets, {
+    fields: [usersToSecrets.secretId],
+    references: [secrets.id],
+  }),
+}));
+
+export const friendships = mysqlTable(
+  "friendship",
+  {
+    userId: varchar("user_id", { length: 255 }).notNull(),
+    friendId: varchar("friend_id", { length: 255 }).notNull(),
+    requestAccepted: boolean("request_accepted").notNull().default(false),
+  },
+  (t) => ({
+    pk: primaryKey(t.userId, t.friendId),
+  })
+);
+
+export const friendshipsRelations = relations(friendships, ({ one }) => ({
+  follows: one(users, {
+    fields: [friendships.userId],
+    references: [users.id],
+    relationName: "friends",
+  }),
+  followed: one(users, {
+    fields: [friendships.friendId],
+    references: [users.id],
+    relationName: "followed",
+  }),
 }));
 
 export const accounts = mysqlTable(
