@@ -1,12 +1,6 @@
 {
   "hasSrc": true,
-  "packages": [
-    "drizzle",
-    "next-auth",
-    "trpc",
-    "shadcn-ui",
-    "resend"
-  ],
+  "packages": ["drizzle", "next-auth", "trpc", "shadcn-ui", "resend"],
   "preferredPackageManager": "pnpm",
   "rootPath": "src/",
   "driver": "mysql",

@@ -2,11 +2,7 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import {
-  createSecret,
-  deleteSecret,
-  updateSecret,
-} from "@/lib/api/secrets/mutations";
+import { createSecret, deleteSecret, updateSecret } from "@/lib/api/secrets/mutations";
 import {
   insertSecretParams,
   secretIdSchema,
@@ -40,10 +36,7 @@ export async function PUT(req: Request) {
     const validatedData = updateSecretParams.parse(await req.json());
     const validatedParams = secretIdSchema.parse({ id });
 
-    const { success, error } = await updateSecret(
-      validatedParams.id,
-      validatedData
-    );
+    const { success, error } = await updateSecret(validatedParams.id, validatedData);
 
     if (error) return NextResponse.json({ error }, { status: 500 });
     return NextResponse.json(success, { status: 200 });

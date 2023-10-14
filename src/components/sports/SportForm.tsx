@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  NewSportParams,
-  Sport,
-  insertSportParams,
-} from "@/lib/db/schema/sports";
+import { NewSportParams, Sport, insertSportParams } from "@/lib/db/schema/sports";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -18,11 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
@@ -32,13 +24,7 @@ import { z } from "zod";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 
-const SportForm = ({
-  sport,
-  closeModal,
-}: {
-  sport?: Sport;
-  closeModal: () => void;
-}) => {
+const SportForm = ({ sport, closeModal }: { sport?: Sport; closeModal: () => void }) => {
   const { toast } = useToast();
 
   const editing = !!sport?.id;
@@ -174,7 +160,7 @@ const SportForm = ({
                       variant={"outline"}
                       className={cn(
                         "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
+                        !field.value && "text-muted-foreground",
                       )}
                     >
                       {field.value ? (
@@ -203,11 +189,7 @@ const SportForm = ({
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="mr-1"
-          disabled={isCreating || isUpdating}
-        >
+        <Button type="submit" className="mr-1" disabled={isCreating || isUpdating}>
           {editing
             ? `Sav${isUpdating ? "ing..." : "e"}`
             : `Creat${isCreating ? "ing..." : "e"}`}

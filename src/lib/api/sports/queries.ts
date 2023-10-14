@@ -12,4 +12,3 @@ export const getSportById = async (id: SportId) => {
   const [s] = await db.select().from(sports).where(eq(sports.id, sportId));
   return { sport: s };
 };
-

@@ -16,21 +16,19 @@ export const createSecret = async (secret: NewSecretParams) => {
   const newSecret = insertSecretSchema.parse({
     ...secret,
     createdByUserId: session?.user.id!,
+    shareableUrl: `${secret.title}-${Math.random().toString(20)}}`,
   });
+
   try {
     await db.insert(secrets).values(newSecret);
     return { success: true };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
-    console.error(message);
     return { error: message };
   }
 };
 
-export const updateSecret = async (
-  id: SecretId,
-  secret: UpdateSecretParams
-) => {
+export const updateSecret = async (id: SecretId, secret: UpdateSecretParams) => {
   const { session } = await getUserAuth();
   const { id: secretId } = secretIdSchema.parse({ id });
   const newSecret = updateSecretSchema.parse({
@@ -42,15 +40,11 @@ export const updateSecret = async (
       .update(secrets)
       .set(newSecret)
       .where(
-        and(
-          eq(secrets.id, secretId!),
-          eq(secrets.createdByUserId, session?.user.id!)
-        )
+        and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
       );
     return { success: true };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
-    console.error(message);
     return { error: message };
   }
 };
@@ -62,15 +56,12 @@ export const deleteSecret = async (id: SecretId) => {
     await db
       .delete(secrets)
       .where(
-        and(
-          eq(secrets.id, secretId!),
-          eq(secrets.createdByUserId, session?.user.id!)
-        )
+        and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
       );
     return { success: true };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
-    console.error(message);
+
     return { error: message };
   }
 };

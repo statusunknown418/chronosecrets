@@ -20,25 +20,21 @@ export const secrets = mysqlTable(
   {
     id: serial("id").primaryKey(),
     title: varchar("title", { length: 256 }).notNull(),
+    shareableUrl: varchar("shareable_url", { length: 256 }).notNull().unique(),
     content: varchar("content", { length: 256 }),
     revealingDate: datetime("revealing_date", { mode: "date" }).notNull(),
     createdAt: datetime("created_at", { mode: "date" }),
     revealed: boolean("revealed"),
-    encryptionType: mysqlEnum("encryption_type", [
-      "SHA256",
-      "DES",
+    encryptionType: mysqlEnum("encryption_type", ["SHA256", "DES", "RSA", "AES"]).default(
       "RSA",
-      "AES",
-    ]).default("RSA"),
+    ),
     editedAt: datetime("edited_at", { mode: "date" }),
     wasEdited: boolean("was_edited").default(false),
     createdByUserId: varchar("created_by_user_id", { length: 256 }).notNull(),
   },
   (t) => ({
-    titleIdx: index("title_idx").on(t.title),
-    revealingDateIdx: index("revealing_date_idx").on(t.revealingDate),
     revealedIdx: index("revealed_idx").on(t.revealed),
-  })
+  }),
 );
 
 export const secretsRelations = relations(secrets, ({ one, many }) => ({
@@ -58,6 +54,7 @@ export const insertSecretParams = createSelectSchema(secrets, {
 }).omit({
   id: true,
   createdByUserId: true,
+  shareableUrl: true,
 });
 
 export const updateSecretSchema = createSelectSchema(secrets);
@@ -78,6 +75,4 @@ export type UpdateSecretParams = z.infer<typeof updateSecretParams>;
 export type SecretId = z.infer<typeof secretIdSchema>["id"];
 
 // this type infers the return from getSecrets() - meaning it will include any joins
-export type CompleteSecret = Awaited<
-  ReturnType<typeof getSecrets>
->["secrets"][number];
+export type CompleteSecret = Awaited<ReturnType<typeof getSecrets>>["secrets"][number];

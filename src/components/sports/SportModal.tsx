@@ -12,10 +12,10 @@ import {
 import SportForm from "./SportForm";
 import { Sport } from "@/lib/db/schema/sports";
 
-export default function SportModal({ 
+export default function SportModal({
   sport,
   emptyState,
-}: { 
+}: {
   sport?: Sport;
   emptyState?: boolean;
 }) {
@@ -25,7 +25,7 @@ export default function SportModal({
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-      { emptyState ? (
+        {emptyState ? (
           <Button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -45,16 +45,14 @@ export default function SportModal({
             New Sport
           </Button>
         ) : (
-        <Button
-          variant={editing ? "ghost" : "outline"}
-          size={editing ? "sm" : "icon"}
-        >
-          {editing ? "Edit" : "+"}
-        </Button> )}
+          <Button variant={editing ? "ghost" : "outline"} size={editing ? "sm" : "icon"}>
+            {editing ? "Edit" : "+"}
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="px-5 pt-5">
-          <DialogTitle>{ editing ? "Edit" : "Create" } Sport</DialogTitle>
+          <DialogTitle>{editing ? "Edit" : "Create"} Sport</DialogTitle>
         </DialogHeader>
         <div className="px-5 pb-5">
           <SportForm closeModal={closeModal} sport={sport} />

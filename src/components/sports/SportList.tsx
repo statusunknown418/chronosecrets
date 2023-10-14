@@ -3,7 +3,6 @@ import { CompleteSport } from "@/lib/db/schema/sports";
 import { trpc } from "@/lib/trpc/client";
 import SportModal from "./SportModal";
 
-
 export default function SportList({ sports }: { sports: CompleteSport[] }) {
   const { data: s } = trpc.sports.getSports.useQuery(undefined, {
     initialData: { sports },
@@ -25,7 +24,7 @@ export default function SportList({ sports }: { sports: CompleteSport[] }) {
 
 const Sport = ({ sport }: { sport: CompleteSport }) => {
   return (
-    <li className="flex justify-between my-2">
+    <li className="my-2 flex justify-between">
       <div className="w-full">
         <div>{sport.title}</div>
       </div>
@@ -38,13 +37,10 @@ const EmptyState = () => {
   return (
     <div className="text-center">
       <h3 className="mt-2 text-sm font-semibold text-gray-900">No sports</h3>
-      <p className="mt-1 text-sm text-gray-500">
-        Get started by creating a new sport.
-      </p>
+      <p className="mt-1 text-sm text-gray-500">Get started by creating a new sport.</p>
       <div className="mt-6">
         <SportModal emptyState={true} />
       </div>
     </div>
   );
 };
-

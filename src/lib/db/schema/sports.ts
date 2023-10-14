@@ -26,7 +26,7 @@ export const sports = mysqlTable(
   },
   (t) => ({
     titleIdx: index("title_idx").on(t.title),
-  })
+  }),
 );
 
 // Schema for sports - used to validate API requests
@@ -59,6 +59,4 @@ export type UpdateSportParams = z.infer<typeof updateSportParams>;
 export type SportId = z.infer<typeof sportIdSchema>["id"];
 
 // this type infers the return from getSports() - meaning it will include any joins
-export type CompleteSport = Awaited<
-  ReturnType<typeof getSports>
->["sports"][number];
+export type CompleteSport = Awaited<ReturnType<typeof getSports>>["sports"][number];

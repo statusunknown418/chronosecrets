@@ -17,7 +17,7 @@ export default function TrpcProvider({ children }: { children: React.ReactNode }
           url: getUrl(),
         }),
       ],
-    })
+    }),
   );
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>

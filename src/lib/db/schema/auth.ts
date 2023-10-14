@@ -12,16 +12,23 @@ import {
 } from "drizzle-orm/mysql-core";
 import { secrets } from "./secrets";
 
-export const users = mysqlTable("user", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  name: varchar("name", { length: 255 }),
-  email: varchar("email", { length: 255 }).notNull(),
-  emailVerified: timestamp("emailVerified", {
-    mode: "date",
-    fsp: 3,
-  }).defaultNow(),
-  image: varchar("image", { length: 255 }),
-});
+export const users = mysqlTable(
+  "user",
+  {
+    id: varchar("id", { length: 255 }).notNull().primaryKey(),
+    name: varchar("name", { length: 255 }),
+    username: varchar("username", { length: 255 }).unique(),
+    email: varchar("email", { length: 255 }).notNull(),
+    emailVerified: timestamp("emailVerified", {
+      mode: "date",
+      fsp: 3,
+    }).defaultNow(),
+    image: varchar("image", { length: 255 }),
+  },
+  (t) => ({
+    nameIdx: index("name_idx").on(t.name),
+  }),
+);
 
 /**
  * TODO: Friendships relations needs work
@@ -40,7 +47,7 @@ export const usersToSecrets = mysqlTable(
   },
   (t) => ({
     pk: primaryKey(t.userId, t.secretId),
-  })
+  }),
 );
 
 export const usersToSecretsRelations = relations(usersToSecrets, ({ one }) => ({
@@ -63,7 +70,7 @@ export const friendships = mysqlTable(
   },
   (t) => ({
     pk: primaryKey(t.userId, t.friendId),
-  })
+  }),
 );
 
 export const friendshipsRelations = relations(friendships, ({ one }) => ({
@@ -83,9 +90,7 @@ export const accounts = mysqlTable(
   "account",
   {
     userId: varchar("userId", { length: 255 }).notNull(),
-    type: varchar("type", { length: 255 })
-      .$type<AdapterAccount["type"]>()
-      .notNull(),
+    type: varchar("type", { length: 255 }).$type<AdapterAccount["type"]>().notNull(),
     provider: varchar("provider", { length: 255 }).notNull(),
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
     refresh_token: varchar("refresh_token", { length: 255 }),
@@ -99,21 +104,19 @@ export const accounts = mysqlTable(
   (account) => ({
     compoundKey: primaryKey(account.provider, account.providerAccountId),
     userIdIdx: index("userId_idx").on(account.userId),
-  })
+  }),
 );
 
 export const sessions = mysqlTable(
   "session",
   {
-    sessionToken: varchar("sessionToken", { length: 255 })
-      .notNull()
-      .primaryKey(),
+    sessionToken: varchar("sessionToken", { length: 255 }).notNull().primaryKey(),
     userId: varchar("userId", { length: 255 }).notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
   (t) => ({
     userIdIdx: index("userId_idx").on(t.userId),
-  })
+  }),
 );
 
 export const verificationTokens = mysqlTable(
@@ -125,5 +128,5 @@ export const verificationTokens = mysqlTable(
   },
   (vt) => ({
     compoundKey: primaryKey(vt.identifier, vt.token),
-  })
+  }),
 );

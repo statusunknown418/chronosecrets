@@ -11,7 +11,9 @@ export default function SignIn() {
     return (
       <>
         Signed in as {session.user?.email} <br />
-        <Button variant={"destructive"} onClick={() => signOut()}>Sign out</Button>
+        <Button variant={"destructive"} onClick={() => signOut()}>
+          Sign out
+        </Button>
       </>
     );
   }

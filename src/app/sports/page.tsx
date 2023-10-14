@@ -8,9 +8,9 @@ export default async function Sports() {
   const t2 = Date.now();
 
   return (
-    <main className="max-w-3xl mx-auto p-5 md:p-0 sm:pt-4">
+    <main className="mx-auto max-w-3xl p-5 sm:pt-4 md:p-0">
       <div className="flex justify-between">
-        <h1 className="font-semibold text-2xl my-2">Sports</h1>
+        <h1 className="my-2 text-2xl font-semibold">Sports</h1>
         <p>Took: {t2 - t1}</p>
         <NewSportModal />
       </div>

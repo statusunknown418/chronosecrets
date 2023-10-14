@@ -1,10 +1,6 @@
 import { getUserAuth } from "@/lib/auth/utils";
 import { db } from "@/lib/db";
-import {
-  secretIdSchema,
-  secrets,
-  type SecretId,
-} from "@/lib/db/schema/secrets";
+import { secretIdSchema, secrets, type SecretId } from "@/lib/db/schema/secrets";
 import { and, eq } from "drizzle-orm";
 
 export const getSecrets = async () => {
@@ -22,11 +18,6 @@ export const getSecretById = async (id: SecretId) => {
   const [s] = await db
     .select()
     .from(secrets)
-    .where(
-      and(
-        eq(secrets.id, secretId),
-        eq(secrets.createdByUserId, session?.user.id!)
-      )
-    );
+    .where(and(eq(secrets.id, secretId), eq(secrets.createdByUserId, session?.user.id!)));
   return { secret: s };
 };
