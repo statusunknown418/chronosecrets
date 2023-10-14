@@ -2,13 +2,13 @@ import NextAuthProvider from "@/lib/auth/Provider";
 import TrpcProvider from "@/lib/trpc/Provider";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import Script from "next/script";
 import { Toaster } from "sonner";
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ["latin"],
-  // weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark bg-zinc-900">
+    <html lang="en" className="dark">
       <head>
         <Script
           async
@@ -29,11 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
 
-      <body className={inter.className}>
+      <body className={poppins.className}>
         <NextAuthProvider>
           <TrpcProvider>{children}</TrpcProvider>
 
-          <Toaster />
+          <Toaster richColors closeButton theme="dark" visibleToasts={9} />
         </NextAuthProvider>
       </body>
     </html>
