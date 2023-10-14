@@ -16,6 +16,7 @@ export const createSecret = async (secret: NewSecretParams) => {
   const newSecret = insertSecretSchema.parse({
     ...secret,
     createdByUserId: session?.user.id!,
+    /** Linked to https://linear.app/wait4it/issue/TOL-28/maybe-update-secretshareableurl-to-be-title-cuid2 */
     shareableUrl: `${secret.title}-${Math.random().toString(20)}}`,
   });
 
@@ -28,7 +29,10 @@ export const createSecret = async (secret: NewSecretParams) => {
   }
 };
 
-export const updateSecret = async (id: SecretId, secret: UpdateSecretParams) => {
+export const updateSecret = async (
+  id: SecretId,
+  secret: UpdateSecretParams
+) => {
   const { session } = await getUserAuth();
   const { id: secretId } = secretIdSchema.parse({ id });
   const newSecret = updateSecretSchema.parse({
@@ -40,7 +44,10 @@ export const updateSecret = async (id: SecretId, secret: UpdateSecretParams) => 
       .update(secrets)
       .set(newSecret)
       .where(
-        and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
+        and(
+          eq(secrets.id, secretId!),
+          eq(secrets.createdByUserId, session?.user.id!)
+        )
       );
     return { success: true };
   } catch (err) {
@@ -56,7 +63,10 @@ export const deleteSecret = async (id: SecretId) => {
     await db
       .delete(secrets)
       .where(
-        and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
+        and(
+          eq(secrets.id, secretId!),
+          eq(secrets.createdByUserId, session?.user.id!)
+        )
       );
     return { success: true };
   } catch (err) {

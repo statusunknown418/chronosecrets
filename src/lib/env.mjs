@@ -21,7 +21,7 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: z.string().min(1),
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
-    VERCEL_URL: z.string().url().optional(),
+    VERCEL_URL: z.string().optional(),
     RESEND_API_KEY: z.string().min(1),
     DATABASE_HOST: z.string().min(1),
     DATABASE_USERNAME: z.string().min(1),
