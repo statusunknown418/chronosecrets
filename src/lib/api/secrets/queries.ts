@@ -9,7 +9,7 @@ export const getSecrets = async () => {
     .select()
     .from(secrets)
     .where(eq(secrets.createdByUserId, session?.user.id!));
-  return { secrets: s };
+  return { secrets: s, session };
 };
 
 export const getSecretById = async (id: SecretId) => {

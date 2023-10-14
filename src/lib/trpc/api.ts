@@ -15,7 +15,7 @@ export const api = createTRPCNextAppDirServer<typeof appRouter>({
       transformer: SuperJSON,
       links: [
         loggerLink({
-          enabled: (op) => true,
+          enabled: () => true,
         }),
         nextCacheLink({
           revalidate: 1,

@@ -1,10 +1,12 @@
 import SportList from "@/components/sports/SportList";
 import NewSportModal from "@/components/sports/SportModal";
+import { getSecrets } from "@/lib/api/secrets/queries";
 import { getSports } from "@/lib/api/sports/queries";
 
 export default async function Sports() {
   const t1 = Date.now();
   const { sports } = await getSports();
+  const { secrets } = await getSecrets();
   const t2 = Date.now();
 
   return (
@@ -15,6 +17,8 @@ export default async function Sports() {
         <NewSportModal />
       </div>
       <SportList sports={sports} />
+
+      {JSON.stringify({ secrets })}
     </main>
   );
 }
