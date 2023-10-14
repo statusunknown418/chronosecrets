@@ -6,7 +6,7 @@ import { getSports } from "@/lib/api/sports/queries";
 export default async function Sports() {
   const t1 = Date.now();
   const { sports } = await getSports();
-  const { secrets } = await getSecrets();
+  const { secrets, session } = await getSecrets();
   const t2 = Date.now();
 
   return (
@@ -18,7 +18,7 @@ export default async function Sports() {
       </div>
       <SportList sports={sports} />
 
-      {JSON.stringify({ secrets })}
+      {JSON.stringify({ secrets, session })}
     </main>
   );
 }
