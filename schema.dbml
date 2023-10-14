@@ -1,0 +1,81 @@
+table account {
+  userId varchar(255) [not null]
+  type varchar(255) [not null]
+  provider varchar(255) [not null]
+  providerAccountId varchar(255) [not null]
+  refresh_token varchar(255)
+  access_token varchar(255)
+  expires_at int
+  token_type varchar(255)
+  scope varchar(255)
+  id_token text
+  session_state varchar(255)
+
+  indexes {
+    (provider, providerAccountId) [pk]
+    userId [name: 'userId_idx']
+  }
+}
+
+table attachments {
+  id serial [pk, not null, increment]
+  url varchar(256) [not null]
+  secret_id int
+}
+
+table secrets {
+  id serial [pk, not null, increment]
+  title varchar(256) [not null]
+  content varchar(256)
+  revealing_date datetime [not null]
+  created_at datetime
+  revealed boolean
+  encryption_type enum('SHA256','DES','RSA','AES') [default: 'RSA']
+  edited_at datetime
+  user_id varchar(256) [not null]
+}
+
+table session {
+  sessionToken varchar(255) [pk, not null]
+  userId varchar(255) [not null]
+  expires timestamp [not null]
+
+  indexes {
+    userId [name: 'userId_idx']
+  }
+}
+
+table user {
+  id varchar(255) [pk, not null]
+  name varchar(255)
+  email varchar(255) [not null]
+  emailVerified timestamp(3) [default: `(now())`]
+  image varchar(255)
+}
+
+table users_to_secrets {
+  userId varchar(255) [not null]
+  secretId int [not null]
+
+  indexes {
+    (userId, secretId) [pk]
+  }
+}
+
+table verificationToken {
+  identifier varchar(255) [not null]
+  token varchar(255) [not null]
+  expires timestamp [not null]
+
+  indexes {
+    (identifier, token) [pk]
+  }
+}
+
+ref: attachments.secret_id > secrets.id
+
+ref: secrets.user_id > user.id
+
+ref: users_to_secrets.userId > user.id
+
+ref: users_to_secrets.secretId > secrets.id
