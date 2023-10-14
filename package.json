@@ -13,7 +13,8 @@
     "db:pull": "drizzle-kit introspect:mysql",
     "db:push": "drizzle-kit push:mysql",
     "db:studio": "drizzle-kit studio",
-    "db:check": "drizzle-kit check:mysql"
+    "db:check": "drizzle-kit check:mysql",
+    "db:diagram": "pnpm pkg set 'type'='module' && node --experimental-specifier-resolution=node --loader ts-node/esm ./dbml.ts && pnpm pkg set 'type'='commonjs'"
   },
   "dependencies": {
     "@auth/core": "^0.16.1",
@@ -66,6 +67,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "resend": "^1.1.0",
+    "sonner": "^1.0.3",
     "superjson": "^2.0.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
@@ -87,5 +89,6 @@
     "ts-node": "^10.9.1",
     "tsx": "^3.13.0",
     "typescript": "^5.2.2"
-  }
+  },
+  "type": "commonjs"
 }

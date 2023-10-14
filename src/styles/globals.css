@@ -33,7 +33,7 @@
 
     --ring: 215 20.2% 65.1%;
 
-    --radius: 0.5rem;
+    --radius: 0.8rem;
   }
 
   .dark {
@@ -50,7 +50,7 @@
     --popover-foreground: 215 20.2% 65.1%;
 
     --border: 216 34% 17%;
-    --input: 216 34% 17%;
+    --input: 224 10% 20%;
 
     --card: 224 71% 4%;
     --card-foreground: 213 31% 91%;
@@ -58,7 +58,7 @@
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 1.2%;
 
-    --secondary: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 100%;
     --secondary-foreground: 210 40% 98%;
 
     --destructive: 0 63% 31%;
@@ -66,7 +66,7 @@
 
     --ring: 216 34% 17%;
 
-    --radius: 0.5rem;
+    --radius: 0.8rem;
   }
 }
 

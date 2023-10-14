@@ -23,6 +23,16 @@ table attachments {
   secret_id int
 }
 
+table friendship {
+  user_id varchar(255) [not null]
+  friend_id varchar(255) [not null]
+  request_accepted boolean [not null, default: false]
+
+  indexes {
+    (user_id, friend_id) [pk]
+  }
+}
+
 table secrets {
   id serial [pk, not null, increment]
   title varchar(256) [not null]
@@ -32,7 +42,13 @@ table secrets {
   revealed boolean
   encryption_type enum('SHA256','DES','RSA','AES') [default: 'RSA']
   edited_at datetime
-  user_id varchar(256) [not null]
+  created_by_user_id varchar(256) [not null]
+
+  indexes {
+    title [name: 'title_idx']
+    revealing_date [name: 'revealing_date_idx']
+    revealed [name: 'revealed_idx']
+  }
 }
 
 table session {
@@ -74,7 +90,11 @@ table verificationToken {
 
 ref: attachments.secret_id > secrets.id
 
-ref: secrets.user_id > user.id
+ref: friendship.user_id > user.id
+
+ref: friendship.friend_id - user.id
+
+ref: secrets.created_by_user_id > user.id
 
 ref: users_to_secrets.userId > user.id
 

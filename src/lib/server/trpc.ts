@@ -1,7 +1,7 @@
-import { initTRPC, TRPCError } from "@trpc/server";
-import { Context } from "../trpc/context";
+import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { Context } from "../trpc/context";
 
 /**
  * Initialization of tRPC backend

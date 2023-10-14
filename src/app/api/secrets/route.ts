@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import {
@@ -7,18 +7,21 @@ import {
   deleteSecret,
   updateSecret,
 } from "@/lib/api/secrets/mutations";
-import { 
-  secretIdSchema,
+import {
   insertSecretParams,
-  updateSecretParams 
+  secretIdSchema,
+  updateSecretParams,
 } from "@/lib/db/schema/secrets";
 
 export async function POST(req: Request) {
   try {
     const validatedData = insertSecretParams.parse(await req.json());
     const { success, error } = await createSecret(validatedData);
+
     if (error) return NextResponse.json({ error }, { status: 500 });
+
     revalidatePath("/secrets"); // optional - assumes you will have named route same as entity
+
     return NextResponse.json(success, { status: 201 });
   } catch (err) {
     if (err instanceof z.ZodError) {
@@ -29,7 +32,6 @@ export async function POST(req: Request) {
   }
 }
 
-
 export async function PUT(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -38,7 +40,10 @@ export async function PUT(req: Request) {
     const validatedData = updateSecretParams.parse(await req.json());
     const validatedParams = secretIdSchema.parse({ id });
 
-    const { success, error } = await updateSecret(validatedParams.id, validatedData);
+    const { success, error } = await updateSecret(
+      validatedParams.id,
+      validatedData
+    );
 
     if (error) return NextResponse.json({ error }, { status: 500 });
     return NextResponse.json(success, { status: 200 });

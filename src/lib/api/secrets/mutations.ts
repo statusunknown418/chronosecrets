@@ -15,7 +15,7 @@ export const createSecret = async (secret: NewSecretParams) => {
   const { session } = await getUserAuth();
   const newSecret = insertSecretSchema.parse({
     ...secret,
-    userId: session?.user.id!,
+    createdByUserId: session?.user.id!,
   });
   try {
     await db.insert(secrets).values(newSecret);
@@ -35,7 +35,7 @@ export const updateSecret = async (
   const { id: secretId } = secretIdSchema.parse({ id });
   const newSecret = updateSecretSchema.parse({
     ...secret,
-    userId: session?.user.id!,
+    createdByUserId: session?.user.id!,
   });
   try {
     await db
