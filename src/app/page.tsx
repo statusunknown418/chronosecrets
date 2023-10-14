@@ -1,3 +1,4 @@
+import SignIn from "@/components/auth/SignIn";
 import { Button } from "@/components/ui/button";
 import { ArrowUp, Eye } from "lucide-react";
 
@@ -10,6 +11,8 @@ export default function Home() {
           This a new social network that makes it easy and fun
         </p>
       </header>
+
+      <SignIn />
 
       <Button>
         <ArrowUp size={16} />
