@@ -1,5 +1,5 @@
 "use client";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 
 export default function SignIn() {
@@ -18,9 +18,18 @@ export default function SignIn() {
     );
   }
   return (
-    <>
-      Not signed in <br />
-      <Button onClick={() => signIn()}>Sign in</Button>
-    </>
+    <section>
+      <p>Not signed in</p>
+      <br />
+      <Button
+        onClick={() =>
+          signIn("discord", {
+            callbackUrl: "/home",
+          })
+        }
+      >
+        Sign in with Discord
+      </Button>
+    </section>
   );
 }
