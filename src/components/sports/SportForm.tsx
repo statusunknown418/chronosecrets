@@ -15,18 +15,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 
 const SportForm = ({ sport, closeModal }: { sport?: Sport; closeModal: () => void }) => {
-  const { toast } = useToast();
-
   const editing = !!sport?.id;
 
   const router = useRouter();
@@ -53,11 +51,7 @@ const SportForm = ({ sport, closeModal }: { sport?: Sport; closeModal: () => voi
     utils.sports.getSports.invalidate();
     router.refresh();
     closeModal();
-    toast({
-      title: "Success",
-      description: `Sport ${action}d!`,
-      variant: "default",
-    });
+    toast.success(`Sport ${action}d successfully`);
   };
 
   const { mutate: createSport, isLoading: isCreating } =
