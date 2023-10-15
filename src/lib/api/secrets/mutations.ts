@@ -11,17 +11,18 @@ import {
 } from "@/lib/db/schema/secrets";
 import { env } from "@/lib/env.mjs";
 import { and, eq } from "drizzle-orm";
+import slugify from "slugify";
 
 export const createSecret = async (secret: NewSecretParams) => {
   const { session } = await getUserAuth();
+
+  const slug = slugify(`${secret.title}-${Math.floor(Math.random() * 1e6)}`);
 
   const newSecret = insertSecretSchema.parse({
     ...secret,
     createdByUserId: session?.user.id!,
     /** Linked to https://linear.app/wait4it/issue/TOL-28/maybe-update-secretshareableurl-to-be-title-cuid2 */
-    shareableUrl: `https://${env.VERCEL_URL}/share/${
-      secret.title
-    }-${Math.random().toString(10)}}`,
+    shareableUrl: `https://${env.VERCEL_URL || "localhost:3000"}/share/${slug}`,
   });
 
   try {

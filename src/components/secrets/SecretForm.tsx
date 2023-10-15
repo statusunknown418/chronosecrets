@@ -132,7 +132,7 @@ export const SecretForm = ({
           name="revealingDate"
           render={({ field }) => (
             <FormItem ref={parent}>
-              <FormLabel>Available Date</FormLabel>
+              <FormLabel>Revealing Date</FormLabel>
 
               <Popover>
                 <PopoverTrigger asChild>
@@ -199,8 +199,13 @@ export const SecretForm = ({
         />
 
         <Button type="submit" loading={isCreating || isUpdating} className="mt-3 w-max">
-          {editing ? "Update" : "Create"}
-          {isCreating || isUpdating ? "ing" : ""}
+          {editing
+            ? isCreating
+              ? "Creating"
+              : "Create"
+            : isUpdating
+            ? "Updating"
+            : "Update"}
         </Button>
 
         {editing && (

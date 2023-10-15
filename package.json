@@ -71,6 +71,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "resend": "^1.1.0",
+    "slugify": "^1.6.6",
     "sonner": "^1.0.3",
     "superjson": "^2.0.0",
     "tailwind-merge": "^1.14.0",
