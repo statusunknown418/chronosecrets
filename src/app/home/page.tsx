@@ -1,6 +1,7 @@
 import { SignOut } from "@/components/auth/SignOut";
 import { getSecrets } from "@/lib/api/secrets/queries";
 import { getUserAuth } from "@/lib/auth/utils";
+import { Suspense } from "react";
 import { MySecretsList } from "../../components/secrets/MySecretsList";
 
 export default async function HomePage() {
@@ -18,7 +19,9 @@ export default async function HomePage() {
 
       <SignOut />
 
-      <MySecretsList secrets={secrets} />
+      <Suspense>
+        <MySecretsList secrets={secrets} />
+      </Suspense>
     </main>
   );
 }
