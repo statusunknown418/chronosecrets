@@ -69,8 +69,7 @@ export const insertSecretParams = createSelectSchema(secrets, {
   content: z.string().min(3, {
     message: "Content must be longer (3 characters at least)",
   }),
-  createdAt: z.coerce.date().optional(),
-  editedAt: z.coerce.date().optional(),
+  createdAt: z.date().optional(),
 })
   .omit({
     id: true,
@@ -82,7 +81,10 @@ export const insertSecretParams = createSelectSchema(secrets, {
     return schema.revealingDate > new Date();
   });
 
-export const updateSecretSchema = createSelectSchema(secrets);
+export const updateSecretSchema = createSelectSchema(secrets).omit({
+  createdByUserId: true,
+  createdAt: true,
+});
 
 export const updateSecretParams = createSelectSchema(secrets, {
   revealed: z.coerce.boolean(),

@@ -1,14 +1,14 @@
 import { db } from "@/lib/db";
-import { eq } from "drizzle-orm";
 import {
-  SportId,
   NewSportParams,
+  SportId,
   UpdateSportParams,
-  updateSportSchema,
   insertSportSchema,
-  sports,
   sportIdSchema,
+  sports,
+  updateSportSchema,
 } from "@/lib/db/schema/sports";
+import { eq } from "drizzle-orm";
 
 export const createSport = async (sport: NewSportParams) => {
   const newSport = insertSportSchema.parse(sport);
@@ -17,7 +17,6 @@ export const createSport = async (sport: NewSportParams) => {
     return { success: true };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
-    console.error(message);
     return { error: message };
   }
 };
@@ -30,7 +29,6 @@ export const updateSport = async (id: SportId, sport: UpdateSportParams) => {
     return { success: true };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
-    console.error(message);
     return { error: message };
   }
 };
@@ -42,7 +40,6 @@ export const deleteSport = async (id: SportId) => {
     return { success: true };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
-    console.error(message);
     return { error: message };
   }
 };

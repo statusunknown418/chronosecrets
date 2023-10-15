@@ -61,6 +61,9 @@ export const SecretForm = ({
   const { mutate: updateSecret, isLoading: isUpdating } =
     trpc.secrets.updateSecret.useMutation({
       onSuccess: () => onSuccess("update"),
+      onError: (err) => {
+        toast.error(err.message);
+      },
     });
 
   const { mutate: deleteSecret, isLoading: isDeleting } =

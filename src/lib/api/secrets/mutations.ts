@@ -45,7 +45,7 @@ export const updateSecret = async (id: SecretId, secret: UpdateSecretParams) => 
       .update(secrets)
       .set(newSecret)
       .where(
-        and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!))
+        and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
       );
     return { success: true };
   } catch (err) {
@@ -61,7 +61,7 @@ export const deleteSecret = async (id: SecretId) => {
     await db
       .delete(secrets)
       .where(
-        and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!))
+        and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
       );
     return { success: true };
   } catch (err) {
