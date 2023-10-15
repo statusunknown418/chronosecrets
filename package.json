@@ -20,6 +20,7 @@
   "dependencies": {
     "@auth/core": "^0.16.1",
     "@auth/drizzle-adapter": "^0.3.3",
+    "@formkit/auto-animate": "^0.8.0",
     "@hookform/resolvers": "^3.3.2",
     "@planetscale/database": "^1.11.0",
     "@radix-ui/react-accordion": "^1.1.2",
