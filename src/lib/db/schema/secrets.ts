@@ -5,6 +5,7 @@ import {
   mysqlEnum,
   mysqlTable,
   serial,
+  text,
   varchar,
 } from "drizzle-orm/mysql-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
@@ -21,14 +22,14 @@ export const secrets = mysqlTable(
     id: serial("id").primaryKey(),
     title: varchar("title", { length: 256 }).notNull(),
     shareableUrl: varchar("shareable_url", { length: 256 }).notNull().unique(),
-    content: varchar("content", { length: 256 }),
+    content: text("content").notNull(),
     revealingDate: datetime("revealing_date", { mode: "date" }).notNull(),
-    createdAt: datetime("created_at", { mode: "date" }),
     revealed: boolean("revealed"),
     encryptionType: mysqlEnum("encryption_type", ["SHA256", "DES", "RSA", "AES"]).default(
       "RSA",
     ),
     editedAt: datetime("edited_at", { mode: "date" }),
+    createdAt: datetime("created_at", { mode: "date" }),
     wasEdited: boolean("was_edited").default(false),
     createdByUserId: varchar("created_by_user_id", { length: 256 }).notNull(),
   },
@@ -51,11 +52,35 @@ export const insertSecretSchema = createInsertSchema(secrets);
 
 export const insertSecretParams = createSelectSchema(secrets, {
   revealed: z.coerce.boolean(),
-}).omit({
-  id: true,
-  createdByUserId: true,
-  shareableUrl: true,
-});
+  revealingDate: z
+    .date({
+      required_error: "Revealing date is required",
+      invalid_type_error: "Revealing date must be a date",
+    })
+    .min(new Date(), {
+      message: "Revealing date must be in the future",
+    }),
+  title: z
+    .string()
+    .min(1, {
+      message: "Title must be at least 1 character long",
+    })
+    .max(256),
+  content: z.string().min(3, {
+    message: "Content must be longer (3 characters at least)",
+  }),
+  createdAt: z.coerce.date().optional(),
+  editedAt: z.coerce.date().optional(),
+})
+  .omit({
+    id: true,
+    createdByUserId: true,
+    shareableUrl: true,
+    wasEdited: true,
+  })
+  .refine((schema) => {
+    return schema.revealingDate > new Date();
+  });
 
 export const updateSecretSchema = createSelectSchema(secrets);
 
@@ -63,6 +88,7 @@ export const updateSecretParams = createSelectSchema(secrets, {
   revealed: z.coerce.boolean(),
 }).omit({
   createdByUserId: true,
+  createdAt: true,
 });
 
 export const secretIdSchema = updateSecretSchema.pick({ id: true });
