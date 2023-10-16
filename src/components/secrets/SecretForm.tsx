@@ -1,3 +1,4 @@
+"use client";
 import { NewSecretParams, Secret, insertSecretParams } from "@/lib/db/schema";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
@@ -5,10 +6,10 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Info } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import {
@@ -21,15 +22,20 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Textarea } from "../ui/textarea";
+import { Spinner } from "../ui/spinner";
 import { ToggleGroupItem, ToggleGroupRoot } from "../ui/toggle-group";
 
-export const SecretForm = ({
+const DynamicTiptap = dynamic(() => import("@/components/secrets/Tiptap"), {
+  ssr: false,
+  loading: () => <Spinner />,
+});
+
+const SecretForm = ({
   secret,
   closeModal,
 }: {
   secret?: Secret;
-  closeModal: () => void;
+  closeModal?: () => void;
 }) => {
   const editing = !!secret?.id;
 
@@ -37,7 +43,7 @@ export const SecretForm = ({
   const utils = trpc.useContext();
   const [parent] = useAutoAnimate();
 
-  const form = useForm<z.infer<typeof insertSecretParams>>({
+  const form = useForm<NewSecretParams>({
     resolver: zodResolver(insertSecretParams),
     defaultValues: secret ?? {
       title: "",
@@ -49,8 +55,8 @@ export const SecretForm = ({
   const onSuccess = (action: "create" | "update" | "delete") => {
     utils.secrets.getSecrets.invalidate();
     router.refresh();
-    closeModal();
     toast.success(`Secret ${action}d successfully`);
+    closeModal?.();
   };
 
   const { mutate: createSecret, isLoading: isCreating } =
@@ -90,7 +96,7 @@ export const SecretForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 pb-3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 pb-3">
         <FormField
           control={form.control}
           name="title"
@@ -100,26 +106,6 @@ export const SecretForm = ({
 
               <FormControl>
                 <Input {...field} placeholder="You need to know this..." />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="content"
-          render={({ field }) => (
-            <FormItem ref={parent}>
-              <FormLabel>Content</FormLabel>
-
-              <FormControl>
-                <Textarea
-                  {...field}
-                  value={field.value || ""}
-                  placeholder="I've been wanting to say this for some time ..."
-                />
               </FormControl>
 
               <FormMessage />
@@ -183,8 +169,8 @@ export const SecretForm = ({
                 <ToggleGroupRoot
                   {...field}
                   type="single"
-                  onValueChange={field.onChange || "SHA256"}
-                  value={field.value || "SHA256"}
+                  onValueChange={field.onChange}
+                  value={field.value}
                 >
                   <ToggleGroupItem value="SHA256">SHA256</ToggleGroupItem>
                   <ToggleGroupItem value="AES">AES</ToggleGroupItem>
@@ -198,14 +184,36 @@ export const SecretForm = ({
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => (
+            <FormItem ref={parent}>
+              <FormLabel>Content</FormLabel>
+
+              <FormControl>
+                <DynamicTiptap onChange={field.onChange} content={field.value} />
+
+                {/* <Textarea
+                  {...field}
+                  value={field.value || ""}
+                  placeholder="I've been wanting to say this for some time ..."
+                /> */}
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <Button type="submit" loading={isCreating || isUpdating} className="mt-3 w-max">
           {editing
-            ? isCreating
-              ? "Creating"
-              : "Create"
-            : isUpdating
-            ? "Updating"
-            : "Update"}
+            ? isUpdating
+              ? "Updating"
+              : "Update"
+            : isCreating
+            ? "Creating"
+            : "Create"}
         </Button>
 
         {editing && (
@@ -226,3 +234,5 @@ export const SecretForm = ({
     </Form>
   );
 };
+
+export default SecretForm;
