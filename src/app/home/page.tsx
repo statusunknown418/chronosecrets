@@ -1,26 +1,20 @@
 import { SignOut } from "@/components/auth/SignOut";
-import { getSecrets } from "@/lib/api/secrets/queries";
+import { Spinner } from "@/components/ui/spinner";
 import { getUserAuth } from "@/lib/auth/utils";
 import { Suspense } from "react";
 import { MySecretsList } from "../../components/secrets/MySecretsList";
 
 export default async function HomePage() {
-  const t1 = Date.now();
-  const userPromise = getUserAuth();
-  const secretsPromise = getSecrets();
-
-  const [user, { secrets }] = await Promise.all([userPromise, secretsPromise]);
-  const t2 = Date.now();
+  const { session } = await getUserAuth();
 
   return (
     <main className="flex h-full flex-col gap-4 px-4">
-      <h1 className="text-2xl font-bold">Welcome back {user.session?.user.name}</h1>
-      <p>Took: {t2 - t1}</p>
+      <h1 className="text-2xl font-bold">Welcome back {session?.user.name}</h1>
 
       <SignOut />
 
-      <Suspense>
-        <MySecretsList secrets={secrets} />
+      <Suspense fallback={<Spinner />}>
+        <MySecretsList />
       </Suspense>
     </main>
   );
