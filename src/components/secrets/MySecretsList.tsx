@@ -39,7 +39,7 @@ const SecretCard = ({ secret }: { secret: Secret }) => {
   return (
     <article className="flex justify-between rounded-lg border p-3 sm:p-4">
       <div className="flex flex-col gap-2">
-        <h3 className="text-xl font-medium">{secret.title}</h3>
+        <h2 className="text-lg font-medium">{secret.title}</h2>
         <p className="max-w-[25ch] whitespace-pre-line break-words text-sm text-slate-500">
           {hashed}
         </p>
