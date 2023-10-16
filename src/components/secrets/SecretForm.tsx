@@ -193,12 +193,6 @@ const SecretForm = ({
 
               <FormControl>
                 <DynamicTiptap onChange={field.onChange} content={field.value} />
-
-                {/* <Textarea
-                  {...field}
-                  value={field.value || ""}
-                  placeholder="I've been wanting to say this for some time ..."
-                /> */}
               </FormControl>
 
               <FormMessage />
@@ -206,30 +200,32 @@ const SecretForm = ({
           )}
         />
 
-        <Button type="submit" loading={isCreating || isUpdating} className="mt-3 w-max">
-          {editing
-            ? isUpdating
-              ? "Updating"
-              : "Update"
-            : isCreating
-            ? "Creating"
-            : "Create"}
-        </Button>
-
-        {editing && (
-          <Button
-            type="button"
-            loading={isDeleting}
-            variant="destructive"
-            className="mt-3 w-max"
-            onClick={() => {
-              deleteSecret({ id: secret.id });
-            }}
-          >
-            Delete
-            {isDeleting ? "ing" : ""}
+        <div className="flex gap-2">
+          <Button type="submit" loading={isCreating || isUpdating} className="mt-3 w-max">
+            {editing
+              ? isUpdating
+                ? "Updating"
+                : "Update"
+              : isCreating
+              ? "Creating"
+              : "Create"}
           </Button>
-        )}
+
+          {editing && (
+            <Button
+              type="button"
+              loading={isDeleting}
+              variant="destructive"
+              className="mt-3 w-max"
+              onClick={() => {
+                deleteSecret({ id: secret.id });
+              }}
+            >
+              Delete
+              {isDeleting ? "ing" : ""}
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );

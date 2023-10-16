@@ -1,7 +1,7 @@
 "use client";
 
 import { Secret } from "@/lib/db/schema";
-import { Plus } from "lucide-react";
+import { Pen, Plus } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import {
@@ -32,12 +32,8 @@ export const SecretModal = ({
             New secret
           </Button>
         ) : (
-          <Button
-            variant={editing ? "ghost" : "outline"}
-            size={editing ? "sm" : "icon"}
-            className="p-0"
-          >
-            {editing ? "Edit" : <Plus size={16} />}
+          <Button variant={editing ? "ghost" : "outline"} size="icon">
+            <Pen size={16} />
           </Button>
         )}
       </DialogTrigger>
@@ -47,9 +43,7 @@ export const SecretModal = ({
           <DialogTitle>{editing ? "Edit" : "New"} secret</DialogTitle>
         </DialogHeader>
 
-        <div>
-          <SecretForm closeModal={closeModal} secret={secret} />
-        </div>
+        <SecretForm closeModal={closeModal} secret={secret} />
       </DialogContent>
     </Dialog>
   );

@@ -37,9 +37,9 @@ const SecretCard = ({ secret }: { secret: Secret }) => {
   const hashed = cryptoJS.AES.encrypt(secret.content, env.NEXTAUTH_SECRET!).toString();
 
   return (
-    <article className="flex items-start justify-between gap-2 rounded-lg border p-3 sm:p-4">
+    <article className="flex justify-between rounded-lg border p-3 sm:p-4">
       <div className="flex flex-col gap-2">
-        <h3 className="text-lg font-medium">{secret.title}</h3>
+        <h3 className="text-xl font-medium">{secret.title}</h3>
         <p className="max-w-[25ch] whitespace-pre-line break-words text-sm text-slate-500">
           {hashed}
         </p>
