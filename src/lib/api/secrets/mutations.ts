@@ -44,7 +44,7 @@ export const updateSecret = async (id: SecretId, secret: UpdateSecretParams) => 
   try {
     await db
       .update(secrets)
-      .set(newSecret)
+      .set({ ...newSecret, editedAt: new Date(), wasEdited: true })
       .where(
         and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
       );

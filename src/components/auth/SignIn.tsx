@@ -1,5 +1,6 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import { Button } from "../ui/button";
 
 export default function SignIn() {
@@ -10,7 +11,10 @@ export default function SignIn() {
   if (session) {
     return (
       <>
-        Signed in as {session.user?.email} <br />
+        Go to{" "}
+        <Link href="home">
+          <Button variant="link">Dashboard</Button>
+        </Link>
         <Button variant={"destructive"} onClick={() => signOut()}>
           Sign out
         </Button>
