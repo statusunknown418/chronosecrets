@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { SecretForm } from "./SecretForm";
+import SecretForm from "./SecretForm";
 
 export const SecretModal = ({
   secret,

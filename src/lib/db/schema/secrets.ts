@@ -11,7 +11,6 @@ import {
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { getSecrets } from "@/lib/api/secrets/queries";
 import { relations } from "drizzle-orm";
 import { users, usersToSecrets } from ".";
 import { attachments } from "./attachments";
@@ -25,9 +24,9 @@ export const secrets = mysqlTable(
     content: text("content").notNull(),
     revealingDate: datetime("revealing_date", { mode: "date" }).notNull(),
     revealed: boolean("revealed"),
-    encryptionType: mysqlEnum("encryption_type", ["SHA256", "DES", "RSA", "AES"]).default(
-      "RSA",
-    ),
+    encryptionType: mysqlEnum("encryption_type", ["SHA256", "DES", "RSA", "AES"])
+      .default("RSA")
+      .notNull(),
     editedAt: datetime("edited_at", { mode: "date" }),
     createdAt: datetime("created_at", { mode: "date" }),
     wasEdited: boolean("was_edited").default(false),
@@ -102,6 +101,3 @@ export type NewSecret = z.infer<typeof insertSecretSchema>;
 export type NewSecretParams = z.infer<typeof insertSecretParams>;
 export type UpdateSecretParams = z.infer<typeof updateSecretParams>;
 export type SecretId = z.infer<typeof secretIdSchema>["id"];
-
-// this type infers the return from getSecrets() - meaning it will include any joins
-export type CompleteSecret = Awaited<ReturnType<typeof getSecrets>>["secrets"][number];

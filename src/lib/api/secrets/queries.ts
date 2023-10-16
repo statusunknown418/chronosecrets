@@ -5,10 +5,10 @@ import { and, eq } from "drizzle-orm";
 
 export const getSecrets = async () => {
   const { session } = await getUserAuth();
-  const s = await db
-    .select()
-    .from(secrets)
-    .where(eq(secrets.createdByUserId, session?.user.id!));
+  const s = await db.query.secrets.findMany({
+    where: (t, { eq }) => eq(t.createdByUserId, session?.user.id!),
+    orderBy: ({ createdAt }, { desc }) => desc(createdAt),
+  });
   return { secrets: s, session };
 };
 
