@@ -1,4 +1,5 @@
 import { checkUsernameAvailable, updateUser } from "@/lib/api/user/mutations";
+import { findUserByUsernameOrEmail } from "@/lib/api/user/queries";
 import { getUserAuth } from "@/lib/auth/utils";
 import { updateUserSchema } from "@/lib/db/schema";
 import { z } from "zod";
@@ -11,5 +12,8 @@ export const userRouter = router({
   }),
   checkUsername: publicProcedure.input(z.string()).mutation(async ({ input }) => {
     return checkUsernameAvailable(input);
+  }),
+  getByUsernameOrEmail: publicProcedure.input(z.string()).query(async ({ input }) => {
+    return findUserByUsernameOrEmail(input);
   }),
 });

@@ -177,7 +177,11 @@ export const SettingsForm = ({
           )}
         />
 
-        <Button type="submit" disabled={!available || checkingUsername}>
+        <Button
+          type="submit"
+          disabled={!available || checkingUsername}
+          loading={isLoading}
+        >
           {isLoading ? "Updating..." : "Update"}
         </Button>
       </form>
