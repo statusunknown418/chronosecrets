@@ -10,6 +10,8 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/mysql-core";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 import { secrets } from "./secrets";
 
 export const users = mysqlTable(
@@ -73,16 +75,21 @@ export const friendships = mysqlTable(
   }),
 );
 
+export const friendshipSchema = createInsertSchema(friendships).omit({
+  requestAccepted: true,
+});
+export type FriendshipSchema = z.infer<typeof friendshipSchema>;
+
 export const friendshipsRelations = relations(friendships, ({ one }) => ({
-  follows: one(users, {
+  source: one(users, {
     fields: [friendships.userId],
     references: [users.id],
-    relationName: "friends",
+    relationName: "source",
   }),
-  followed: one(users, {
+  friends: one(users, {
     fields: [friendships.friendId],
     references: [users.id],
-    relationName: "followed",
+    relationName: "friends",
   }),
 }));
 
@@ -130,3 +137,14 @@ export const verificationTokens = mysqlTable(
     compoundKey: primaryKey(vt.identifier, vt.token),
   }),
 );
+
+export const updateUserSchema = createInsertSchema(users, {
+  email: z.string().email().min(1),
+  username: z.string().min(5),
+}).omit({
+  emailVerified: true,
+  id: true,
+});
+
+export type UpdateUserSchema = z.infer<typeof updateUserSchema>;
+export type FullUser = (typeof users)["$inferSelect"];
