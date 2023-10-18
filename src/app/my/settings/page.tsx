@@ -4,14 +4,7 @@ import { getFullUser } from "@/lib/auth/utils";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-export default async function MySettings({
-  searchParams,
-}: {
-  searchParams?: {
-    goBackTo: string;
-    verifyOn: string;
-  };
-}) {
+export default async function MySettings() {
   const user = await getFullUser();
 
   if (!user) {
@@ -23,7 +16,7 @@ export default async function MySettings({
       <h1 className="text-xl font-bold">My Settings</h1>
 
       <Suspense>
-        <SettingsForm user={user} searchParams={searchParams} />
+        <SettingsForm user={user} />
       </Suspense>
 
       <SignOut />

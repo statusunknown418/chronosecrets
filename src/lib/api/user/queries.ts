@@ -21,7 +21,10 @@ export async function findUserByUsernameOrEmail(usernameOrEmail: string) {
   const [people, known] = await Promise.all([peoplePromise, knownPeoplePromise]);
 
   const flattened = people.map((person) => {
-    const isKnown = known.find((friendship) => friendship.friends.id === person.id);
+    const isKnown = known.people.find(
+      (friendship) =>
+        friendship.friends.id === person.id || friendship.source.id === person.id,
+    );
 
     return {
       ...person,
@@ -53,7 +56,7 @@ export async function getPendingRequestsForViewer() {
   return db.query.friendships.findMany({
     where: (t, { eq, and }) => and(eq(t.userId, user.id), eq(t.requestAccepted, false)),
     with: {
-      friends: true,
+      source: true,
     },
   });
 }
