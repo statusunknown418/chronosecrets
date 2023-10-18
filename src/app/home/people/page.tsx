@@ -1,11 +1,13 @@
 import { CompletedProfile } from "@/components/people/completed-profile";
-import { UncompletedProfile } from "@/components/people/uncomplete-profile";
-import { Spinner } from "@/components/ui/spinner";
+import { UncompletedProfile } from "@/components/people/uncompleted-profile";
 import { getFullUser } from "@/lib/auth/utils";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
 
-export default async function FriendshipsPage() {
+export default async function FriendshipsPage({
+  searchParams,
+}: {
+  searchParams?: { verified: boolean; q: string };
+}) {
   const data = await getFullUser();
 
   if (!data) {
@@ -16,9 +18,11 @@ export default async function FriendshipsPage() {
     <main className="flex h-full flex-col gap-4 p-4">
       <h1 className="text-xl font-bold">Friends</h1>
 
-      <Suspense fallback={<Spinner />}>
-        {!data.username ? <UncompletedProfile /> : <CompletedProfile user={data} />}
-      </Suspense>
+      {!data.username && !searchParams?.verified ? (
+        <UncompletedProfile />
+      ) : (
+        <CompletedProfile user={data} />
+      )}
     </main>
   );
 }

@@ -45,9 +45,9 @@ export const RequestCard = ({ request }: { request: Requests[number] }) => {
       </Button>
 
       <div className="flex flex-col gap-2 py-3">
-        <p>{request.friends.name}</p>
-        <p>{request.friends.username}</p>
-        <p className="text-muted-foreground">{request.friends.email}</p>
+        <p>{request.source.name}</p>
+        <p>{request.source.username}</p>
+        <p className="text-muted-foreground">{request.source.email}</p>
       </div>
 
       <Button variant={"ghost"} className="h-full">

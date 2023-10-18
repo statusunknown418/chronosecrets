@@ -72,7 +72,7 @@ export const FindPeople = () => {
       )}
 
       {!isLoading && data?.people.length === 0 && (
-        <div>
+        <div className="flex min-h-[120px] items-center justify-center rounded-lg border p-4 text-sm text-muted-foreground">
           <p>No users found</p>
         </div>
       )}

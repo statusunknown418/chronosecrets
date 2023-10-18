@@ -14,13 +14,19 @@ export const getAllFriendships = async () => {
 
   const { user } = session;
 
-  return db.query.friendships.findMany({
+  const data = await db.query.friendships.findMany({
     where: (t, { eq, or }) => or(eq(t.sourceId, user.id), eq(t.userId, user.id)),
     orderBy: (t, { asc }) => asc(t.requestAccepted),
     with: {
       friends: true,
+      source: true,
     },
   });
+
+  return {
+    people: data,
+    viewer: user,
+  };
 };
 
 export type GetAllFriendshipsOutput = Awaited<ReturnType<typeof getAllFriendships>>;
