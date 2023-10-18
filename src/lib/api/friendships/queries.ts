@@ -14,13 +14,16 @@ export const getAllFriendships = async () => {
 
   const { user } = session;
 
-  return await db.query.friendships.findMany({
-    where: (t, { eq }) => eq(t.userId, user.id),
+  return db.query.friendships.findMany({
+    where: (t, { eq, or }) => or(eq(t.sourceId, user.id), eq(t.userId, user.id)),
+    orderBy: (t, { asc }) => asc(t.requestAccepted),
     with: {
       friends: true,
     },
   });
 };
+
+export type GetAllFriendshipsOutput = Awaited<ReturnType<typeof getAllFriendships>>;
 
 export const getAcceptedFriends = async () => {
   const { session } = await getUserAuth();
@@ -35,7 +38,7 @@ export const getAcceptedFriends = async () => {
   const { user } = session;
 
   return await db.query.friendships.findMany({
-    where: (t, { eq, and }) => and(eq(t.userId, user.id), eq(t.requestAccepted, true)),
+    where: (t, { eq, and }) => and(eq(t.sourceId, user.id), eq(t.requestAccepted, true)),
     with: {
       friends: true,
     },

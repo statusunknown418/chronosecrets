@@ -66,12 +66,12 @@ export const usersToSecretsRelations = relations(usersToSecrets, ({ one }) => ({
 export const friendships = mysqlTable(
   "friendship",
   {
-    userId: varchar("user_id", { length: 255 }).notNull(),
-    friendId: varchar("friend_id", { length: 255 }).notNull(),
+    sourceId: varchar("user_id", { length: 255 }).notNull(),
+    userId: varchar("friend_id", { length: 255 }).notNull(),
     requestAccepted: boolean("request_accepted").notNull().default(false),
   },
   (t) => ({
-    pk: primaryKey(t.userId, t.friendId),
+    pk: primaryKey(t.sourceId, t.userId),
   }),
 );
 
@@ -82,12 +82,12 @@ export type FriendshipSchema = z.infer<typeof friendshipSchema>;
 
 export const friendshipsRelations = relations(friendships, ({ one }) => ({
   source: one(users, {
-    fields: [friendships.userId],
+    fields: [friendships.sourceId],
     references: [users.id],
     relationName: "source",
   }),
   friends: one(users, {
-    fields: [friendships.friendId],
+    fields: [friendships.userId],
     references: [users.id],
     relationName: "friends",
   }),
@@ -100,8 +100,8 @@ export const accounts = mysqlTable(
     type: varchar("type", { length: 255 }).$type<AdapterAccount["type"]>().notNull(),
     provider: varchar("provider", { length: 255 }).notNull(),
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
-    refresh_token: varchar("refresh_token", { length: 1200 }),
-    access_token: varchar("access_token", { length: 1200 }),
+    refresh_token: varchar("refresh_token", { length: 255 }),
+    access_token: varchar("access_token", { length: 255 }),
     expires_at: int("expires_at"),
     token_type: varchar("token_type", { length: 255 }),
     scope: varchar("scope", { length: 255 }),
