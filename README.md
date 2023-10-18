@@ -222,9 +222,9 @@ Intended to reach sunlight in two weeks from this commit - aprox (30 oct 2023)
 ## Notes
 
 - Components divided into
-  - RSC => (kebab-case).tsx
-  - Client Components => (PascalCase).tsx
-    - UI - (kebab-case).tsx
-  - Hooks => (camelCase).tsx
+  - RSC - `(kebab-case).tsx`
+  - Client Components - `(PascalCase).tsx`
+    - UI - `(kebab-case).tsx`
+  - Hooks - `(camelCase).tsx`
 - Pages
-  - (kebab-case).tsx
+  - `(kebab-case).tsx`
