@@ -14,12 +14,13 @@ export const RequestCard = ({ request }: { request: Requests[number] }) => {
     },
     onMutate: async () => {
       const prev = ctx.friendships.getPendingRequestsForViewer.getData();
+      const withoutCurrentRequest = prev?.filter(
+        (r) => r.userId !== request.userId && r.sourceId !== request.sourceId,
+      );
 
       ctx.friendships.getPendingRequestsForViewer.setData(
         undefined,
-        prev?.filter(
-          (r) => r.userId !== request.userId && r.sourceId !== request.sourceId,
-        ),
+        withoutCurrentRequest,
       );
 
       return { prev };
