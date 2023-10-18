@@ -12,8 +12,8 @@ export const MySecretsList = async () => {
   }
 
   return (
-    <section>
-      <ul className="flex flex-col gap-4">
+    <section className="overflow-y-scroll">
+      <ul className="flex h-full flex-col gap-4">
         {secrets.map((secret) => (
           <li key={secret.id}>
             <SecretCard secret={secret} />
@@ -37,15 +37,15 @@ const SecretCard = ({ secret }: { secret: Secret }) => {
   const hashed = cryptoJS.AES.encrypt(secret.content, env.NEXTAUTH_SECRET!).toString();
 
   return (
-    <article className="flex justify-between rounded-lg border p-3 sm:p-4">
-      <div className="flex flex-col gap-2">
+    <article className="flex flex-col rounded-lg border p-3 sm:p-4">
+      <div className="flex justify-between gap-2">
         <h2 className="text-lg font-medium">{secret.title}</h2>
-        <p className="max-w-[25ch] whitespace-pre-line break-words text-sm text-slate-500">
-          {hashed}
-        </p>
+        <SecretModal secret={secret} />
       </div>
 
-      <SecretModal secret={secret} />
+      <p className="w-[28ch] whitespace-pre-line break-words text-sm text-slate-500">
+        {hashed}
+      </p>
     </article>
   );
 };
