@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 export const UserCard = ({
   friend,
@@ -22,17 +21,31 @@ export const UserCard = ({
   const ctx = trpc.useContext();
 
   const { mutate } = trpc.friendships.sendFriendRequest.useMutation({
-    onMutate: (data) => {
+    onMutate: (mutationData) => {
       setSent(true);
       const prev = ctx.friendships.getFriends.getData();
-      ctx.friendships.getFriends.setData(undefined, [
-        ...(prev ?? []),
-        {
-          ...data,
-          requestAccepted: false,
-          friends: friend,
-        },
-      ]);
+
+      if (!data?.user) return { prev };
+
+      const prevSource = {
+        ...data.user,
+        email: data.user.email || "",
+        name: data.user.name || "",
+        image: data.user.image || "",
+      };
+
+      ctx.friendships.getFriends.setData(undefined, {
+        viewer: prev?.viewer ?? data.user,
+        people: [
+          ...(prev?.people ?? []),
+          {
+            ...mutationData,
+            requestAccepted: false,
+            friends: friend,
+            source: prevSource,
+          },
+        ],
+      });
 
       return { prev };
     },
@@ -56,36 +69,26 @@ export const UserCard = ({
         </h3>
 
         {friend.id !== data?.user.id ? (
-          <TooltipProvider>
-            <Tooltip delayDuration={100}>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() =>
-                    data &&
-                    !disableMutation &&
-                    mutate({
-                      sourceId: data.user.id,
-                      userId: friend.id,
-                    })
-                  }
-                >
-                  {alreadyFriends ? (
-                    <CheckCircle size={20} />
-                  ) : sent || requestPending ? (
-                    <Timer size={20} />
-                  ) : (
-                    <Plus size={20} />
-                  )}
-                </Button>
-              </TooltipTrigger>
-
-              <TooltipContent>
-                {sent || requestPending ? "Request sent" : "Send request"}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() =>
+              data &&
+              !disableMutation &&
+              mutate({
+                sourceId: data.user.id,
+                userId: friend.id,
+              })
+            }
+          >
+            {alreadyFriends ? (
+              <CheckCircle size={20} />
+            ) : sent || requestPending ? (
+              <Timer size={20} />
+            ) : (
+              <Plus size={20} />
+            )}
+          </Button>
         ) : (
           <span className="text-xs font-medium">This is you!</span>
         )}

@@ -15,9 +15,7 @@ export const CompletedProfile = async ({ user }: { user: FullUser }) => {
         Your username <strong>{user?.username}</strong>
       </p>
 
-      <Suspense>
-        <FindPeople />
-      </Suspense>
+      <FindPeople />
 
       <h2 className="font-bold">Your friends</h2>
 

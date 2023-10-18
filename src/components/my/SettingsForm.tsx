@@ -5,7 +5,7 @@ import { trpc } from "@/lib/trpc/client";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AtSign, CheckCircle, GitPullRequestIcon, XCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,16 +24,12 @@ import { Input } from "../ui/input";
 import { RequiredLabel } from "../ui/required-label";
 import { Spinner } from "../ui/spinner";
 
-export const SettingsForm = ({
-  user,
-  searchParams,
-}: {
-  user: FullUser;
-  searchParams?: {
-    goBackTo: string;
-  };
-}) => {
+export const SettingsForm = ({ user }: { user: FullUser }) => {
   const router = useRouter();
+  const goBackTo = useSearchParams().get("goBackTo");
+  const q = useSearchParams().get("q");
+  const verifyOn = useSearchParams().get("verifyOn");
+
   const [parent] = useAutoAnimate();
   const [available, setAvailable] = useState(true);
 
@@ -62,13 +59,13 @@ export const SettingsForm = ({
 
   const { mutate, isLoading } = trpc.user.updateUser.useMutation({
     onSuccess: () => {
-      toast.success(
-        `Updated!${searchParams?.goBackTo ? " - Redirecting you back..." : ""}`,
-      );
+      toast.success(`Updated!${goBackTo ? " - Redirecting you back..." : ""}`);
 
-      searchParams?.goBackTo &&
+      const query = q ? `&q=${q}` : "";
+
+      goBackTo &&
         setTimeout(() => {
-          router.push(searchParams.goBackTo);
+          router.push(`${goBackTo}?verified=true${query}`);
         }, 1000);
     },
     onError: (error) => toast.error(error.message),
@@ -138,6 +135,12 @@ export const SettingsForm = ({
                 </p>
               )}
 
+              {verifyOn && (
+                <FormDescription>
+                  You need to fill this out to complete your profile
+                </FormDescription>
+              )}
+
               <FormMessage />
             </FormItem>
           )}
@@ -148,7 +151,7 @@ export const SettingsForm = ({
           name="name"
           render={({ field }) => (
             <FormItem ref={parent}>
-              <FormLabel>Display name</FormLabel>
+              <FormLabel>Full name</FormLabel>
 
               <FormControl>
                 <Input
