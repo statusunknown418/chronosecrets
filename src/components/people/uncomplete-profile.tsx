@@ -1,30 +1,7 @@
-import { FindFriends } from "@/components/friends/FindFriends";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { getFullUser } from "@/lib/auth/utils";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
+import { Button } from "../ui/button";
 
-export default async function FriendshipsPage() {
-  const data = await getFullUser();
-
-  if (!data) {
-    redirect("/api/auth/signin");
-  }
-
-  return (
-    <main className="flex h-full flex-col gap-4 p-4">
-      <h1 className="text-xl font-bold">Friends</h1>
-
-      <Suspense fallback={<Spinner />}>
-        {!data.username ? <UncompletedProfile /> : <FindFriends user={data} />}
-      </Suspense>
-    </main>
-  );
-}
-
-const UncompletedProfile = () => {
+export const UncompletedProfile = () => {
   return (
     <>
       <div className="flex items-center gap-1 rounded-lg border border-yellow-800 bg-yellow-950 p-4 text-yellow-600">
@@ -37,7 +14,7 @@ const UncompletedProfile = () => {
         href={{
           pathname: "/my/settings",
           query: {
-            goBackTo: "/home/friends",
+            goBackTo: "/home/people",
             verifyOn: "username",
           },
         }}

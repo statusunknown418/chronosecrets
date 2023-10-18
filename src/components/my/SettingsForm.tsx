@@ -62,7 +62,9 @@ export const SettingsForm = ({
 
   const { mutate, isLoading } = trpc.user.updateUser.useMutation({
     onSuccess: () => {
-      toast.success(`Updated!${searchParams?.goBackTo && " - Redirecting you back..."}`);
+      toast.success(
+        `Updated!${searchParams?.goBackTo ? " - Redirecting you back..." : ""}`,
+      );
 
       searchParams?.goBackTo &&
         setTimeout(() => {
