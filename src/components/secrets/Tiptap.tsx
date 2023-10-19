@@ -31,7 +31,7 @@ const Tiptap = forwardRef<
         ref={ref}
         editor={editor}
         placeholder="Get ready to know something you may not like..."
-        className="h-[300px] overflow-scroll rounded-lg border border-input bg-background ring-ring focus:outline-none focus:ring-1 first:focus:outline-none"
+        className="h-[300px] overflow-scroll rounded-lg border border-input bg-background ring-ring focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-background focus:outline-none focus:ring-ring first:focus:outline-none"
       />
 
       <p className="text-sm text-muted-foreground">

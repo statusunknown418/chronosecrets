@@ -2,6 +2,9 @@ import { getSecrets } from "@/lib/api/secrets/queries";
 import { Secret } from "@/lib/db/schema";
 import { env } from "@/lib/env.mjs";
 import cryptoJS from "crypto-js";
+import { Plus } from "lucide-react";
+import Link from "next/link";
+import { Button } from "../ui/button";
 import { SecretModal } from "./SecretModal";
 
 export const MySecretsList = async () => {
@@ -28,7 +31,13 @@ export const EmptySecretState = () => {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-2 rounded-lg border p-4 text-sm text-slate-500">
       <p>You have no secrets yet.</p>
-      <SecretModal emptyState />
+
+      <Link href="/secrets/new" className="focus-within:outline-none">
+        <Button variant={"link"} icon={<Plus size={16} />}>
+          <Plus size={16} />
+          <span>Add secret</span>
+        </Button>
+      </Link>
     </div>
   );
 };

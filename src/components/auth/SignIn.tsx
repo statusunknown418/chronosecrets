@@ -13,7 +13,7 @@ export default function SignIn() {
       <>
         Go to{" "}
         <Link href="home">
-          <Button variant="link">Dashboard</Button>
+          <Button variant="link">Home</Button>
         </Link>
         <Button variant={"destructive"} onClick={() => signOut()}>
           Sign out

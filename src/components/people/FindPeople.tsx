@@ -16,7 +16,7 @@ export const FindPeople = () => {
   const q = searchParams.get("q");
 
   const [query, updateQuery] = useState(q || "");
-  const { push } = useRouter();
+  const { replace } = useRouter();
 
   const form = useForm<{ search: string }>({
     defaultValues: {
@@ -31,7 +31,7 @@ export const FindPeople = () => {
 
   const onSubmit = (data: { search: string }) => {
     updateQuery(data.search);
-    push(`?q=${data.search}`);
+    replace(`?q=${data.search}`);
   };
 
   return (

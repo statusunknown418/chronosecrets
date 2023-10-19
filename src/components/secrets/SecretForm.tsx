@@ -192,7 +192,11 @@ const SecretForm = ({
               <FormLabel>Content</FormLabel>
 
               <FormControl>
-                <DynamicTiptap onChange={field.onChange} content={field.value} />
+                <DynamicTiptap
+                  onChange={field.onChange}
+                  content={field.value}
+                  ref={field.ref}
+                />
               </FormControl>
 
               <FormMessage />
