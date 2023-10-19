@@ -1,7 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: Request) => {
-  const body = await req.json();
+export const GET = async (req: NextRequest) => {
+  const secret = req.nextUrl.searchParams.get("secret");
 
-  return NextResponse.json({ message: "pong", body });
+  if (!secret) {
+    return NextResponse.json(
+      { error: true, message: "Missing secret" },
+      {
+        status: 403,
+      },
+    );
+  }
+
+  return NextResponse.json({ message: "pong", secret });
 };
