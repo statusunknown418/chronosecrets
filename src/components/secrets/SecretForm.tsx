@@ -48,7 +48,7 @@ const SecretForm = ({
     defaultValues: secret ?? {
       title: "",
       content: "",
-      encryptionType: "SHA256",
+      encryptionType: "RC4",
     },
   });
 
@@ -172,7 +172,7 @@ const SecretForm = ({
                   onValueChange={field.onChange}
                   value={field.value}
                 >
-                  <ToggleGroupItem value="SHA256">SHA256</ToggleGroupItem>
+                  <ToggleGroupItem value="RC4">RC4</ToggleGroupItem>
                   <ToggleGroupItem value="AES">AES</ToggleGroupItem>
                   <ToggleGroupItem value="DES">DES</ToggleGroupItem>
                   <ToggleGroupItem value="RSA">RSA</ToggleGroupItem>
@@ -192,11 +192,7 @@ const SecretForm = ({
               <FormLabel>Content</FormLabel>
 
               <FormControl>
-                <DynamicTiptap
-                  onChange={field.onChange}
-                  content={field.value}
-                  ref={field.ref}
-                />
+                <DynamicTiptap onChange={field.onChange} content={field.value} />
               </FormControl>
 
               <FormMessage />
