@@ -24,8 +24,8 @@ export const secrets = mysqlTable(
     content: text("content").notNull(),
     revealingDate: datetime("revealing_date", { mode: "date" }).notNull(),
     revealed: boolean("revealed"),
-    encryptionType: mysqlEnum("encryption_type", ["SHA256", "DES", "RSA", "AES"])
-      .default("RSA")
+    encryptionType: mysqlEnum("encryption_type", ["RC4", "DES", "Rabbit", "AES"])
+      .default("RC4")
       .notNull(),
     editedAt: datetime("edited_at", { mode: "date" }),
     createdAt: datetime("created_at", { mode: "date" }),
@@ -82,7 +82,6 @@ export const insertSecretParams = createSelectSchema(secrets, {
   });
 
 export const updateSecretSchema = createSelectSchema(secrets).omit({
-  createdByUserId: true,
   createdAt: true,
 });
 
@@ -94,6 +93,7 @@ export const updateSecretParams = createSelectSchema(secrets, {
 });
 
 export const secretIdSchema = updateSecretSchema.pick({ id: true });
+export const secretShareableUrlSchema = updateSecretSchema.pick({ shareableUrl: true });
 
 // Types for secrets - used to type API request params and within Components
 export type Secret = z.infer<typeof updateSecretSchema>;

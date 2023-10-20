@@ -3,27 +3,19 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { createSecret, deleteSecret, updateSecret } from "@/lib/api/secrets/mutations";
-import { getSecretById, getSecrets } from "@/lib/api/secrets/queries";
+import { getSecrets } from "@/lib/api/secrets/queries";
 import {
   insertSecretParams,
   secretIdSchema,
   updateSecretParams,
 } from "@/lib/db/schema/secrets";
 
-export async function GET(req: Request) {
+/**
+ *
+ * @description Not allowing API users to get secrets by ID or shareable URL for security reasons
+ */
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-
-    if (id) {
-      const validatedParams = secretIdSchema.parse({ id });
-      const { secret } = await getSecretById(validatedParams.id);
-
-      if (!secret) return NextResponse.json({ error: true }, { status: 500 });
-
-      return NextResponse.json(secret, { status: 200 });
-    }
-
     const { secrets } = await getSecrets();
 
     if (!secrets) return NextResponse.json({ error: true }, { status: 500 });
