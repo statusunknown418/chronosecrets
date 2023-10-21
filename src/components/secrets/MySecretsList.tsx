@@ -52,8 +52,8 @@ const SecretCard = ({ secret }: { secret: Secret }) => {
         </Link>
       </div>
 
-      <p className="w-[29ch] break-words text-sm text-slate-500">
-        {secret.content.slice(0, 150)}...
+      <p className="min-w-[28ch] break-words text-sm text-slate-500 sm:w-max">
+        {secret.content.slice(0, 140)}...
       </p>
     </article>
   );

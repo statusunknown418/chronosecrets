@@ -82,8 +82,8 @@ export const insertSecretParams = createSelectSchema(secrets, {
     return schema.revealingDate > new Date();
   });
 
-export const updateSecretSchema = createSelectSchema(secrets).omit({
-  createdAt: true,
+export const updateSecretSchema = createSelectSchema(secrets, {
+  createdAt: z.coerce.date().optional(),
 });
 
 export const updateSecretParams = createSelectSchema(secrets, {

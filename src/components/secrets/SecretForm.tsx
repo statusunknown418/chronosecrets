@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon, Info } from "lucide-react";
+import { CalendarIcon, Info, Trash2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,7 @@ import { Calendar } from "../ui/calendar";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -52,8 +53,8 @@ const SecretForm = ({
     },
   });
 
-  const onSuccess = (action: "create" | "update" | "delete") => {
-    utils.secrets.getSecrets.invalidate();
+  const onSuccess = async (action: "create" | "update" | "delete") => {
+    await utils.secrets.getSecrets.invalidate();
     router.refresh();
     toast.success(`Secret ${action}d successfully`);
     closeModal?.();
@@ -74,7 +75,10 @@ const SecretForm = ({
 
   const { mutate: deleteSecret, isLoading: isDeleting } =
     trpc.secrets.deleteSecret.useMutation({
-      onSuccess: () => onSuccess("delete"),
+      onSuccess: () => {
+        router.replace(`/home`);
+        onSuccess("delete");
+      },
     });
 
   const onSubmit = async (data: NewSecretParams) => {
@@ -133,7 +137,7 @@ const SecretForm = ({
                       {field.value ? (
                         <span>{format(field.value, "PPP")}</span>
                       ) : (
-                        <span>Pick a date</span>
+                        <span>Pick a date in the future</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -143,8 +147,9 @@ const SecretForm = ({
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={new Date(field.value) || new Date()}
+                    selected={new Date(field.value)}
                     onSelect={field.onChange}
+                    defaultMonth={new Date(field.value)}
                     disabled={(date) => date < new Date()}
                     initialFocus
                   />
@@ -162,7 +167,7 @@ const SecretForm = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Encryption Type <Info size={16} />
+                Encryption Type <Info size={16} className="text-muted-foreground" />
               </FormLabel>
 
               <FormControl>
@@ -175,7 +180,7 @@ const SecretForm = ({
                   <ToggleGroupItem value="RC4">RC4</ToggleGroupItem>
                   <ToggleGroupItem value="AES">AES</ToggleGroupItem>
                   <ToggleGroupItem value="DES">DES</ToggleGroupItem>
-                  <ToggleGroupItem value="RSA">RSA</ToggleGroupItem>
+                  <ToggleGroupItem value="Rabbit">Rabbit</ToggleGroupItem>
                 </ToggleGroupRoot>
               </FormControl>
 
@@ -195,20 +200,24 @@ const SecretForm = ({
                 <DynamicTiptap onChange={field.onChange} content={field.value} />
               </FormControl>
 
+              <FormDescription>This editor supports markdown syntax!</FormDescription>
+
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <div className="flex gap-2">
-          <Button type="submit" loading={isCreating || isUpdating} className="mt-3 w-max">
-            {editing
-              ? isUpdating
-                ? "Updating"
-                : "Update"
-              : isCreating
-              ? "Creating"
-              : "Create"}
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Button type="submit" loading={isCreating || isUpdating}>
+            <span>
+              {editing
+                ? isUpdating
+                  ? "Saving"
+                  : "Save"
+                : isCreating
+                ? "Creating"
+                : "Create"}
+            </span>
           </Button>
 
           {editing && (
@@ -216,13 +225,16 @@ const SecretForm = ({
               type="button"
               loading={isDeleting}
               variant="destructive"
-              className="mt-3 w-max"
               onClick={() => {
                 deleteSecret({ id: secret.id });
               }}
             >
-              Delete
-              {isDeleting ? "ing" : ""}
+              <Trash2 size={16} />
+
+              <span>
+                Delete
+                {isDeleting ? "ing" : ""}
+              </span>
             </Button>
           )}
         </div>

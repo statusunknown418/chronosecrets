@@ -32,18 +32,22 @@ const DynamicEditor = dynamic(() => import("@/components/secrets/SecretEditor"),
 
 export default function NewSecretPage() {
   return (
-    <main className="mx-4 flex flex-col gap-4 rounded-lg border px-4 py-3 sm:mx-2 sm:px-6 sm:py-4 md:px-10">
-      <header className="flex w-full items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">New secret</h1>
+    <main className="flex flex-col gap-4 rounded-lg sm:mx-2 sm:px-6 sm:py-4 md:px-10">
+      <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 pb-2 backdrop-blur backdrop-filter">
+        <header className="flex w-full items-center justify-between gap-4">
+          <h1 className="text-2xl font-bold capitalize">New secret</h1>
 
-        <Link href="/home" className="focus-within:outline-none">
-          <Button variant="ghost" size="icon">
-            <X size={20} className="text-muted-foreground" />
-          </Button>
-        </Link>
-      </header>
+          <Link href="/home" className="focus-within:outline-none">
+            <Button variant="ghost" size="icon">
+              <X size={20} className="text-muted-foreground" />
+            </Button>
+          </Link>
+        </header>
+      </section>
 
-      <DynamicEditor />
+      <section className="px-4">
+        <DynamicEditor />
+      </section>
     </main>
   );
 }
