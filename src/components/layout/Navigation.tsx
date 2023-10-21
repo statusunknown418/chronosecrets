@@ -39,16 +39,16 @@ export const Navigation = () => {
   const [parent] = useAutoAnimate();
 
   return (
-    <nav className="sticky inset-0 z-10 h-16 px-4 py-2 text-muted-foreground backdrop-blur backdrop-filter">
-      <ul className="flex h-full w-full items-center justify-center gap-4 sm:justify-between">
+    <nav className="sticky inset-0 z-10 px-4 py-2 text-muted-foreground backdrop-blur-sm backdrop-filter">
+      <ul className="flex h-full w-full items-center justify-center gap-4 bg-transparent sm:justify-between">
         <li className="hidden sm:flex">LOGO</li>
 
         <ul
-          className="flex max-w-xs flex-grow items-center justify-between justify-self-center"
+          className="flex max-w-xs flex-grow items-center justify-between justify-self-center bg-transparent"
           ref={parent}
         >
           {selectedSegment !== "home" && (
-            <li className="">
+            <li>
               <Button onClick={back} size="icon" variant="ghost" rounding="full">
                 <ArrowLeft size={20} />
               </Button>
@@ -63,9 +63,7 @@ export const Navigation = () => {
                   size="icon"
                   variant="ghost"
                   rounding="full"
-                  className={cn(
-                    path === link.href ? "text-primary hover:text-primary" : "",
-                  )}
+                  className={cn(path === link.href && "text-primary hover:text-primary")}
                 >
                   {link.icon}
                 </Button>

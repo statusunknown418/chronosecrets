@@ -41,19 +41,19 @@ export const EmptySecretState = () => {
 
 const SecretCard = ({ secret }: { secret: Secret }) => {
   return (
-    <article className="flex flex-col rounded-lg border p-3 sm:p-4">
-      <div className="flex justify-between gap-2">
+    <article className="flex flex-col gap-2 rounded-lg border p-3 px-4 sm:p-4">
+      <div className="flex items-center justify-between gap-2">
         <h2 className="text-lg font-medium">{secret.title}</h2>
 
         <Link href={`/secrets/${secret.id}`} passHref>
           <Button variant="ghost" size="icon">
-            <Edit2 size={20} />
+            <Edit2 size={16} />
           </Button>
         </Link>
       </div>
 
-      <p className="w-[28ch] whitespace-pre-line break-words text-sm text-slate-500">
-        {secret.content}
+      <p className="w-[29ch] break-words text-sm text-slate-500">
+        {secret.content.slice(0, 150)}...
       </p>
     </article>
   );
