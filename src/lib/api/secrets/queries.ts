@@ -69,7 +69,12 @@ export const getSecretById = async (id: SecretId) => {
 export const getSecretByShareableUrl = async (shareableUrl: string) => {
   const { shareableUrl: url } = secretShareableUrlSchema.parse({ shareableUrl });
 
-  const [s] = await db.select().from(secrets).where(eq(secrets.shareableUrl, url));
+  const [s] = await db.query.secrets.findMany({
+    where: (t, { eq }) => eq(t.shareableUrl, url),
+    with: {
+      attachments: true,
+    },
+  });
 
   if (!s) {
     throw new TRPCError({

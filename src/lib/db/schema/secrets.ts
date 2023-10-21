@@ -34,6 +34,7 @@ export const secrets = mysqlTable(
   },
   (t) => ({
     revealedIdx: index("revealed_idx").on(t.revealed),
+    createdByIdx: index("created_by_idx").on(t.createdByUserId),
   }),
 );
 

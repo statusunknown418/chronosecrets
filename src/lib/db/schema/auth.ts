@@ -29,6 +29,7 @@ export const users = mysqlTable(
   },
   (t) => ({
     nameIdx: index("name_idx").on(t.name),
+    emailIdx: index("email_idx").on(t.email),
   }),
 );
 

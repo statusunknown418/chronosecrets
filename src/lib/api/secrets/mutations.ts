@@ -11,9 +11,11 @@ import {
   updateSecretSchema,
 } from "@/lib/db/schema/secrets";
 import { env } from "@/lib/env.mjs";
+import { createId } from "@paralleldrive/cuid2";
 import CryptoJS from "crypto-js";
 import { and, eq } from "drizzle-orm";
 import slugify from "slugify";
+import { buildFullShareableUrl } from "./queries";
 
 export const mapEncryptionTypeToAlgo = (encryptionType: Secret["encryptionType"]) => {
   switch (encryptionType) {
@@ -31,9 +33,11 @@ export const mapEncryptionTypeToAlgo = (encryptionType: Secret["encryptionType"]
 };
 
 export const createSecret = async (secret: NewSecretParams) => {
+  const t1 = performance.now();
   const { session } = await getUserAuth();
 
-  const slug = slugify(`${secret.title}-${Math.floor(Math.random() * 1e6)}`);
+  const slugId = createId();
+  const slug = slugify(`${secret.title}-${slugId}`);
   const hashed = mapEncryptionTypeToAlgo(secret.encryptionType)
     .encrypt(secret.content, env.NEXTAUTH_SECRET!)
     .toString();
@@ -42,7 +46,7 @@ export const createSecret = async (secret: NewSecretParams) => {
     ...secret,
     createdByUserId: session?.user.id!,
     /** Linked to https://linear.app/wait4it/issue/TOL-28/maybe-update-secretshareableurl-to-be-title-cuid2 */
-    shareableUrl: `https://${env.VERCEL_URL || "localhost:3000"}/shared/${slug}`,
+    shareableUrl: buildFullShareableUrl(slug),
   });
 
   try {
@@ -51,7 +55,9 @@ export const createSecret = async (secret: NewSecretParams) => {
       content: hashed,
     });
 
-    return { success: true };
+    const t2 = performance.now();
+
+    return { success: true, took: Math.ceil(t2 - t1) };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
     return { error: message };
@@ -67,10 +73,14 @@ export const updateSecret = async (id: SecretId, secret: UpdateSecretParams) => 
     createdByUserId: session?.user.id!,
   });
 
+  const hashed = mapEncryptionTypeToAlgo(secret.encryptionType)
+    .encrypt(secret.content, env.NEXTAUTH_SECRET!)
+    .toString();
+
   try {
     await db
       .update(secrets)
-      .set({ ...newSecret, editedAt: new Date(), wasEdited: true })
+      .set({ ...newSecret, content: hashed, editedAt: new Date(), wasEdited: true })
       .where(
         and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
       );
