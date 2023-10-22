@@ -2,7 +2,7 @@ import { QuickShare } from "@/components/secrets/QuickShare";
 import { EditMenu } from "@/components/secrets/edit/EditMenu";
 import { Button } from "@/components/ui/button";
 import { getSecretById } from "@/lib/api/secrets/queries";
-import { Eye, X } from "lucide-react";
+import { Cable, Eye, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -44,6 +44,20 @@ export default async function SecretSlugPage({
 }) {
   const { secret } = await getSecretById(Number(id));
 
+  if (!secret) {
+    return (
+      <main className="flex h-full flex-col items-center justify-center gap-4 px-4">
+        <Cable size={32} className="text-indigo-500" />
+
+        <h1 className="text-center text-2xl font-bold">Secret not found 😭</h1>
+
+        <Link href={"/home"} passHref>
+          <Button variant="link">Go back home</Button>
+        </Link>
+      </main>
+    );
+  }
+
   return (
     <main className="flex flex-col gap-4">
       <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 py-3 backdrop-blur backdrop-filter">
@@ -72,7 +86,9 @@ export default async function SecretSlugPage({
             </Button>
           </Link>
 
-          <EditMenu secret={secret} />
+          <div className="sm:hidden">
+            <EditMenu secret={secret} />
+          </div>
         </header>
       </section>
 

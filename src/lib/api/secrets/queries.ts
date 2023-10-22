@@ -47,18 +47,24 @@ export const getSecretById = async (id: SecretId) => {
   const { session } = await getUserAuth();
   const { id: secretId } = secretIdSchema.parse({ id });
 
-  const [s] = await db
-    .select()
-    .from(secrets)
-    .where(and(eq(secrets.id, secretId), eq(secrets.createdByUserId, session?.user.id!)));
+  try {
+    const [s] = await db
+      .select()
+      .from(secrets)
+      .where(
+        and(eq(secrets.id, secretId), eq(secrets.createdByUserId, session?.user.id!)),
+      );
 
-  const decrypted = mapEncryptionTypeToAlgo(s.encryptionType)
-    .decrypt(s.content, env.NEXTAUTH_SECRET!)
-    .toString(CryptoJS.enc.Utf8);
+    const decrypted = mapEncryptionTypeToAlgo(s.encryptionType)
+      .decrypt(s.content, env.NEXTAUTH_SECRET!)
+      .toString(CryptoJS.enc.Utf8);
 
-  s.content = decrypted;
+    s.content = decrypted;
 
-  return { secret: s };
+    return { secret: s };
+  } catch (error) {
+    return { secret: null, error };
+  }
 };
 
 /**
@@ -69,27 +75,31 @@ export const getSecretById = async (id: SecretId) => {
 export const getSecretByShareableUrl = async (shareableUrl: string) => {
   const { shareableUrl: url } = secretShareableUrlSchema.parse({ shareableUrl });
 
-  const [s] = await db.query.secrets.findMany({
-    where: (t, { eq }) => eq(t.shareableUrl, url),
-    with: {
-      attachments: true,
-    },
-  });
-
-  if (!s) {
-    throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "Secret not found.",
+  try {
+    const [s] = await db.query.secrets.findMany({
+      where: (t, { eq }) => eq(t.shareableUrl, url),
+      with: {
+        attachments: true,
+      },
     });
+
+    if (!s) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Secret not found.",
+      });
+    }
+
+    if (s.revealed) {
+      const decrypted = mapEncryptionTypeToAlgo(s.encryptionType)
+        .decrypt(s.content, env.NEXTAUTH_SECRET!)
+        .toString(CryptoJS.enc.Utf8);
+
+      s.content = decrypted;
+    }
+
+    return { shared: s };
+  } catch (error) {
+    return { shared: null, error };
   }
-
-  if (s.revealed) {
-    const decrypted = mapEncryptionTypeToAlgo(s.encryptionType)
-      .decrypt(s.content, env.NEXTAUTH_SECRET!)
-      .toString(CryptoJS.enc.Utf8);
-
-    s.content = decrypted;
-  }
-
-  return { shared: s };
 };

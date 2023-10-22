@@ -4,7 +4,7 @@ import {
   buildFullShareableUrl,
   getSecretByShareableUrl,
 } from "@/lib/api/secrets/queries";
-import { X } from "lucide-react";
+import { Ban, X } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -21,6 +21,20 @@ export default async function ShareableUrlPage({
 }) {
   const fullUrl = buildFullShareableUrl(shareableUrl);
   const { shared } = await getSecretByShareableUrl(fullUrl);
+
+  if (!shared) {
+    return (
+      <main className="flex h-full flex-col items-center justify-center gap-4 px-4">
+        <Ban size={32} className="text-indigo-500" />
+
+        <h1 className="text-center text-2xl font-bold">Shared secret not found</h1>
+
+        <Link href={"/home"} passHref>
+          <Button variant="link">Go back home</Button>
+        </Link>
+      </main>
+    );
+  }
 
   return (
     <main className="flex flex-col gap-4">

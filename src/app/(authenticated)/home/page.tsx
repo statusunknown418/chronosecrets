@@ -24,7 +24,13 @@ export default async function HomePage() {
         </Link>
       </section>
 
-      <Suspense fallback={<Spinner />}>
+      <Suspense
+        fallback={
+          <div className="flex h-full items-center justify-center">
+            <Spinner />
+          </div>
+        }
+      >
         <MySecretsList />
       </Suspense>
     </main>

@@ -37,7 +37,7 @@ function Calendar({
         row: "flex w-full mt-2",
         cell: "text-center text-sm p-0 relative rounded-md [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day: cn(
-          buttonVariants({ variant: "ghost" }),
+          buttonVariants({ variant: "outline", className: "border-none" }),
           "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
         ),
         day_selected:
