@@ -2,6 +2,7 @@
 import { FullUser, updateUserSchema, type UpdateUserSchema } from "@/lib/db/schema";
 import { useDebounce } from "@/lib/hooks/useDebounce";
 import { trpc } from "@/lib/trpc/client";
+import { UploadButton } from "@/lib/uploadthing/client";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AtSign, CheckCircle, GitPullRequestIcon, XCircle } from "lucide-react";
@@ -44,6 +45,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
     resolver: zodResolver(updateUserSchema),
   });
 
+  const userImage = form.watch("image");
   const previewUsername = slugify(form.watch("username") || "");
   const value = useDebounce(form.watch("username"), 200);
 
@@ -91,15 +93,34 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
         className="flex flex-col gap-6 rounded-lg border p-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        {user.image && (
-          <Image
-            src={user.image}
-            width={100}
-            height={100}
-            className="rounded-lg border"
-            alt="Profile Picture"
+        <div className="flex flex-col items-center gap-2">
+          {userImage && (
+            <Image
+              src={userImage}
+              width={100}
+              height={100}
+              className="h-24 w-24 rounded-lg border object-cover"
+              alt="Profile Picture"
+              priority
+            />
+          )}
+
+          <UploadButton
+            endpoint="profilePictureUploader"
+            className="text-sm"
+            onClientUploadComplete={(res) => {
+              if (!res) return;
+
+              form.setValue("image", res[0].url);
+              toast.success("Upload Completed");
+            }}
+            onUploadError={(error: Error) => {
+              toast.error(`Error while uploading your profile pic`, {
+                description: error.message,
+              });
+            }}
           />
-        )}
+        </div>
 
         <FormField
           control={form.control}
@@ -185,7 +206,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
               <FormLabel>Email</FormLabel>
 
               <FormControl>
-                <Input {...field} placeholder="some@a.com" />
+                <Input {...field} disabled placeholder="some@a.com" />
               </FormControl>
 
               <FormMessage />

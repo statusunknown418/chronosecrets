@@ -141,7 +141,12 @@ export const verificationTokens = mysqlTable(
 
 export const updateUserSchema = createInsertSchema(users, {
   email: z.string().email().min(1),
-  username: z.string().min(5),
+  username: z
+    .string()
+    .min(5)
+    .refine((s) => s.split("").filter((c) => c === "@").length < 1, {
+      message: "Your username already contains the @ character by default",
+    }),
 }).omit({
   emailVerified: true,
   id: true,
