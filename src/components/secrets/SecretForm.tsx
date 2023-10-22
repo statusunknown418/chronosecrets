@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon, Info, Trash2 } from "lucide-react";
+import { CalendarIcon, Info } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -42,7 +42,9 @@ const SecretForm = ({
 
   const router = useRouter();
   const utils = trpc.useContext();
+
   const [parent] = useAutoAnimate();
+  const [mainForm] = useAutoAnimate();
 
   const form = useForm<NewSecretParams>({
     resolver: zodResolver(insertSecretParams),
@@ -67,17 +69,11 @@ const SecretForm = ({
 
   const { mutate: updateSecret, isLoading: isUpdating } =
     trpc.secrets.updateSecret.useMutation({
-      onSuccess: () => onSuccess("update"),
+      onSuccess: () => {
+        onSuccess("update");
+      },
       onError: (err) => {
         toast.error(err.message);
-      },
-    });
-
-  const { mutate: deleteSecret, isLoading: isDeleting } =
-    trpc.secrets.deleteSecret.useMutation({
-      onSuccess: () => {
-        router.replace(`/home`);
-        onSuccess("delete");
       },
     });
 
@@ -100,7 +96,11 @@ const SecretForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 pb-3">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-6 pb-3"
+        ref={mainForm}
+      >
         <FormField
           control={form.control}
           name="title"
@@ -147,10 +147,10 @@ const SecretForm = ({
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={new Date(field.value)}
                     onSelect={field.onChange}
-                    defaultMonth={new Date(field.value)}
                     disabled={(date) => date < new Date()}
+                    selected={field.value ? new Date(field.value) : new Date()}
+                    defaultMonth={field.value ? new Date(field.value) : new Date()}
                     initialFocus
                   />
                 </PopoverContent>
@@ -207,8 +207,14 @@ const SecretForm = ({
           )}
         />
 
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Button type="submit" loading={isCreating || isUpdating}>
+        <div className="flex w-full items-center justify-end gap-4 rounded-lg pb-4 text-sm backdrop-blur backdrop-filter">
+          {editing && (
+            <Button variant={"ghost"} type="button" onClick={() => form.reset()}>
+              <span>Reset</span>
+            </Button>
+          )}
+
+          <Button type="submit" loading={isCreating || isUpdating} rounding={"full"}>
             <span>
               {editing
                 ? isUpdating
@@ -219,24 +225,6 @@ const SecretForm = ({
                 : "Create"}
             </span>
           </Button>
-
-          {editing && (
-            <Button
-              type="button"
-              loading={isDeleting}
-              variant="destructive"
-              onClick={() => {
-                deleteSecret({ id: secret.id });
-              }}
-            >
-              <Trash2 size={16} />
-
-              <span>
-                Delete
-                {isDeleting ? "ing" : ""}
-              </span>
-            </Button>
-          )}
         </div>
       </form>
     </Form>
