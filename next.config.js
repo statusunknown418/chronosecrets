@@ -18,6 +18,9 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    domains: ["cdn.discordapp.com", "lh3.googleusercontent.com", "utfs.io"],
+  },
 };
 
 module.exports = nextConfig;
