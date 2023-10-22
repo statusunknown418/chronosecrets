@@ -5,6 +5,7 @@ import { trpc } from "@/lib/trpc/client";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AtSign, CheckCircle, GitPullRequestIcon, XCircle } from "lucide-react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -90,6 +91,16 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
         className="flex flex-col gap-6 rounded-lg border p-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
+        {user.image && (
+          <Image
+            src={user.image}
+            width={100}
+            height={100}
+            className="rounded-lg border"
+            alt="Profile Picture"
+          />
+        )}
+
         <FormField
           control={form.control}
           name="username"
