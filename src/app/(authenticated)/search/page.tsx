@@ -17,23 +17,26 @@ export default async function FriendshipsPage({
   }
 
   return (
-    <main className="flex h-full flex-col gap-4 p-4">
-      <h1 className="text-xl font-bold">Friends</h1>
+    <main className="flex h-full flex-col gap-4">
+      <header className="w-full border-b px-4 py-3">
+        <h1 className="text-2xl font-bold">Search</h1>
+      </header>
 
-      {!data.username && !searchParams?.verified ? (
-        <UncompletedProfile />
-      ) : (
-        <Suspense
-          fallback={
-            <section className="flex h-full w-full items-center justify-center gap-2">
-              <Spinner />
-              <h3>Skeleton</h3>
-            </section>
-          }
-        >
-          <CompletedProfile user={data} />
-        </Suspense>
-      )}
+      <div className="flex h-full flex-col gap-4 px-4">
+        {!data.username && !searchParams?.verified ? (
+          <UncompletedProfile />
+        ) : (
+          <Suspense
+            fallback={
+              <section className="flex h-full w-full items-center justify-center gap-2">
+                <Spinner />
+              </section>
+            }
+          >
+            <CompletedProfile user={data} />
+          </Suspense>
+        )}
+      </div>
     </main>
   );
 }

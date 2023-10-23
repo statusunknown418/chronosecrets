@@ -47,8 +47,6 @@ const SecretForm = ({
 }) => {
   const editing = !!secret?.id;
 
-  const singleReceiverId = secret?.receivers[0].userId;
-
   const router = useRouter();
   const utils = trpc.useContext();
 

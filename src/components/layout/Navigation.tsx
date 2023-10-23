@@ -14,7 +14,7 @@ export const links = [
   },
   {
     name: "Friends",
-    href: "/friends",
+    href: "/my/friends",
     icon: <UserPlus2 size={24} className="fill-inherit" />,
   },
   {
