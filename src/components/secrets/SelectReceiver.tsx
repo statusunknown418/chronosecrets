@@ -9,7 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { NewSecretParams } from "@/lib/db/schema";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
-import { CheckIcon, ChevronsUpDown } from "lucide-react";
+import { AlertOctagon, CheckIcon, ChevronsUpDown } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "../ui/button";
 import {
@@ -21,8 +21,9 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Spinner } from "../ui/spinner";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
-export const SelectReceiver = () => {
+export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
   const form = useFormContext<NewSecretParams>();
 
   const { data: friends, isLoading } = trpc.friendships.getFriends.useQuery();
@@ -37,11 +38,25 @@ export const SelectReceiver = () => {
       name="receiverId"
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>Language</FormLabel>
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <FormLabel>
+                Receiver
+                <TooltipTrigger>
+                  <AlertOctagon className="text-yellow-500" size={16} />
+                </TooltipTrigger>
+              </FormLabel>
+
+              <TooltipContent>
+                Careful, you cannot change the receiver after creation!
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
+                  disabled={isEditing}
                   variant="outline"
                   role="combobox"
                   className={cn(
@@ -91,8 +106,8 @@ export const SelectReceiver = () => {
           </Popover>
 
           <FormDescription>
-            The receiver of your secret, he or she will receive an email right after
-            it&apos;s created.
+            The person you&apos;re making the secret for, he or she will get a
+            notification right after it&apos;s created.
           </FormDescription>
           <FormMessage />
         </FormItem>

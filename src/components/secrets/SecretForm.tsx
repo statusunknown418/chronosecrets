@@ -136,7 +136,7 @@ const SecretForm = ({
           )}
         />
 
-        <SelectReceiver />
+        <SelectReceiver isEditing={editing} />
 
         <FormField
           control={form.control}
