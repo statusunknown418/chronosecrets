@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { ArrowLeft, Home, MailPlus, Search, Settings } from "lucide-react";
+import { ArrowLeft, Inbox, MailPlus, Search, Settings, UserPlus2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSelectedLayoutSegment } from "next/navigation";
 import { Button } from "../ui/button";
@@ -10,7 +10,12 @@ export const links = [
   {
     name: "Home",
     href: "/home",
-    icon: <Home size={24} className="fill-inherit" />,
+    icon: <Inbox size={24} className="" />,
+  },
+  {
+    name: "Friends",
+    href: "/friends",
+    icon: <UserPlus2 size={24} className="fill-inherit" />,
   },
   {
     name: "New Secret",
