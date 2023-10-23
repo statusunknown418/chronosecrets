@@ -1,5 +1,4 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { z } from "zod";
 import { updateProfilePictureServer } from "../api/user/mutations";
 import { getUserAuth } from "../auth/utils";
 
@@ -7,36 +6,29 @@ const f = createUploadthing();
 
 export const ourFileRouter = {
   secretsAttachmentsUploader: f({
-    image: { maxFileSize: "4MB" },
-    pdf: { maxFileSize: "8MB" },
+    image: { maxFileSize: "4MB", contentDisposition: "inline", maxFileCount: 5 },
   })
-    .input(
-      z.object({
-        secretId: z.string(),
-      }),
-    )
-    .middleware(async ({ input: { secretId } }) => {
-      const { session } = await getUserAuth();
-
-      // If you throw, the user will not be able to upload
-      if (!session?.user) throw new Error("Unauthorized");
-
-      // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: session.user.id, secretId };
-    })
-    .onUploadComplete(async ({ metadata, file }) => {
-      console.log("Upload complete for userId:", metadata.userId);
-
-      console.log("file url", file.url);
-    }),
-  profilePictureUploader: f({ image: { maxFileSize: "4MB" } })
+    /**
+     * Whatever is returned here is accessible in onUploadComplete as `metadata`
+     */
     .middleware(async () => {
       const { session } = await getUserAuth();
 
-      // If you throw, the user will not be able to upload
       if (!session?.user) throw new Error("Unauthorized");
 
-      // Whatever is returned here is accessible in onUploadComplete as `metadata`
+      return { userId: session.user.id };
+    })
+    .onUploadComplete(() => {
+      /**
+       * TODO: Maybe do something with this data later on
+       */
+    }),
+  profilePictureUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+    .middleware(async () => {
+      const { session } = await getUserAuth();
+
+      if (!session?.user) throw new Error("Unauthorized");
+
       return { userId: session.user.id, user: session.user };
     })
     .onUploadComplete(async ({ file, metadata }) => {

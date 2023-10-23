@@ -80,7 +80,13 @@ export const insertSecretParams = createSelectSchema(secrets, {
   })
   .refine((schema) => {
     return schema.revealingDate > new Date();
-  });
+  })
+  .and(
+    z.object({
+      attachments: z.array(z.string()).max(5).optional(),
+      receiverId: z.string().min(1),
+    }),
+  );
 
 export const updateSecretSchema = createSelectSchema(secrets, {
   createdAt: z.coerce.date().optional(),

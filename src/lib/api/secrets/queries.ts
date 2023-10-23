@@ -48,12 +48,14 @@ export const getSecretById = async (id: SecretId) => {
   const { id: secretId } = secretIdSchema.parse({ id });
 
   try {
-    const [s] = await db
-      .select()
-      .from(secrets)
-      .where(
+    const [s] = await db.query.secrets.findMany({
+      where: () =>
         and(eq(secrets.id, secretId), eq(secrets.createdByUserId, session?.user.id!)),
-      );
+      with: {
+        attachments: true,
+        receivers: true,
+      },
+    });
 
     const decrypted = mapEncryptionTypeToAlgo(s.encryptionType)
       .decrypt(s.content, env.NEXTAUTH_SECRET!)
@@ -80,6 +82,7 @@ export const getSecretByShareableUrl = async (shareableUrl: string) => {
       where: (t, { eq }) => eq(t.shareableUrl, url),
       with: {
         attachments: true,
+        receivers: true,
       },
     });
 
@@ -103,3 +106,5 @@ export const getSecretByShareableUrl = async (shareableUrl: string) => {
     return { shared: null, error };
   }
 };
+
+export type SecretByIdResponse = Awaited<ReturnType<typeof getSecretById>>;

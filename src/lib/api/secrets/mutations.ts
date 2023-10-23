@@ -1,5 +1,6 @@
 import { getUserAuth } from "@/lib/auth/utils";
 import { db } from "@/lib/db";
+import { usersToSecrets } from "@/lib/db/schema";
 import {
   NewSecretParams,
   Secret,
@@ -12,9 +13,11 @@ import {
 } from "@/lib/db/schema/secrets";
 import { env } from "@/lib/env.mjs";
 import { createId } from "@paralleldrive/cuid2";
+import { TRPCError } from "@trpc/server";
 import CryptoJS from "crypto-js";
 import { and, eq } from "drizzle-orm";
 import slugify from "slugify";
+import { linkAttachmentToSecret } from "../attachments/mutations";
 import { buildFullShareableUrl } from "./queries";
 
 export const mapEncryptionTypeToAlgo = (encryptionType: Secret["encryptionType"]) => {
@@ -49,11 +52,30 @@ export const createSecret = async (secret: NewSecretParams) => {
     shareableUrl: buildFullShareableUrl(slug),
   });
 
+  if (!secret.receiverId) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Secret receiverId is required",
+    });
+  }
+
   try {
-    await db.insert(secrets).values({
+    const { insertId } = await db.insert(secrets).values({
       ...newSecret,
       content: hashed,
     });
+
+    const makeRelation = db.insert(usersToSecrets).values({
+      secretId: Number(insertId),
+      userId: secret.receiverId,
+    });
+
+    const insertAttachments = linkAttachmentToSecret(
+      Number(insertId),
+      secret.attachments || [],
+    );
+
+    await Promise.all([makeRelation, insertAttachments]);
 
     const t2 = performance.now();
 

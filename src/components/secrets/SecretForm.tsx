@@ -1,13 +1,18 @@
 "use client";
-import { NewSecretParams, Secret, insertSecretParams } from "@/lib/db/schema";
+import { SecretByIdResponse } from "@/lib/api/secrets/queries";
+import { NewSecretParams, insertSecretParams } from "@/lib/db/schema";
 import { trpc } from "@/lib/trpc/client";
+import { UploadDropzone } from "@/lib/uploadthing/client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon, Info } from "lucide-react";
+import { AlertOctagon, CalendarIcon, Info } from "lucide-react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -25,6 +30,8 @@ import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Spinner } from "../ui/spinner";
 import { ToggleGroupItem, ToggleGroupRoot } from "../ui/toggle-group";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { SelectReceiver } from "./SelectReceiver";
 
 const DynamicTiptap = dynamic(() => import("@/components/secrets/Tiptap"), {
   ssr: false,
@@ -35,23 +42,31 @@ const SecretForm = ({
   secret,
   closeModal,
 }: {
-  secret?: Secret;
+  secret?: SecretByIdResponse["secret"];
   closeModal?: () => void;
 }) => {
   const editing = !!secret?.id;
+
+  const singleReceiverId = secret?.receivers[0].userId;
 
   const router = useRouter();
   const utils = trpc.useContext();
 
   const [parent] = useAutoAnimate();
   const [mainForm] = useAutoAnimate();
+  const [disableButton, setDisableButton] = useState(false);
 
   const form = useForm<NewSecretParams>({
     resolver: zodResolver(insertSecretParams),
-    defaultValues: secret ?? {
+    defaultValues: {
+      ...secret,
+      attachments: secret?.attachments.map((s) => s.url),
+      receiverId: secret?.receivers[0].userId,
+    } ?? {
       title: "",
       content: "",
       encryptionType: "RC4",
+      attachments: [],
     },
   });
 
@@ -94,6 +109,8 @@ const SecretForm = ({
     }
   };
 
+  const previewAttachments = form.watch("attachments");
+
   return (
     <Form {...form}>
       <form
@@ -109,13 +126,19 @@ const SecretForm = ({
               <FormLabel>Title</FormLabel>
 
               <FormControl>
-                <Input {...field} placeholder="You need to know this..." />
+                <Input
+                  {...field}
+                  value={field.value || ""}
+                  placeholder="You need to know this..."
+                />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <SelectReceiver />
 
         <FormField
           control={form.control}
@@ -166,9 +189,20 @@ const SecretForm = ({
           name="encryptionType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Encryption Type <Info size={16} className="text-muted-foreground" />
-              </FormLabel>
+              <TooltipProvider delayDuration={0}>
+                <FormLabel>
+                  Encryption Type
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info size={16} className="text-blue-500" />
+                    </TooltipTrigger>
+
+                    <TooltipContent className="max-w-[200px] break-words font-normal">
+                      Each encryption algorithm is showed different to the final receiver
+                    </TooltipContent>
+                  </Tooltip>
+                </FormLabel>
+              </TooltipProvider>
 
               <FormControl>
                 <ToggleGroupRoot
@@ -188,6 +222,82 @@ const SecretForm = ({
             </FormItem>
           )}
         />
+
+        <div className="flex flex-col gap-2">
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <FormLabel>
+                Attachments
+                <TooltipTrigger asChild>
+                  <AlertOctagon size={16} className="text-yellow-500" />
+                </TooltipTrigger>
+              </FormLabel>
+
+              <TooltipContent>You cannot edit this after creation!</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          {!editing && (
+            <UploadDropzone
+              className="border-2 border-border ut-button:text-sm ut-label:font-semibold"
+              endpoint="secretsAttachmentsUploader"
+              onUploadBegin={() => {
+                setDisableButton(true);
+              }}
+              onClientUploadComplete={(res) => {
+                setDisableButton(false);
+                if (!res) return;
+
+                form.setValue("attachments", [
+                  ...(previewAttachments || []),
+                  ...res.map((f) => f.url),
+                ]);
+              }}
+              onUploadError={(error) => {
+                setDisableButton(false);
+                toast.error(error.message, {
+                  description: error.cause?.message ?? "Try again",
+                });
+              }}
+              config={{
+                appendOnPaste: true,
+                mode: "auto",
+              }}
+            />
+          )}
+
+          <div className="flex items-center gap-4 overflow-x-scroll">
+            {secret?.attachments.length === 0 && (
+              <span className="text-sm text-muted-foreground">
+                No attachments included 👀
+              </span>
+            )}
+
+            {secret?.attachments.map((s) => (
+              <Link href={s.url} key={s.id} passHref rel="noopener noreferrer">
+                <Image
+                  src={s.url}
+                  width={200}
+                  height={200}
+                  className="min-h-max w-auto min-w-[200px] rounded-lg transition-all hover:opacity-90"
+                  alt={`Attachment ${s.url}`}
+                />
+              </Link>
+            ))}
+
+            {previewAttachments?.map((s) => (
+              <Link href={s} key={s} passHref rel="noopener noreferrer">
+                <Image
+                  src={s}
+                  width={200}
+                  height={200}
+                  className="h-auto w-auto min-w-[200px] rounded-lg transition-all hover:opacity-90"
+                  alt={`Attachment`}
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
 
         <FormField
           control={form.control}
@@ -214,7 +324,12 @@ const SecretForm = ({
             </Button>
           )}
 
-          <Button type="submit" loading={isCreating || isUpdating} rounding={"full"}>
+          <Button
+            type="submit"
+            rounding={"full"}
+            loading={isCreating || isUpdating}
+            disabled={disableButton}
+          >
             <span>
               {editing
                 ? isUpdating
