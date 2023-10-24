@@ -8,10 +8,10 @@ import { MySecretsList } from "../../../components/secrets/MySecretsList";
 export default async function HomePage() {
   return (
     <main className="flex h-full flex-col gap-4 p-4">
-      <h1 className="text-2xl font-bold">Welcome back </h1>
+      <h1 className="text-2xl font-bold">Welcome back</h1>
 
       <section className="flex items-center justify-between gap-2">
-        <Link href="/secrets/receiving" className="focus-within:outline-none">
+        <Link href="/receiving" className="focus-within:outline-none">
           <Button>
             <Eye size={20} /> Sent to me
           </Button>
@@ -24,7 +24,13 @@ export default async function HomePage() {
         </Link>
       </section>
 
-      <Suspense fallback={<Spinner />}>
+      <Suspense
+        fallback={
+          <div className="flex h-full items-center justify-center">
+            <Spinner />
+          </div>
+        }
+      >
         <MySecretsList />
       </Suspense>
     </main>

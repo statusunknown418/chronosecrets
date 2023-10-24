@@ -64,7 +64,7 @@
     --destructive: 0 70% 45%;
     --destructive-foreground: 210 40% 98%;
 
-    --ring: 216 34% 17%;
+    --ring: 243 75% 59%;
 
     --radius: 0.7rem;
   }
@@ -74,10 +74,14 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
+
+    /* Prevents bouncy behavior on iOS phones */
+    overscroll-behavior-y: none;
   }
 }

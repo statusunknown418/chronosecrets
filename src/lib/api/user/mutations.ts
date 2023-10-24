@@ -38,6 +38,21 @@ export const updateUser = async (id: string, data: UpdateUserSchema) => {
   }
 };
 
+export const updateProfilePictureServer = async (id: string, url: string) => {
+  try {
+    await db
+      .update(users)
+      .set({
+        image: url,
+      })
+      .where(eq(users.id, id));
+    return { success: true };
+  } catch (err) {
+    const message = (err as Error).message ?? "Error, please try again";
+    return { error: message };
+  }
+};
+
 export const checkUsernameAvailable = async (username: string) => {
   const viewer = await getFullUser();
   const user = await db

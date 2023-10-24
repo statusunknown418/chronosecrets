@@ -1,10 +1,12 @@
 "use client";
-import { NewSecretParams, Secret, insertSecretParams } from "@/lib/db/schema";
+import { SecretByIdResponse } from "@/lib/api/secrets/queries";
+import { NewSecretParams, insertSecretParams } from "@/lib/db/schema";
+import { useDisableSubmit } from "@/lib/hooks/useDisableSubmit";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import { CalendarIcon, Info } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
@@ -15,6 +17,7 @@ import { Calendar } from "../ui/calendar";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,6 +27,9 @@ import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Spinner } from "../ui/spinner";
 import { ToggleGroupItem, ToggleGroupRoot } from "../ui/toggle-group";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { AttachmentsSection } from "./AttachmentsSection";
+import { SelectReceiver } from "./SelectReceiver";
 
 const DynamicTiptap = dynamic(() => import("@/components/secrets/Tiptap"), {
   ssr: false,
@@ -34,47 +40,70 @@ const SecretForm = ({
   secret,
   closeModal,
 }: {
-  secret?: Secret;
+  secret?: SecretByIdResponse["secret"];
   closeModal?: () => void;
 }) => {
   const editing = !!secret?.id;
+  const disableSubmit = useDisableSubmit((s) => s.disableSubmit);
 
   const router = useRouter();
   const utils = trpc.useContext();
+
   const [parent] = useAutoAnimate();
+  const [mainForm] = useAutoAnimate();
 
   const form = useForm<NewSecretParams>({
     resolver: zodResolver(insertSecretParams),
-    defaultValues: secret ?? {
+    defaultValues: {
+      ...secret,
+      attachments: secret?.attachments.map((s) => s.url),
+      receiverId: secret?.receivers[0].userId,
+    } ?? {
       title: "",
       content: "",
-      encryptionType: "SHA256",
+      encryptionType: "RC4",
+      attachments: [],
     },
   });
 
-  const onSuccess = (action: "create" | "update" | "delete") => {
-    utils.secrets.getSecrets.invalidate();
+  const onSuccess = async (action: "create" | "update" | "delete") => {
+    await utils.secrets.getSecrets.invalidate();
     router.refresh();
     toast.success(`Secret ${action}d successfully`);
     closeModal?.();
   };
 
+  const { mutate: notifyReceiver } = trpc.transactional.notifySecretReceiver.useMutation({
+    onError: (err) => {
+      toast.error("There was an error while notifying the receiver", {
+        description: err.message,
+      });
+    },
+  });
+
   const { mutate: createSecret, isLoading: isCreating } =
     trpc.secrets.createSecret.useMutation({
-      onSuccess: () => onSuccess("create"),
+      onSuccess: (data) => {
+        if (data.secret) {
+          notifyReceiver({
+            receiverId: data.secret.receiver,
+            secretId: data.secret.id,
+            secretTitle: data.secret.title,
+          });
+        }
+
+        onSuccess("create");
+      },
     });
 
   const { mutate: updateSecret, isLoading: isUpdating } =
     trpc.secrets.updateSecret.useMutation({
-      onSuccess: () => onSuccess("update"),
+      onSuccess: () => {
+        onSuccess("update");
+      },
       onError: (err) => {
         toast.error(err.message);
       },
-    });
-
-  const { mutate: deleteSecret, isLoading: isDeleting } =
-    trpc.secrets.deleteSecret.useMutation({
-      onSuccess: () => onSuccess("delete"),
     });
 
   const onSubmit = async (data: NewSecretParams) => {
@@ -96,7 +125,11 @@ const SecretForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 pb-3">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-6 pb-3"
+        ref={mainForm}
+      >
         <FormField
           control={form.control}
           name="title"
@@ -105,13 +138,19 @@ const SecretForm = ({
               <FormLabel>Title</FormLabel>
 
               <FormControl>
-                <Input {...field} placeholder="You need to know this..." />
+                <Input
+                  {...field}
+                  value={field.value || ""}
+                  placeholder="You need to know this..."
+                />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <SelectReceiver isEditing={editing} />
 
         <FormField
           control={form.control}
@@ -133,7 +172,7 @@ const SecretForm = ({
                       {field.value ? (
                         <span>{format(field.value, "PPP")}</span>
                       ) : (
-                        <span>Pick a date</span>
+                        <span>Pick a date in the future</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -143,9 +182,12 @@ const SecretForm = ({
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={new Date(field.value) || new Date()}
                     onSelect={field.onChange}
                     disabled={(date) => date < new Date()}
+                    selected={
+                      field.value ? new Date(field.value) : addDays(new Date(), 1)
+                    }
+                    defaultMonth={field.value ? new Date(field.value) : new Date()}
                     initialFocus
                   />
                 </PopoverContent>
@@ -161,9 +203,20 @@ const SecretForm = ({
           name="encryptionType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Encryption Type <Info size={16} />
-              </FormLabel>
+              <TooltipProvider delayDuration={0}>
+                <FormLabel>
+                  Encryption Type
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info size={16} className="text-blue-500" />
+                    </TooltipTrigger>
+
+                    <TooltipContent className="max-w-[200px] break-words font-normal">
+                      Each encryption algorithm is showed different to the final receiver
+                    </TooltipContent>
+                  </Tooltip>
+                </FormLabel>
+              </TooltipProvider>
 
               <FormControl>
                 <ToggleGroupRoot
@@ -172,10 +225,10 @@ const SecretForm = ({
                   onValueChange={field.onChange}
                   value={field.value}
                 >
-                  <ToggleGroupItem value="SHA256">SHA256</ToggleGroupItem>
+                  <ToggleGroupItem value="RC4">RC4</ToggleGroupItem>
                   <ToggleGroupItem value="AES">AES</ToggleGroupItem>
                   <ToggleGroupItem value="DES">DES</ToggleGroupItem>
-                  <ToggleGroupItem value="RSA">RSA</ToggleGroupItem>
+                  <ToggleGroupItem value="Rabbit">Rabbit</ToggleGroupItem>
                 </ToggleGroupRoot>
               </FormControl>
 
@@ -183,6 +236,8 @@ const SecretForm = ({
             </FormItem>
           )}
         />
+
+        <AttachmentsSection editing={editing} secret={secret} />
 
         <FormField
           control={form.control}
@@ -192,43 +247,39 @@ const SecretForm = ({
               <FormLabel>Content</FormLabel>
 
               <FormControl>
-                <DynamicTiptap
-                  onChange={field.onChange}
-                  content={field.value}
-                  ref={field.ref}
-                />
+                <DynamicTiptap onChange={field.onChange} content={field.value} />
               </FormControl>
+
+              <FormDescription>This editor supports markdown syntax!</FormDescription>
 
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <div className="flex gap-2">
-          <Button type="submit" loading={isCreating || isUpdating} className="mt-3 w-max">
-            {editing
-              ? isUpdating
-                ? "Updating"
-                : "Update"
-              : isCreating
-              ? "Creating"
-              : "Create"}
-          </Button>
-
+        <div className="flex w-full items-center justify-end gap-4 rounded-lg pb-4 text-sm backdrop-blur backdrop-filter">
           {editing && (
-            <Button
-              type="button"
-              loading={isDeleting}
-              variant="destructive"
-              className="mt-3 w-max"
-              onClick={() => {
-                deleteSecret({ id: secret.id });
-              }}
-            >
-              Delete
-              {isDeleting ? "ing" : ""}
+            <Button variant={"ghost"} type="button" onClick={() => form.reset()}>
+              <span>Reset</span>
             </Button>
           )}
+
+          <Button
+            type="submit"
+            rounding={"full"}
+            loading={isCreating || isUpdating}
+            disabled={disableSubmit}
+          >
+            <span>
+              {editing
+                ? isUpdating
+                  ? "Saving"
+                  : "Save"
+                : isCreating
+                ? "Creating"
+                : "Create"}
+            </span>
+          </Button>
         </div>
       </form>
     </Form>

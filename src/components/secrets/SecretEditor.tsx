@@ -5,7 +5,7 @@ import SecretForm from "./SecretForm";
 const SecretEditor = () => {
   const router = useRouter();
 
-  return <SecretForm closeModal={router.back} />;
+  return <SecretForm closeModal={() => router.push("/home")} />;
 };
 
 export default SecretEditor;

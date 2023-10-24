@@ -14,7 +14,7 @@ export const UncompletedProfile = () => {
         href={{
           pathname: "/my/settings",
           query: {
-            goBackTo: "/home/people",
+            goBackTo: "/search",
             verifyOn: "username",
           },
         }}

@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { ArrowLeft, Home, MailPlus, Search, Settings } from "lucide-react";
+import { ArrowLeft, Inbox, MailPlus, Search, Settings, UserPlus2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSelectedLayoutSegment } from "next/navigation";
 import { Button } from "../ui/button";
@@ -10,22 +10,27 @@ export const links = [
   {
     name: "Home",
     href: "/home",
-    icon: <Home size={24} className="fill-inherit" />,
+    icon: <Inbox size={24} />,
+  },
+  {
+    name: "Friends",
+    href: "/my/friends",
+    icon: <UserPlus2 size={24} />,
   },
   {
     name: "New Secret",
     href: "/secrets/new",
-    icon: <MailPlus size={24} className="fill-inherit" />,
+    icon: <MailPlus size={24} />,
   },
   {
     name: "Find people",
     href: "/search",
-    icon: <Search size={24} className="fill-inherit" />,
+    icon: <Search size={24} />,
   },
   {
     name: "Settings",
     href: "/my/settings",
-    icon: <Settings size={24} className="fill-inherit" />,
+    icon: <Settings size={24} />,
   },
 ] as const;
 
@@ -39,16 +44,16 @@ export const Navigation = () => {
   const [parent] = useAutoAnimate();
 
   return (
-    <nav className="sticky inset-0 z-10 h-16 px-4 py-2 text-muted-foreground backdrop-blur backdrop-filter">
-      <ul className="flex h-full w-full items-center justify-center gap-4 sm:justify-between">
+    <nav className="sticky inset-0 z-10 px-4 py-2 text-muted-foreground backdrop-blur-sm backdrop-filter">
+      <ul className="flex h-full w-full items-center justify-center gap-4 bg-transparent sm:justify-between">
         <li className="hidden sm:flex">LOGO</li>
 
         <ul
-          className="flex max-w-xs flex-grow items-center justify-between justify-self-center"
+          className="flex max-w-xs flex-grow items-center justify-between justify-self-center bg-transparent"
           ref={parent}
         >
           {selectedSegment !== "home" && (
-            <li className="">
+            <li>
               <Button onClick={back} size="icon" variant="ghost" rounding="full">
                 <ArrowLeft size={20} />
               </Button>
@@ -63,9 +68,7 @@ export const Navigation = () => {
                   size="icon"
                   variant="ghost"
                   rounding="full"
-                  className={cn(
-                    path === link.href ? "text-primary hover:text-primary" : "",
-                  )}
+                  className={cn(path === link.href && "text-primary hover:text-primary")}
                 >
                   {link.icon}
                 </Button>
