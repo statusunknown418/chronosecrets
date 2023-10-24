@@ -79,7 +79,16 @@ export const createSecret = async (secret: NewSecretParams) => {
 
     const t2 = performance.now();
 
-    return { success: true, took: Math.ceil(t2 - t1) };
+    return {
+      success: true,
+      took: Math.ceil(t2 - t1),
+      secret: {
+        id: insertId,
+        receiver: secret.receiverId,
+        title: secret.title,
+        shareableUrl: buildFullShareableUrl(slug),
+      },
+    };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
     return { error: message };

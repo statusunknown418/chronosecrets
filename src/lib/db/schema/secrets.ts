@@ -84,7 +84,9 @@ export const insertSecretParams = createSelectSchema(secrets, {
   .and(
     z.object({
       attachments: z.array(z.string()).max(5).optional(),
-      receiverId: z.string().min(1),
+      receiverId: z.string().min(1, {
+        message: "ReceiverID must exist",
+      }),
     }),
   );
 

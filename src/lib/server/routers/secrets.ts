@@ -8,19 +8,19 @@ import {
 import { publicProcedure, router } from "../trpc";
 
 export const secretsRouter = router({
-  getSecrets: publicProcedure.query(async () => {
+  getSecrets: publicProcedure.query(() => {
     return getSecrets();
   }),
-  getSecretById: publicProcedure.input(secretIdSchema).query(async ({ input }) => {
+  getSecretById: publicProcedure.input(secretIdSchema).query(({ input }) => {
     return getSecretById(input.id);
   }),
-  createSecret: publicProcedure.input(insertSecretParams).mutation(async ({ input }) => {
+  createSecret: publicProcedure.input(insertSecretParams).mutation(({ input }) => {
     return createSecret(input);
   }),
-  updateSecret: publicProcedure.input(updateSecretParams).mutation(async ({ input }) => {
+  updateSecret: publicProcedure.input(updateSecretParams).mutation(({ input }) => {
     return updateSecret(input.id, input);
   }),
-  deleteSecret: publicProcedure.input(secretIdSchema).mutation(async ({ input }) => {
+  deleteSecret: publicProcedure.input(secretIdSchema).mutation(({ input }) => {
     return deleteSecret(input.id);
   }),
 });

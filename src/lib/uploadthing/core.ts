@@ -6,7 +6,7 @@ const f = createUploadthing();
 
 export const ourFileRouter = {
   secretsAttachmentsUploader: f({
-    image: { maxFileSize: "4MB", contentDisposition: "inline", maxFileCount: 5 },
+    image: { maxFileSize: "4MB", maxFileCount: 5 },
   })
     /**
      * Whatever is returned here is accessible in onUploadComplete as `metadata`
