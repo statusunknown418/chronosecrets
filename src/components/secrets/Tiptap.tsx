@@ -20,7 +20,7 @@ const Tiptap = forwardRef<
       attributes: {
         class: cn(
           "prose dark:prose-invert prose-sm min-w-full",
-          "focus:outline-none min-h-[300px]",
+          "focus:outline-none min-h-full h-[200px]",
         ),
       },
     },
@@ -37,8 +37,8 @@ const Tiptap = forwardRef<
       editor={editor}
       placeholder="Get ready to know something you may not like..."
       className={cn(
-        !!onChange && "h-[300px] border border-input p-4",
-        "overflow-scroll rounded-lg bg-background",
+        !!onChange && "max-h-60 border border-input p-4",
+        "min-h-[240px] overflow-scroll rounded-lg bg-background",
         "ring-ring focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-background focus:outline-none focus:ring-ring first:focus:outline-none",
       )}
     />

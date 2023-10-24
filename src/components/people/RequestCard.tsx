@@ -9,8 +9,14 @@ export const RequestCard = ({ request }: { request: Requests[number] }) => {
 
   const { mutate: accept } = trpc.friendships.acceptFriendRequest.useMutation({
     onSuccess: async () => {
-      await ctx.friendships.getFriends.refetch();
-      toast.success("Friend request accepted!");
+      const refetching = ctx.friendships.getFriends.refetch();
+      const invalidating = ctx.friendships.getAcceptedFriends.invalidate();
+
+      await Promise.all([refetching, invalidating]);
+
+      toast.success("Friend request accepted!", {
+        description: "You can now send secrets to this person.",
+      });
     },
     onMutate: async () => {
       const prev = ctx.friendships.getPendingRequestsForViewer.getData();

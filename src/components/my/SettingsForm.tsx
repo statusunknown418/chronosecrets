@@ -55,6 +55,9 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
         toast.error(error.message);
         setAvailable(false);
       },
+      onMutate: () => {
+        setAvailable(false);
+      },
       onSuccess: (data) => {
         setAvailable(data.available);
       },
@@ -126,7 +129,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
           control={form.control}
           name="username"
           render={({ field }) => (
-            <FormItem ref={parent}>
+            <FormItem>
               <FormLabel>
                 Username <RequiredLabel />
               </FormLabel>
@@ -140,10 +143,6 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
                   <input
                     {...field}
                     value={field.value || ""}
-                    onChange={(e) => {
-                      setAvailable(false);
-                      field.onChange(e);
-                    }}
                     placeholder="status.n_418"
                     className="h-full w-full bg-background px-3 text-sm focus:outline-none"
                   />
