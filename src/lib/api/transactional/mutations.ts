@@ -24,7 +24,7 @@ export const notifySecretReceiver = async (input: NotifyReceiverInput) => {
   }
 
   return await resend.emails.send({
-    from: "wait4it - Notifications <onboarding@resend.dev>",
+    from: "Wait4it - notifications <onboarding@resend.dev>",
     subject: "There's a new secret for you!",
     text: "Powered by MeowStudios",
     to: "alvarodevcode@outlook.com",

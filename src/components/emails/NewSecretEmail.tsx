@@ -8,6 +8,7 @@ import {
   Html,
   Link,
   Preview,
+  Section,
   Tailwind,
   Text,
 } from "@react-email/components";
@@ -47,32 +48,42 @@ export const NewSecretEmail: FunctionComponent<NewSecretEmailProps> = ({
 
             <Text>
               Hi, <span>{receiverName}!</span> You have just been selected as the receiver
-              of a new secret. Click the button below to check it out!
+              of the following secret.
             </Text>
 
-            <Text className="text-xl">
-              Secret Title: <strong className="capitalize">{secretTitle}</strong>
-            </Text>
+            <Hr />
+
+            <Section>
+              <Text className="text-sm">Secret title:</Text>
+              <Text className="text-xl font-bold capitalize">{secretTitle}</Text>
+            </Section>
+
+            <Hr />
+
+            <Text className="mt-4">Click the button below to check it out!</Text>
 
             <Button
-              className="rounded-full border border-indigo-500 px-5 py-3 text-white"
+              className="rounded-full px-5 py-3"
+              style={{
+                backgroundColor: "#1d4ed8",
+                color: "#fff",
+              }}
               href={fullSecretUrl}
             >
               I wanna see it!
             </Button>
 
             <Text>
-              Or, if you want, you can also copy and paste the link below into your
-              browser:
+              Or, if you want, you can also copy and paste the following link into your
+              browser &rarr;{" "}
+              <Link className="underline" href={fullSecretUrl}>
+                {fullSecretUrl}
+              </Link>
             </Text>
-
-            <Link className="text-center text-lg underline" href={fullSecretUrl}>
-              {fullSecretUrl}
-            </Link>
 
             <Hr className="mt-5" />
 
-            <Text className="text-sm text-gray-500">
+            <Text className="text-center text-sm text-gray-500">
               This email was intended for{" "}
               <strong className="text-black">{receiverUsername}</strong> - registered as{" "}
               {receiverEmail}. If you received this email by mistake, please reach out to
