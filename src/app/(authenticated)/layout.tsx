@@ -6,7 +6,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
     <section className="relative flex h-full flex-col pb-1">
       <Navigation />
 
-      <section className="h-full min-w-full max-w-2xl overflow-y-scroll sm:mx-auto md:min-w-[672px]">
+      <section className="h-full overflow-y-scroll sm:px-12 md:px-24 lg:px-44 xl:px-80">
         {children}
       </section>
     </section>

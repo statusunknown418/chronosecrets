@@ -23,7 +23,7 @@ export type NewSecretEmailProps = {
   secretTitle: string;
 };
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
+const baseUrl = process.env.EMAIL_URL ? `https://${process.env.EMAIL_URL}` : "";
 
 export const NewSecretEmail: FunctionComponent<NewSecretEmailProps> = ({
   receiverName,

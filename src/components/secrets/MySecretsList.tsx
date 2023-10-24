@@ -12,7 +12,7 @@ export const MySecretsList = async () => {
   }
 
   return (
-    <section className="overflow-y-scroll">
+    <section className="max-w-full">
       <ul className="flex h-full flex-col gap-4">
         {secrets.map((secret) => (
           <li key={secret.id}>
@@ -52,7 +52,7 @@ const SecretCard = ({ secret }: { secret: Secret }) => {
         </Link>
       </div>
 
-      <p className="min-w-[28ch] break-words text-sm text-slate-500 sm:w-max">
+      <p className="min-w-[28ch] max-w-full text-ellipsis break-words text-sm text-slate-500 sm:w-max">
         {secret.content.slice(0, 140)}...
       </p>
     </article>

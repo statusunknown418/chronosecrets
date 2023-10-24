@@ -20,7 +20,7 @@ const Tiptap = forwardRef<
       attributes: {
         class: cn(
           "prose dark:prose-invert prose-sm min-w-full",
-          "focus:outline-none min-h-full h-[200px]",
+          "focus:outline-none min-h-[240px]",
         ),
       },
     },

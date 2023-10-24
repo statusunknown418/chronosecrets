@@ -25,6 +25,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { RequiredLabel } from "../ui/required-label";
 import { Spinner } from "../ui/spinner";
 import { ToggleGroupItem, ToggleGroupRoot } from "../ui/toggle-group";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
@@ -135,11 +136,15 @@ const SecretForm = ({
           name="title"
           render={({ field }) => (
             <FormItem ref={parent}>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>
+                Title
+                <RequiredLabel />
+              </FormLabel>
 
               <FormControl>
                 <Input
                   {...field}
+                  autoFocus
                   value={field.value || ""}
                   placeholder="You need to know this..."
                 />
