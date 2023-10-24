@@ -11,7 +11,7 @@ export default async function HomePage() {
       <h1 className="text-2xl font-bold">Welcome back</h1>
 
       <section className="flex items-center justify-between gap-2">
-        <Link href="/secrets/receiving" className="focus-within:outline-none">
+        <Link href="/receiving" className="focus-within:outline-none">
           <Button>
             <Eye size={20} /> Sent to me
           </Button>

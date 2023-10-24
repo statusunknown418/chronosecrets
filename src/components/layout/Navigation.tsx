@@ -10,27 +10,27 @@ export const links = [
   {
     name: "Home",
     href: "/home",
-    icon: <Inbox size={24} className="" />,
+    icon: <Inbox size={24} />,
   },
   {
     name: "Friends",
     href: "/my/friends",
-    icon: <UserPlus2 size={24} className="fill-inherit" />,
+    icon: <UserPlus2 size={24} />,
   },
   {
     name: "New Secret",
     href: "/secrets/new",
-    icon: <MailPlus size={24} className="fill-inherit" />,
+    icon: <MailPlus size={24} />,
   },
   {
     name: "Find people",
     href: "/search",
-    icon: <Search size={24} className="fill-inherit" />,
+    icon: <Search size={24} />,
   },
   {
     name: "Settings",
     href: "/my/settings",
-    icon: <Settings size={24} className="fill-inherit" />,
+    icon: <Settings size={24} />,
   },
 ] as const;
 
