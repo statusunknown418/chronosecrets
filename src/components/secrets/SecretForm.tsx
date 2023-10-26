@@ -8,7 +8,6 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { CalendarIcon, Info } from "lucide-react";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -17,7 +16,6 @@ import { Calendar } from "../ui/calendar";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,16 +24,11 @@ import {
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { RequiredLabel } from "../ui/required-label";
-import { Spinner } from "../ui/spinner";
+import { Textarea } from "../ui/textarea";
 import { ToggleGroupItem, ToggleGroupRoot } from "../ui/toggle-group";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { AttachmentsSection } from "./AttachmentsSection";
 import { SelectReceiver } from "./SelectReceiver";
-
-const DynamicTiptap = dynamic(() => import("@/components/secrets/Tiptap"), {
-  ssr: false,
-  loading: () => <Spinner />,
-});
 
 const SecretForm = ({
   secret,
@@ -252,10 +245,12 @@ const SecretForm = ({
               <FormLabel>Content</FormLabel>
 
               <FormControl>
-                <DynamicTiptap onChange={field.onChange} content={field.value} />
+                <Textarea
+                  {...field}
+                  value={field.value || ""}
+                  placeholder="You need to know this..."
+                />
               </FormControl>
-
-              <FormDescription>This editor supports markdown syntax!</FormDescription>
 
               <FormMessage />
             </FormItem>
