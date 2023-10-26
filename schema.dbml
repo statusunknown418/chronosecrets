@@ -36,18 +36,19 @@ table friendship {
 table secrets {
   id serial [pk, not null, increment]
   title varchar(256) [not null]
-  content varchar(256)
+  shareable_url varchar(256) [not null, unique]
+  content text [not null]
   revealing_date datetime [not null]
-  created_at datetime
   revealed boolean
-  encryption_type enum('SHA256','DES','RSA','AES') [default: 'RSA']
+  encryption_type enum('RC4','DES','Rabbit','AES') [not null, default: 'RC4']
   edited_at datetime
+  created_at datetime
+  was_edited boolean [default: false]
   created_by_user_id varchar(256) [not null]
 
   indexes {
-    title [name: 'title_idx']
-    revealing_date [name: 'revealing_date_idx']
     revealed [name: 'revealed_idx']
+    created_by_user_id [name: 'created_by_idx']
   }
 }
 
@@ -64,9 +65,14 @@ table session {
 table user {
   id varchar(255) [pk, not null]
   name varchar(255)
-  email varchar(255) [not null]
+  username varchar(255) [unique]
+  email varchar(255) [not null, unique]
   emailVerified timestamp(3) [default: `(now())`]
   image varchar(255)
+
+  indexes {
+    name [name: 'name_idx']
+  }
 }
 
 table users_to_secrets {
@@ -90,9 +96,9 @@ table verificationToken {
 
 ref: attachments.secret_id > secrets.id
 
-ref: friendship.user_id > user.id
+ref: friendship.user_id - user.id
 
-ref: friendship.friend_id - user.id
+ref: friendship.friend_id > user.id
 
 ref: secrets.created_by_user_id > user.id
 

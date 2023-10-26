@@ -43,7 +43,7 @@ export const getAcceptedFriends = async () => {
 
   const { user } = session;
 
-  return await db.query.friendships.findMany({
+  const people = await db.query.friendships.findMany({
     where: (t, { eq, and, or }) =>
       or(
         and(eq(t.sourceId, user.id), eq(t.requestAccepted, true)),
@@ -54,4 +54,9 @@ export const getAcceptedFriends = async () => {
       source: true,
     },
   });
+
+  return {
+    people,
+    viewer: user,
+  };
 };
