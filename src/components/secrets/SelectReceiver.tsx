@@ -74,19 +74,19 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
       render={({ field }) => (
         <FormItem>
           <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <FormLabel>
-                Receiver
-                <TooltipTrigger>
+            <FormLabel>
+              Receiver
+              <Tooltip>
+                <TooltipTrigger asChild>
                   <AlertOctagon className="text-yellow-500" size={16} />
                 </TooltipTrigger>
-              </FormLabel>
 
-              <TooltipContent>
-                <span className="font-semibold text-yellow-500">Watch out,</span> you
-                cannot change the receiver after creation!
-              </TooltipContent>
-            </Tooltip>
+                <TooltipContent className="font-normal">
+                  <span className="font-semibold text-yellow-500">Watch out,</span> you
+                  cannot change the receiver after creation!
+                </TooltipContent>
+              </Tooltip>
+            </FormLabel>
           </TooltipProvider>
 
           <Popover>
@@ -119,7 +119,7 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
                 <CommandGroup>
                   {data.people.map((p) => (
                     <ReceiverItem
-                      key={p.friends.id}
+                      key={data.viewer.id === p.sourceId ? p.friends.id : p.source.id}
                       friend={data.viewer.id === p.sourceId ? p.friends : p.source}
                     />
                   ))}

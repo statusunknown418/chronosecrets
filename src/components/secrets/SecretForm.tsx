@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { CalendarIcon, Info } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -64,7 +65,7 @@ const SecretForm = ({
     await utils.secrets.getSecrets.invalidate();
     router.refresh();
     toast.success(`Secret ${action}d successfully`);
-    closeModal?.();
+    closeModal ? closeModal() : router.push("/home");
   };
 
   const { mutate: notifyReceiver } = trpc.transactional.notifySecretReceiver.useMutation({
@@ -158,7 +159,7 @@ const SecretForm = ({
               <FormLabel>Revealing Date</FormLabel>
 
               <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild className="max-w-[280px]">
                   <FormControl>
                     <Button
                       variant={"outline"}
@@ -235,7 +236,9 @@ const SecretForm = ({
           )}
         />
 
-        <AttachmentsSection editing={editing} secret={secret} />
+        <Suspense>
+          <AttachmentsSection editing={editing} secret={secret} />
+        </Suspense>
 
         <FormField
           control={form.control}
