@@ -251,6 +251,7 @@ const SecretForm = ({
                 <Textarea
                   {...field}
                   value={field.value || ""}
+                  className="min-h-[100px] sm:min-h-[140px]"
                   placeholder="You need to know this..."
                 />
               </FormControl>

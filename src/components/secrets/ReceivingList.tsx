@@ -41,8 +41,8 @@ const ReceivingSecretCard = ({
   secret: SecretsByReceiverResponse["mine"][number]["secret"];
 }) => {
   return (
-    <article className="flex flex-col gap-4 rounded-2xl border bg-muted/70 text-center text-sm">
-      <header className="flex justify-between px-4 pt-4">
+    <article className="flex flex-col gap-5 rounded-2xl border text-center text-sm">
+      <header className="flex justify-between border-b px-4 py-3">
         <span className="flex items-center gap-1 text-indigo-500">
           {secret.creator.username}
         </span>
@@ -67,7 +67,7 @@ const ReceivingSecretCard = ({
           "rounded-2xl border-t bg-black py-4 font-semibold text-neutral-100 dark:bg-background",
         )}
       >
-        {secret.revealed ? (
+        {secret.revealed || secret.revealingDate < new Date() ? (
           <Link href={`/receiving/${secret.id}`}>
             <span>Available Now!</span>
           </Link>

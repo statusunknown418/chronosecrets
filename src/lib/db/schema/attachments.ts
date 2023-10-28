@@ -27,3 +27,5 @@ export const attachmentSchema = createInsertSchema(attachments);
 export const insertAttachmentParams = createSelectSchema(attachments).omit({
   id: true,
 });
+
+export type Attachment = typeof attachments.$inferSelect;
