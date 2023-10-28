@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full bg-background">
+    <html lang="en" className="dark h-full bg-background">
       <head>
         <Script
           async
