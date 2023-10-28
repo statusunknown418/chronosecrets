@@ -9,7 +9,7 @@ export async function GET() {
       delay: addMinutes(new Date(), 1),
     });
 
-    await delayed({
+    const data = await delayed({
       receiverEmail: "alvarodevcode@oulook.com",
       receiverId: "123",
       receiverName: "Alvaro",
@@ -17,7 +17,7 @@ export async function GET() {
       secretId: "73",
       secretTitle: "My secret",
     });
-    return NextResponse.json({ message: "done" });
+    return NextResponse.json({ message: "done", data });
   } catch (err) {
     const error = err as Error;
     return NextResponse.json(error, { status: 500 });

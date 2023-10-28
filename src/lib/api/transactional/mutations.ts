@@ -49,7 +49,7 @@ export type NotifyAvailabilityDefer = {
   receiverUsername: string;
 };
 export const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) => {
-  await resend.emails.send({
+  const email = await resend.emails.send({
     from: "Wait4it - [Notifications] <onboarding@resend.dev>",
     subject: "A secret has just been revealed!",
     text: "Powered by MeowStudios",
@@ -57,4 +57,6 @@ export const scheduleNotificationForReceiver = async (input: NotifyAvailabilityD
     reply_to: "alvarodevcode@oulook.com",
     react: SecretAvailableEmail(input),
   });
+
+  return email;
 };
