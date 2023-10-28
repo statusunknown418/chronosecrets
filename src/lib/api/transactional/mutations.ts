@@ -40,30 +40,21 @@ export const notifySecretReceiver = async (input: NotifyReceiverInput) => {
   });
 };
 
-export const scheduleNotificationForReceiver = async (input: NotifyReceiverInput) => {
-  // const receiverProfile = await db.query.users.findFirst({
-  //   where: (t, { eq }) => eq(t.id, input.receiverId),
-  // });
-
-  // if (!receiverProfile) {
-  //   throw new TRPCError({
-  //     code: "NOT_FOUND",
-  //     message: "Receiver not found",
-  //   });
-  // }
-
-  return await resend.emails.send({
+export type NotifyAvailabilityDefer = {
+  secretId: string;
+  secretTitle: string;
+  receiverId: string;
+  receiverName: string;
+  receiverEmail: string;
+  receiverUsername: string;
+};
+export const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) => {
+  await resend.emails.send({
     from: "Wait4it - [Notifications] <onboarding@resend.dev>",
     subject: "A secret has just been revealed!",
     text: "Powered by MeowStudios",
     to: "alvarodevcode@oulook.com",
     reply_to: "alvarodevcode@oulook.com",
-    react: SecretAvailableEmail({
-      receiverName: "test",
-      receiverEmail: "test",
-      receiverUsername: "test",
-      secretId: input.secretId,
-      secretTitle: input.secretTitle,
-    }),
+    react: SecretAvailableEmail(input),
   });
 };

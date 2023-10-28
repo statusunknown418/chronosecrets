@@ -10,9 +10,12 @@ export async function GET() {
     });
 
     await delayed({
-      receiverId: "b76035cd-75de-4a66-bb5f-4c07643a87a0",
+      receiverEmail: "alvarodevcode@oulook.com",
+      receiverId: "123",
+      receiverName: "Alvaro",
+      receiverUsername: "receiver",
       secretId: "73",
-      secretTitle: "Hello World",
+      secretTitle: "My secret",
     });
     return NextResponse.json({ message: "done" });
   } catch (err) {
