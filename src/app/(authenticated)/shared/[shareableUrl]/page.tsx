@@ -39,7 +39,7 @@ export default async function ShareableUrlPage({
   return (
     <main className="flex flex-col gap-4">
       <header className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 py-3 backdrop-blur backdrop-filter">
-        <span className="w-max rounded-full border border-indigo-800 bg-indigo-950 px-4 py-1.5 text-xs text-indigo-500">
+        <span className="w-max rounded-full border border-indigo-800 bg-indigo-950 px-4 py-1 text-xs text-indigo-500">
           Shared
         </span>
 

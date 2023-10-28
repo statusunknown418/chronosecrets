@@ -28,6 +28,7 @@ export const env = createEnv({
     DATABASE_PASSWORD: z.string().min(1),
     UPLOADTHING_SECRET: z.string().min(1),
     UPLOADTHING_APP_ID: z.string().min(1),
+    DEFER_TOKEN: z.string().min(1),
   },
   client: {
     // NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().min(1),

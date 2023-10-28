@@ -20,7 +20,7 @@ export const users = mysqlTable(
     id: varchar("id", { length: 255 }).notNull().primaryKey(),
     name: varchar("name", { length: 255 }),
     username: varchar("username", { length: 255 }).unique(),
-    email: varchar("email", { length: 255 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
     emailVerified: timestamp("emailVerified", {
       mode: "date",
       fsp: 3,
@@ -29,7 +29,6 @@ export const users = mysqlTable(
   },
   (t) => ({
     nameIdx: index("name_idx").on(t.name),
-    emailIdx: index("email_idx").on(t.email),
   }),
 );
 

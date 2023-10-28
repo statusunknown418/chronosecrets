@@ -10,7 +10,7 @@ import { FullUser, NewSecretParams } from "@/lib/db/schema";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { AlertOctagon, CheckIcon, ChevronsUpDown } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "../ui/button";
 import {
@@ -28,12 +28,28 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
   const form = useFormContext<NewSecretParams>();
 
-  const { data: friends, isLoading } = trpc.friendships.getAcceptedFriends.useQuery();
-  const { data: session } = useSession();
+  const { data, isLoading } = trpc.friendships.getAcceptedFriends.useQuery();
 
-  if (isLoading || !session) return <Spinner />;
+  const receiverDisplayName = useCallback(
+    (value: string) => {
+      if (!data) return;
 
-  if (!friends?.length) {
+      if (!data.people?.length || !value) return "Select someone";
+
+      const isUserSource = data.people.find((p) => data.viewer.id === p.source.id);
+
+      if (isUserSource) {
+        return data.people.find((p) => p.friends.id === value)?.friends.name;
+      }
+
+      return data.people.find((p) => p.source.id === value)?.source.name;
+    },
+    [data],
+  );
+
+  if (isLoading) return <Spinner />;
+
+  if (!data?.people.length) {
     return (
       <FormItem>
         <FormLabel>
@@ -58,19 +74,19 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
       render={({ field }) => (
         <FormItem>
           <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <FormLabel>
-                Receiver
-                <TooltipTrigger>
+            <FormLabel>
+              Receiver
+              <Tooltip>
+                <TooltipTrigger asChild>
                   <AlertOctagon className="text-yellow-500" size={16} />
                 </TooltipTrigger>
-              </FormLabel>
 
-              <TooltipContent>
-                <span className="font-semibold text-yellow-500">Watch out,</span> you
-                cannot change the receiver after creation!
-              </TooltipContent>
-            </Tooltip>
+                <TooltipContent className="font-normal">
+                  <span className="font-semibold text-yellow-500">Watch out,</span> you
+                  cannot change the receiver after creation!
+                </TooltipContent>
+              </Tooltip>
+            </FormLabel>
           </TooltipProvider>
 
           <Popover>
@@ -85,9 +101,7 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
                     !field.value && "text-muted-foreground",
                   )}
                 >
-                  {field.value
-                    ? friends.find((p) => p.friends.id === field.value)?.friends.name
-                    : "Select someone"}
+                  {receiverDisplayName(field.value)}
 
                   <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -103,10 +117,10 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
                 <CommandEmpty>No friend found.</CommandEmpty>
 
                 <CommandGroup>
-                  {friends.map((p) => (
+                  {data.people.map((p) => (
                     <ReceiverItem
-                      key={p.friends.id}
-                      friend={session.user.id === p.sourceId ? p.friends : p.source}
+                      key={data.viewer.id === p.sourceId ? p.friends.id : p.source.id}
+                      friend={data.viewer.id === p.sourceId ? p.friends : p.source}
                     />
                   ))}
                 </CommandGroup>
