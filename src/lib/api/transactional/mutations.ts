@@ -41,16 +41,16 @@ export const notifySecretReceiver = async (input: NotifyReceiverInput) => {
 };
 
 export const scheduleNotificationForReceiver = async (input: NotifyReceiverInput) => {
-  const receiverProfile = await db.query.users.findFirst({
-    where: (t, { eq }) => eq(t.id, input.receiverId),
-  });
+  // const receiverProfile = await db.query.users.findFirst({
+  //   where: (t, { eq }) => eq(t.id, input.receiverId),
+  // });
 
-  if (!receiverProfile) {
-    throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "Receiver not found",
-    });
-  }
+  // if (!receiverProfile) {
+  //   throw new TRPCError({
+  //     code: "NOT_FOUND",
+  //     message: "Receiver not found",
+  //   });
+  // }
 
   return await resend.emails.send({
     from: "Wait4it - [Notifications] <onboarding@resend.dev>",
@@ -59,9 +59,9 @@ export const scheduleNotificationForReceiver = async (input: NotifyReceiverInput
     to: "alvarodevcode@oulook.com",
     reply_to: "alvarodevcode@oulook.com",
     react: SecretAvailableEmail({
-      receiverName: receiverProfile.name || "",
-      receiverEmail: receiverProfile.email || "",
-      receiverUsername: receiverProfile.username || "",
+      receiverName: "test",
+      receiverEmail: "test",
+      receiverUsername: "test",
       secretId: input.secretId,
       secretTitle: input.secretTitle,
     }),
