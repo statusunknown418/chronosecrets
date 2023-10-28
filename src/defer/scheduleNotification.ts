@@ -1,7 +1,10 @@
 import { SecretAvailableEmail } from "@/components/emails/SecretAvailableEmail";
+import { db } from "@/lib/db";
+import { secrets } from "@/lib/db/schema";
 
 import { resend } from "@/lib/email";
 import { defer } from "@defer/client";
+import { eq } from "drizzle-orm";
 
 export type NotifyAvailabilityDefer = {
   secretId: string;
@@ -20,6 +23,11 @@ const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) =
     reply_to: "alvarodevcode@outlook.com",
     react: SecretAvailableEmail(input),
   });
+
+  await db
+    .update(secrets)
+    .set({ revealed: true })
+    .where(eq(secrets.id, Number(input.secretId)));
 
   return email;
 };
