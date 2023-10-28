@@ -105,6 +105,7 @@
     "drizzle-kit": "^0.19.13",
     "eslint": "^8.51.0",
     "eslint-config-next": "13.5.4",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "mysql2": "^3.6.1",
     "postcss": "^8.4.31",
     "postcss-preset-mantine": "^1.9.0",
