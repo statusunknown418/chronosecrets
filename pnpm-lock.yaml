@@ -11,6 +11,9 @@ dependencies:
   '@auth/drizzle-adapter':
     specifier: ^0.3.3
     version: 0.3.3
+  '@defer/client':
+    specifier: ^1.13.0
+    version: 1.13.0
   '@formkit/auto-animate':
     specifier: ^0.8.0
     version: 0.8.0
@@ -342,6 +345,13 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+
+  /@defer/client@1.13.0:
+    resolution: {integrity: sha512-UAnfRdsn9fwCP2DuZbRnENMY7FsJDt0bw9SBLJEcB6qX+kjvWQbgO/nvTzY8l7hyAJm755pyOH/Anc1nGz6wPg==}
+    engines: {node: '>=18'}
+    dependencies:
+      parse-duration: 1.1.0
+    dev: false
 
   /@drizzle-team/studio@0.0.5:
     resolution: {integrity: sha512-ps5qF0tMxWRVu+V5gvCRrQNqlY92aTnIKdq27gm9LZMSdaKYZt6AVvSK1dlUMzs6Rt0Jm80b+eWct6xShBKhIw==}
@@ -5529,6 +5539,10 @@ packages:
     dependencies:
       callsites: 3.1.0
     dev: true
+
+  /parse-duration@1.1.0:
+    resolution: {integrity: sha512-z6t9dvSJYaPoQq7quMzdEagSFtpGu+utzHqqxmpVWNNZRIXnvqyCvn9XsTdh7c/w0Bqmdz3RB3YnRaKtpRtEXQ==}
+    dev: false
 
   /parseley@0.11.0:
     resolution: {integrity: sha512-VfcwXlBWgTF+unPcr7yu3HSSA6QUdDaDnrHcytVfj5Z8azAyKBDrYnSIfeSxlrEayndNcLmrXzg+Vxbo6DWRXQ==}
