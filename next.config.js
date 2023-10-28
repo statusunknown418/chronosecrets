@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
+    /** For defer.run to work correctly */
     serverMinification: false,
   },
   async headers() {
