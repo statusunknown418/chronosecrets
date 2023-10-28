@@ -38,6 +38,32 @@ export const getSecrets = async () => {
   return { secrets: s, session };
 };
 
+export const getSecretsByReceiver = async () => {
+  const { session } = await getUserAuth();
+
+  if (!session) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "You must be logged in to view your secrets.",
+    });
+  }
+
+  const s = await db.query.usersToSecrets.findMany({
+    where: (t, { eq }) => eq(t.userId, session?.user.id!),
+    with: {
+      secret: {
+        with: {
+          creator: true,
+        },
+      },
+    },
+  });
+
+  return { mine: s, session };
+};
+
+export type SecretsByReceiverResponse = Awaited<ReturnType<typeof getSecretsByReceiver>>;
+
 /**
  *
  * @description We can safely return the decrypted content because
