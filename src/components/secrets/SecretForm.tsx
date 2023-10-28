@@ -81,9 +81,10 @@ const SecretForm = ({
       onSuccess: (data) => {
         if (data.secret) {
           notifyReceiver({
-            receiverId: data.secret.receiver,
+            receiverId: data.secret.receiverId,
             secretId: data.secret.id,
             secretTitle: data.secret.title,
+            revealingDate: data.secret.revealingDate,
           });
         }
 

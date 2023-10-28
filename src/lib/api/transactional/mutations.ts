@@ -1,7 +1,8 @@
 import { NewSecretEmail } from "@/components/emails/NewSecretEmail";
-import { SecretAvailableEmail } from "@/components/emails/SecretAvailableEmail";
+import scheduleNotification from "@/defer/scheduleNotification";
 import { db } from "@/lib/db";
 import { resend } from "@/lib/email";
+import { assignOptions } from "@defer/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -9,6 +10,7 @@ export const notifyReceiverSchema = z.object({
   receiverId: z.string(),
   secretId: z.string(),
   secretTitle: z.string(),
+  revealingDate: z.date(),
 });
 export type NotifyReceiverInput = z.infer<typeof notifyReceiverSchema>;
 
@@ -24,6 +26,17 @@ export const notifySecretReceiver = async (input: NotifyReceiverInput) => {
     });
   }
 
+  const delayed = assignOptions(scheduleNotification, { delay: input.revealingDate });
+
+  await delayed({
+    receiverEmail: receiverProfile.email || "",
+    receiverId: input.receiverId,
+    receiverName: receiverProfile.name || "",
+    receiverUsername: receiverProfile.username || "",
+    secretId: input.secretId,
+    secretTitle: input.secretTitle,
+  });
+
   return await resend.emails.send({
     from: "Wait4it - [Notifications] <onboarding@resend.dev>",
     subject: "There's a new secret for you!",
@@ -38,25 +51,4 @@ export const notifySecretReceiver = async (input: NotifyReceiverInput) => {
       secretTitle: input.secretTitle,
     }),
   });
-};
-
-export type NotifyAvailabilityDefer = {
-  secretId: string;
-  secretTitle: string;
-  receiverId: string;
-  receiverName: string;
-  receiverEmail: string;
-  receiverUsername: string;
-};
-export const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) => {
-  const email = await resend.emails.send({
-    from: "Wait4it - [Notifications] <onboarding@resend.dev>",
-    subject: "A secret has just been revealed!",
-    text: "Powered by MeowStudios",
-    to: "alvarodevcode@oulook.com",
-    reply_to: "alvarodevcode@oulook.com",
-    react: SecretAvailableEmail(input),
-  });
-
-  return email;
 };

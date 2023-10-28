@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { FullUser, NewSecretParams } from "@/lib/db/schema";
+import { useReceiverDataStore } from "@/lib/hooks/useReceiverDataStore";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { AlertOctagon, CheckIcon, ChevronsUpDown } from "lucide-react";
@@ -141,6 +142,7 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
 
 const ReceiverItem = ({ friend }: { friend: FullUser }) => {
   const form = useFormContext();
+  const syncReceiver = useReceiverDataStore((s) => s.setReceiverData);
 
   return (
     <CommandItem
@@ -149,6 +151,13 @@ const ReceiverItem = ({ friend }: { friend: FullUser }) => {
       onSelect={() => {
         form.setValue("receiverId", friend.id, {
           shouldValidate: true,
+        });
+
+        syncReceiver({
+          storedReceiver: {
+            ...friend,
+            username: friend.username || "",
+          },
         });
       }}
     >

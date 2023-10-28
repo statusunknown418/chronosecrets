@@ -84,9 +84,10 @@ export const createSecret = async (secret: NewSecretParams) => {
       took: Math.ceil(t2 - t1),
       secret: {
         id: insertId,
-        receiver: secret.receiverId,
+        receiverId: secret.receiverId,
         title: secret.title,
         shareableUrl: buildFullShareableUrl(slug),
+        revealingDate: secret.revealingDate,
       },
     };
   } catch (err) {
