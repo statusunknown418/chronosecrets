@@ -88,14 +88,14 @@ export const UserCard = ({
           <Button
             variant="ghost"
             size="icon"
-            onClick={() =>
+            onClick={() => {
               data &&
-              !disableMutation &&
-              mutate({
-                sourceId: data.user.id,
-                userId: friend.id,
-              })
-            }
+                !disableMutation &&
+                mutate({
+                  sourceId: data.user.id,
+                  userId: friend.id,
+                });
+            }}
           >
             {alreadyFriends ? (
               <CheckCircle size={16} className="text-green-500" />
