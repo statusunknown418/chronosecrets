@@ -1,73 +1,57 @@
-import { Attachment, Secret } from "@/lib/db/schema";
-import { format, formatDistance } from "date-fns";
-import { Info } from "lucide-react";
-import Image from "next/image";
+import { SecretsByReceiverResponse } from "@/lib/api/secrets/queries";
+import { cn } from "@/lib/utils";
+import { formatDistance } from "date-fns";
+import { Dot } from "lucide-react";
 import Link from "next/link";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
-export const SecretAvailable = ({
+export const ReceivingSecretCard = ({
   secret,
 }: {
-  secret: Secret & { attachments: Attachment[] };
+  secret: SecretsByReceiverResponse["mine"][number]["secret"];
 }) => {
-  if (!secret) return;
-
   return (
-    <section className="flex flex-col gap-4 px-3">
-      <p className="rounded-lg border border-dashed p-4 text-sm font-light text-muted-foreground">
-        {secret.content}
-      </p>
-
-      <p className="flex items-center gap-1 text-sm font-light text-muted-foreground">
-        {secret.wasEdited && <span className="underline underline-offset-2">Edited</span>}
-        <span>-</span>
-        <span>{format(secret.createdAt || new Date(), "PPpp")}</span>
-        <TooltipProvider delayDuration={0}>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info size={16} className="text-blue-500" />
-            </TooltipTrigger>
-
-            <TooltipContent>The time this secret was created</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </p>
-
-      <h3 className="border-b pb-2 text-lg font-semibold">Attachments</h3>
-
-      {secret.attachments.length === 0 ? (
-        <span className="text-sm text-muted-foreground">
-          No attachments bound to this secret! 🤫
+    <article className="flex flex-col gap-5 overflow-hidden rounded-2xl border text-center text-sm">
+      <header className="flex justify-between border-b px-4 py-3">
+        <span className="flex items-center gap-1 text-indigo-500">
+          {secret.creator.username}
         </span>
-      ) : (
-        secret.attachments.map((a) => (
-          <article key={a.id} className="flex items-center gap-2">
-            <Link href={a.url}>
-              <Image
-                src={a.url}
-                width={200}
-                height={200}
-                alt={`attachment-${a.url}`}
-                className="h-auto w-auto rounded-lg transition-all hover:opacity-80"
-                priority
-              />
-            </Link>
-          </article>
-        ))
-      )}
-    </section>
-  );
-};
 
-export const SecretIsNotRevealedYet = ({ secret }: { secret: Secret }) => {
-  return (
-    <section className="flex flex-col gap-4 px-4">
-      <h3>Hmm, this secret has not been revealed yet!</h3>
+        <span className="text-muted-foreground">
+          {formatDistance(secret.createdAt || new Date(), new Date(), {
+            addSuffix: true,
+          })}
+        </span>
+      </header>
 
-      <p className="text-muted-foreground">
-        It&apos;ll be available{" "}
-        {formatDistance(secret.revealingDate, new Date(), { addSuffix: true })}
-      </p>
-    </section>
+      <div className="flex flex-col gap-2 px-4">
+        <h3 className="text-lg font-semibold uppercase">{secret.title}</h3>
+
+        <p className="break-words text-muted-foreground">
+          {secret.content.slice(0, 200)}...
+        </p>
+      </div>
+
+      <div
+        className={cn(
+          "border-t bg-black py-4 font-semibold text-neutral-100 dark:bg-background",
+        )}
+      >
+        {secret.revealed || secret.revealingDate < new Date() ? (
+          <Link href={`/receiving/${secret.id}`}>
+            <p className="flex items-center justify-center gap-1">
+              <Dot size={24} className="animate-ping text-green-500" />
+              <span>Available Now!</span>
+            </p>
+          </Link>
+        ) : (
+          <span>
+            Revealing{" "}
+            {formatDistance(secret.revealingDate || new Date(), new Date(), {
+              addSuffix: true,
+            })}
+          </span>
+        )}
+      </div>
+    </article>
   );
 };

@@ -1,6 +1,7 @@
 import { FullUser } from "@/lib/db/schema";
 import { trpc } from "@/lib/trpc/client";
-import { CheckCircle, Plus, Timer, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { CheckCircle, Clock, Plus, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -59,11 +60,26 @@ export const UserCard = ({
     },
   });
 
+  const { mutate: cancel } = trpc.friendships.cancelOrDeleteFriendRequest.useMutation({
+    onMutate: () => {
+      setSent(false);
+    },
+    onSuccess: () => {
+      ctx.user.invalidate();
+      toast.message("Request cancelled!");
+    },
+    onError: () => {
+      toast.error("Failed to cancel request");
+    },
+  });
+
   const disableMutation = alreadyFriends || sent || requestPending;
 
+  if (!data) return;
+
   return (
-    <article className="flex flex-col rounded-lg border p-4 text-sm">
-      <div className="flex">
+    <article className={cn("flex flex-col gap-3 rounded-lg border p-4 text-sm")}>
+      <div className="flex max-h-6 items-center">
         <h3 className="grow text-muted-foreground">
           {friend.username || "No username 😭"}
         </h3>
@@ -82,25 +98,38 @@ export const UserCard = ({
             }
           >
             {alreadyFriends ? (
-              <CheckCircle size={20} />
+              <CheckCircle size={16} className="text-green-500" />
             ) : sent || requestPending ? (
-              <Timer size={20} />
+              <Clock size={16} className="text-yellow-500" />
             ) : (
-              <Plus size={20} />
+              <Plus size={16} className="text-blue-500" />
             )}
           </Button>
         ) : (
-          <span className="text-xs font-medium">This is you!</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            You
+          </span>
         )}
 
-        {(requestPending || sent) && (
-          <Button size={"icon"} variant={"ghost"}>
-            <X size={20} />
+        {(requestPending || sent) && !alreadyFriends && data?.user.id !== friend.id && (
+          <Button
+            size={"icon"}
+            variant={"ghost"}
+            onClick={() => {
+              cancel({
+                sourceId: data.user.id,
+                userId: friend.id,
+              });
+            }}
+          >
+            <X size={16} className="text-destructive" />
           </Button>
         )}
       </div>
 
-      <p>{friend.email}</p>
+      <h3 className="capitalize">{friend.name}</h3>
+
+      <p className="text-indigo-500">{friend.email}</p>
     </article>
   );
 };
