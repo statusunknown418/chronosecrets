@@ -14,19 +14,20 @@ export const FriendCard = ({
       key={friend.id}
     >
       <div className="flex items-center justify-between">
-        <p>{friend.email}</p>
-
-        <p
-          className={cn(
-            "w-max rounded-full border px-3 py-1.5 text-xs",
-            requestAccepted
-              ? "border-indigo-500 text-indigo-500"
-              : "border-dashed border-yellow-700 text-yellow-600",
-          )}
-        >
-          {requestAccepted ? "Accepted" : "Pending"}
-        </p>
+        <p className="text-muted-foreground">{friend.email}</p>
+        {!requestAccepted && (
+          <p
+            className={cn(
+              "w-max rounded-full border px-3 py-1 text-xs",
+              "border-dashed border-yellow-700 text-yellow-600",
+            )}
+          >
+            Pending
+          </p>
+        )}
       </div>
+
+      <p className="font-bold">{friend.name}</p>
 
       <p className={cn(friend.username ? "text-indigo-500" : "text-muted-foreground")}>
         {friend.username || "no username, please tell them to setup their account"}
