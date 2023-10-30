@@ -1,8 +1,8 @@
 import { getUserAuth } from "@/lib/auth/utils";
 import { db } from "@/lib/db";
-import { users } from "@/lib/db/schema";
+import { friendships, users } from "@/lib/db/schema";
 import { TRPCError } from "@trpc/server";
-import { or, sql } from "drizzle-orm";
+import { and, eq, or, sql } from "drizzle-orm";
 import { getAllFriendships } from "../friendships/queries";
 
 /**
@@ -62,3 +62,37 @@ export async function getPendingRequestsForViewer() {
 }
 
 export type Requests = Awaited<ReturnType<typeof getPendingRequestsForViewer>>;
+
+export async function cancelOrDeleteFriendRequest(input: {
+  userId: string;
+  sourceId: string;
+}) {
+  const { session } = await getUserAuth();
+
+  if (!session) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "You must be logged in to view your friends.",
+    });
+  }
+
+  try {
+    await db
+      .delete(friendships)
+      .where(
+        and(
+          eq(friendships.userId, input.userId),
+          eq(friendships.sourceId, input.sourceId),
+        ),
+      );
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+}

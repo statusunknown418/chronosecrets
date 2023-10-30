@@ -42,35 +42,6 @@ export const AttachmentsSection = ({
         </Tooltip>
       </TooltipProvider>
 
-      {!editing && (
-        <UploadDropzone
-          className="border-2 border-border ut-button:text-sm ut-label:font-semibold"
-          endpoint="secretsAttachmentsUploader"
-          onUploadBegin={() => {
-            setDisableButton(true);
-          }}
-          onClientUploadComplete={(res) => {
-            setDisableButton(false);
-            if (!res) return;
-
-            form.setValue("attachments", [
-              ...(previewAttachments || []),
-              ...res.map((f) => f.url),
-            ]);
-          }}
-          onUploadError={(error) => {
-            setDisableButton(false);
-            toast.error(error.message, {
-              description: error.cause?.message ?? "Try again",
-            });
-          }}
-          config={{
-            appendOnPaste: true,
-            mode: "auto",
-          }}
-        />
-      )}
-
       <div className="flex items-center gap-4 overflow-x-scroll rounded-lg" ref={parent}>
         {secret?.attachments.length === 0 && (
           <span className="text-sm text-muted-foreground">
@@ -96,11 +67,40 @@ export const AttachmentsSection = ({
               src={s}
               width={200}
               height={200}
-              className="h-auto w-auto min-w-[200px] rounded-lg transition-all hover:opacity-90"
+              className="min-h-max w-auto min-w-[200px] rounded-lg transition-all hover:opacity-90"
               alt={`Attachment`}
             />
           </Link>
         ))}
+
+        {!editing && (
+          <UploadDropzone
+            className="max-w-[288px] border-2 border-border ut-button:text-sm ut-label:font-semibold"
+            endpoint="secretsAttachmentsUploader"
+            onUploadBegin={() => {
+              setDisableButton(true);
+            }}
+            onClientUploadComplete={(res) => {
+              setDisableButton(false);
+              if (!res) return;
+
+              form.setValue("attachments", [
+                ...(previewAttachments || []),
+                ...res.map((f) => f.url),
+              ]);
+            }}
+            onUploadError={(error) => {
+              setDisableButton(false);
+              toast.error(error.message, {
+                description: error.cause?.message ?? "Try again",
+              });
+            }}
+            config={{
+              appendOnPaste: true,
+              mode: "auto",
+            }}
+          />
+        )}
       </div>
     </div>
   );

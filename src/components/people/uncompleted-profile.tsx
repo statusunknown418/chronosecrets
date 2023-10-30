@@ -1,10 +1,12 @@
+import { AlertOctagon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
 export const UncompletedProfile = () => {
   return (
     <>
-      <div className="flex items-center gap-1 rounded-lg border border-yellow-800 bg-yellow-950 p-4 text-yellow-600">
+      <div className="flex min-h-[100px] items-center gap-2 rounded-lg border border-yellow-800 bg-yellow-950/50 p-4 text-yellow-600">
+        <AlertOctagon size={20} />
         <p className="text-sm">
           Before you can add friends you need to setup a username for them to find you!
         </p>

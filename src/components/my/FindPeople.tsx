@@ -4,12 +4,12 @@ import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { UserCard } from "../people/UserCard";
 import { Button } from "../ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Spinner } from "../ui/spinner";
-import { UserCard } from "./UserCard";
 
 export const FindPeople = () => {
   const searchParams = useSearchParams();
@@ -72,7 +72,7 @@ export const FindPeople = () => {
       )}
 
       {!isLoading && data?.people.length === 0 && (
-        <div className="flex min-h-[120px] items-center justify-center rounded-lg border p-4 text-sm text-muted-foreground">
+        <div className="flex min-h-[140px] items-center justify-center rounded-lg border border-dashed p-4 text-sm text-muted-foreground">
           <p>No users found</p>
         </div>
       )}

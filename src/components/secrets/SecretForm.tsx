@@ -141,7 +141,7 @@ const SecretForm = ({
                   {...field}
                   autoFocus
                   value={field.value || ""}
-                  placeholder="You need to know this..."
+                  placeholder="My secret"
                 />
               </FormControl>
 

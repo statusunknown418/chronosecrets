@@ -1,6 +1,7 @@
 "use client";
 import { Requests } from "@/lib/api/user/queries";
 import { trpc } from "@/lib/trpc/client";
+import { ScrollArea } from "../ui/scroll-area";
 import { RequestCard } from "./RequestCard";
 
 export const RequestsList = ({ requests }: { requests: Requests }) => {
@@ -10,17 +11,17 @@ export const RequestsList = ({ requests }: { requests: Requests }) => {
 
   if (data.length === 0) {
     return (
-      <div className="flex min-h-[120px] items-center justify-center rounded-lg border text-muted-foreground">
+      <div className="flex min-h-[120px] items-center justify-center rounded-lg border border-dashed text-muted-foreground">
         <p className="text-sm">You have no pending requests.</p>
       </div>
     );
   }
 
   return (
-    <ul>
+    <ScrollArea className="max-h-56">
       {data.map((request) => (
         <RequestCard key={request.userId} request={request} />
       ))}
-    </ul>
+    </ScrollArea>
   );
 };

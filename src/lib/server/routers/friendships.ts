@@ -3,7 +3,10 @@ import {
   createFriendRequest,
 } from "@/lib/api/friendships/mutations";
 import { getAcceptedFriends, getAllFriendships } from "@/lib/api/friendships/queries";
-import { getPendingRequestsForViewer } from "@/lib/api/user/queries";
+import {
+  cancelOrDeleteFriendRequest,
+  getPendingRequestsForViewer,
+} from "@/lib/api/user/queries";
 import { friendshipSchema } from "@/lib/db/schema";
 import { publicProcedure, router } from "../trpc";
 
@@ -23,4 +26,9 @@ export const friendshipsRouter = router({
   getPendingRequestsForViewer: publicProcedure.query(async () => {
     return getPendingRequestsForViewer();
   }),
+  cancelOrDeleteFriendRequest: publicProcedure
+    .input(friendshipSchema)
+    .mutation(async ({ input }) => {
+      return cancelOrDeleteFriendRequest(input);
+    }),
 });

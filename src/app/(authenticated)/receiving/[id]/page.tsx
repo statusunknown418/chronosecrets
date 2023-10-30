@@ -2,7 +2,7 @@ import { ErrorState } from "@/components/secrets/ErrorState";
 import {
   SecretAvailable,
   SecretIsNotRevealedYet,
-} from "@/components/secrets/ReceivingSecretCard";
+} from "@/components/secrets/ReceivingSecretDetails";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -31,6 +31,9 @@ export default async function ReceiveSecretByIdPage({
         <header className="flex w-full items-center justify-between gap-4">
           <h1 className="flex items-center gap-3 text-2xl font-bold capitalize tracking-tight">
             <span>{secret.title}</span>
+            <span className="w-max rounded-full border border-indigo-600 bg-indigo-950 px-3 py-1 text-xs font-light text-indigo-400">
+              {secret.encryptionType}
+            </span>
           </h1>
 
           <Link href="/receiving" className="focus-within:outline-none">
@@ -41,18 +44,18 @@ export default async function ReceiveSecretByIdPage({
         </header>
       </section>
 
-      <p className="flex items-center gap-1 px-4 text-sm">
-        <span>By {secret.creator.username}</span>
+      <div className="flex items-center gap-1 px-4 text-sm">
+        <p>From {secret.creator.username}</p>
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger>
               <Info size={16} className="text-blue-500" />
             </TooltipTrigger>
 
-            <TooltipContent>{secret.creator.name}</TooltipContent>
+            <TooltipContent className="capitalize">{secret.creator.name}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      </p>
+      </div>
 
       {secret.revealed ? (
         <SecretAvailable secret={secret} />
