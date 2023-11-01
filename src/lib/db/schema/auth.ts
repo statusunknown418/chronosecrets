@@ -143,6 +143,9 @@ export const updateUserSchema = createInsertSchema(users, {
   username: z
     .string()
     .min(5)
+    .refine((s) => s.split("").filter((c) => c === ".").length === 0, {
+      message: "The username can only contain letters, numbers and '_'",
+    })
     .refine((s) => s.split("").filter((c) => c === "@").length < 1, {
       message: "Your username already contains the @ character by default",
     }),
