@@ -8,8 +8,20 @@ import Script from "next/script";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "wait4it",
-  description: "Share and receive secrets with your friends!",
+  title: {
+    default: "ChronoSecrets",
+    template: "%s / ChronoSecrets",
+  },
+  description: "Send a secret now, deal with the consequences later!",
+  keywords: ["secrets", "friends", "encryption", "social media", "connect", "schedule"],
+  colorScheme: "dark light",
+  creator: "Alvaro Aquije",
+  authors: [
+    {
+      name: "Alvaro Aquije",
+      url: "https://x.com/@alvaro_dotdev",
+    },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

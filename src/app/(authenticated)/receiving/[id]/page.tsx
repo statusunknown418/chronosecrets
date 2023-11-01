@@ -13,12 +13,17 @@ import {
 import { getSecretByIdForReceiver } from "@/lib/api/secrets/queries";
 import { Info, X } from "lucide-react";
 import Link from "next/link";
+import { SecretSlugPageProps } from "../../secrets/[id]/page";
+
+export const generateMetadata = async ({ params }: SecretSlugPageProps) => {
+  return {
+    title: `Revealing #${params.id}`,
+  };
+};
 
 export default async function ReceiveSecretByIdPage({
   params: { id },
-}: {
-  params: { id: string };
-}) {
+}: SecretSlugPageProps) {
   const { secret, error } = await getSecretByIdForReceiver(Number(id));
 
   if (error) {

@@ -3,9 +3,25 @@ import { EditMenu } from "@/components/secrets/edit/EditMenu";
 import { Button } from "@/components/ui/button";
 import { getSecretById } from "@/lib/api/secrets/queries";
 import { Cable, Eye, X } from "lucide-react";
+import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Suspense } from "react";
+
+export type SecretSlugPageProps = {
+  params: {
+    id: string;
+    editing?: string;
+  };
+};
+
+export const generateMetadata = async ({
+  params,
+}: SecretSlugPageProps): Promise<Metadata> => {
+  return {
+    title: `Editing #${params.id}`,
+  };
+};
 
 const DynamicSecretForm = dynamic(() => import("@/components/secrets/SecretForm"), {
   ssr: true,
@@ -34,14 +50,7 @@ const DynamicSecretForm = dynamic(() => import("@/components/secrets/SecretForm"
   ),
 });
 
-export default async function SecretSlugPage({
-  params: { id },
-}: {
-  params: {
-    id: string;
-    editing?: string;
-  };
-}) {
+export default async function SecretSlugPage({ params: { id } }: SecretSlugPageProps) {
   const { secret } = await getSecretById(Number(id));
 
   if (!secret) {
