@@ -14,6 +14,7 @@ export type NotifyAvailabilityDefer = {
   receiverEmail: string;
   receiverUsername: string;
 };
+
 const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) => {
   const email = await resend.emails.send({
     from: "Wait4it - [Notifications] <onboarding@resend.dev>",
@@ -32,4 +33,6 @@ const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) =
   return email;
 };
 
-export default defer(scheduleNotificationForReceiver);
+export default defer(scheduleNotificationForReceiver, {
+  concurrency: 5,
+});

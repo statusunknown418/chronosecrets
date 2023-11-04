@@ -17,10 +17,10 @@ export const buildFullShareableUrl = (shareableUrl: string) => {
     return `http://localhost:3000/shared/${shareableUrl}`;
   }
 
-  return `https://${env.VERCEL_URL}/shared/${shareableUrl}`;
+  return `https://${env.EMAIL_URL}/shared/${shareableUrl}`;
 };
 
-export const getSecrets = async () => {
+export const getSecrets = async (search?: string) => {
   const { session } = await getUserAuth();
 
   if (!session) {
@@ -31,7 +31,11 @@ export const getSecrets = async () => {
   }
 
   const s = await db.query.secrets.findMany({
-    where: (t, { eq }) => eq(t.createdByUserId, session?.user.id!),
+    where: (t, { eq, and, like }) =>
+      and(
+        eq(t.createdByUserId, session?.user.id!),
+        search ? like(t.title, `%${search}%`) : undefined,
+      ),
     orderBy: ({ createdAt }, { desc }) => desc(createdAt),
   });
 
