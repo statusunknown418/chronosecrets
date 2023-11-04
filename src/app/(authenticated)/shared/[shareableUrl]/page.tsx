@@ -1,9 +1,12 @@
+import SignIn from "@/components/auth/SignIn";
+import { ErrorState } from "@/components/secrets/ErrorState";
 import Tiptap from "@/components/secrets/Tiptap";
 import { Button } from "@/components/ui/button";
 import {
   buildFullShareableUrl,
   getSecretByShareableUrl,
 } from "@/lib/api/secrets/queries";
+import { getUserAuth } from "@/lib/auth/utils";
 import { Ban, X } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -33,6 +36,35 @@ export default async function ShareableUrlPage({
           <Button variant="link">Go back home</Button>
         </Link>
       </main>
+    );
+  }
+
+  const { session } = await getUserAuth();
+
+  if (!session?.user) {
+    return (
+      <main>
+        <h1>Not logged in</h1>
+
+        <p>
+          Please login first <SignIn />
+        </p>
+      </main>
+    );
+  }
+
+  const receiversIds = shared.receivers.map((receiver) => receiver.userId);
+  const viewerId = session.user.id;
+
+  if (shared.createdByUserId !== viewerId && !receiversIds.includes(viewerId)) {
+    return (
+      <ErrorState
+        error={{
+          code: "UNAUTHORIZED",
+          message: "You are not authorized to view this secret",
+          name: "Unauthorized",
+        }}
+      />
     );
   }
 
