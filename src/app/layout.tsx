@@ -12,9 +12,18 @@ export const metadata: Metadata = {
     default: "ChronoSecrets",
     template: "%s / ChronoSecrets",
   },
-  description: "Send a secret now, deal with the consequences later!",
-  keywords: ["secrets", "friends", "encryption", "social media", "connect", "schedule"],
+  description: "Schedule a secret now, deal with the consequences later!",
+  keywords: [
+    "secrets",
+    "friends",
+    "encryption",
+    "social media",
+    "connect",
+    "schedule",
+    "algorithms",
+  ],
   creator: "Alvaro Aquije",
+  generator: "Next.js",
   authors: [
     {
       name: "Alvaro Aquije",
@@ -29,7 +38,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark h-full bg-background">
+    <html lang="en" className="dark h-full dark:bg-background">
       <head>
         <Script
           async

@@ -8,8 +8,8 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { CalendarIcon, Info } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -42,8 +42,11 @@ const SecretForm = ({
   const disableSubmit = useDisableSubmit((s) => s.disableSubmit);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const utils = trpc.useUtils();
 
+  const sendingId = searchParams.get("sendingId");
+  const bypass = searchParams.get("bypass");
   const [parent] = useAutoAnimate();
   const [mainForm] = useAutoAnimate();
 
@@ -110,6 +113,7 @@ const SecretForm = ({
         shareableUrl: secret.shareableUrl,
         editedAt: new Date(),
         wasEdited: true,
+        viewed: false,
       });
     } else {
       createSecret({
@@ -118,6 +122,12 @@ const SecretForm = ({
       });
     }
   };
+
+  useEffect(() => {
+    if (bypass && sendingId) {
+      form.setValue("receiverId", sendingId);
+    }
+  }, [bypass, form, sendingId]);
 
   return (
     <Form {...form}>
@@ -161,7 +171,7 @@ const SecretForm = ({
               <FormLabel>Revealing Date</FormLabel>
 
               <Popover>
-                <PopoverTrigger asChild className="max-w-[280px]">
+                <PopoverTrigger asChild className="max-w-[290px]">
                   <FormControl>
                     <Button
                       variant={"outline"}
@@ -253,7 +263,7 @@ const SecretForm = ({
                 <Textarea
                   {...field}
                   value={field.value || ""}
-                  className="min-h-[100px] sm:min-h-[140px]"
+                  className="min-h-[140px] sm:min-h-[200px]"
                   placeholder="You need to know this..."
                 />
               </FormControl>

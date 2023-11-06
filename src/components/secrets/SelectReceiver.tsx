@@ -11,6 +11,9 @@ import { useReceiverDataStore } from "@/lib/hooks/useReceiverDataStore";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { AlertOctagon, CheckIcon, ChevronsUpDown } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "../ui/button";
@@ -28,8 +31,16 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 
 export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
   const form = useFormContext<NewSecretParams>();
+  const searchParams = useSearchParams();
+
+  const bypass = searchParams.get("bypass");
+  const sendingUsername = searchParams.get("sendingUsername");
+  const sendingId = searchParams.get("sendingId");
 
   const { data, isLoading } = trpc.friendships.getAcceptedFriends.useQuery();
+  const { data: bypassUsername } = trpc.user.getSafeUserById.useQuery(sendingId || "", {
+    enabled: !!sendingId && !!bypass,
+  });
 
   const receiverDisplayName = useCallback(
     (value: string) => {
@@ -50,6 +61,38 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
 
   if (isLoading) return <Spinner />;
 
+  if (!!bypass) {
+    return (
+      <FormItem>
+        <FormLabel>
+          Receiver <RequiredLabel />
+        </FormLabel>
+
+        {sendingId ? (
+          <Button variant="outline" className="justify-start gap-4" disabled>
+            {bypassUsername?.image && (
+              <Image
+                className="rounded-full"
+                src={bypassUsername?.image}
+                alt={bypassUsername?.name || "Profile pic"}
+                width={22}
+                height={22}
+              />
+            )}
+
+            <span>{sendingUsername}</span>
+            <span className="font-normal">{bypassUsername?.name}</span>
+          </Button>
+        ) : (
+          <FormDescription className="text-destructive">
+            Looks like the URL someone shared to you is missing their user_id, please
+            request it again.
+          </FormDescription>
+        )}
+      </FormItem>
+    );
+  }
+
   if (!data?.people.length) {
     return (
       <FormItem>
@@ -61,7 +104,9 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
           <span>
             You don&apos;t have anyone to send this secret to. Don&apos;t worry, it&apos;s
             easy to find & add friends, just visit the{" "}
-            <span className="font-semibold text-foreground">Search Page.</span>
+            <Link href="/search">
+              <span className="font-semibold text-foreground">Search Page.</span>
+            </Link>
           </span>
         </FormDescription>
       </FormItem>
@@ -83,8 +128,8 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
                 </TooltipTrigger>
 
                 <TooltipContent className="font-normal">
-                  <span className="font-semibold text-yellow-500">Watch out,</span> you
-                  cannot change the receiver after creation!
+                  <span className="text-yellow-500">Watch out,</span> you cannot change
+                  the receiver after creation!
                 </TooltipContent>
               </Tooltip>
             </FormLabel>

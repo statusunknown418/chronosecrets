@@ -5,6 +5,20 @@ import { TRPCError } from "@trpc/server";
 import { and, eq, or, sql } from "drizzle-orm";
 import { getAllFriendships } from "../friendships/queries";
 
+export async function getSafeUserById(id: string) {
+  const user = await db.query.users.findFirst({
+    where: (t) => eq(t.id, id),
+    columns: {
+      name: true,
+      username: true,
+      email: true,
+      image: true,
+    },
+  });
+
+  return user;
+}
+
 /**
  * @description TODO: Remove t1-t2 once the query is as fast as possible
  */

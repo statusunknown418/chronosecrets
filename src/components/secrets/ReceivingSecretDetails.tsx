@@ -18,13 +18,17 @@ export const SecretAvailable = ({
         Encryption via {secret.encryptionType}
       </span>
 
-      <p className="rounded-lg border border-dashed p-4 text-sm font-light tracking-wide text-muted-foreground">
+      <p className="rounded-lg border border-dashed p-4 text-sm font-light tracking-wide">
         {secret.content}
       </p>
 
       <div className="flex items-center gap-1 text-sm font-light text-muted-foreground">
-        {secret.wasEdited && <p className="italic text-foreground">Edited</p>}
-        <p>-</p>
+        {secret.wasEdited && (
+          <>
+            <p className="italic text-foreground">Edited</p>
+            <span>-</span>
+          </>
+        )}
         <p>{format(secret.createdAt || new Date(), "PPpp")}</p>
         <TooltipProvider delayDuration={0}>
           <Tooltip>
