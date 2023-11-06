@@ -6,8 +6,8 @@ import { Suspense } from "react";
 
 export default function NewSecretPage() {
   return (
-    <main className="flex flex-col gap-4 rounded-lg">
-      <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 py-2 backdrop-blur backdrop-filter">
+    <main className="flex w-full flex-col gap-4 rounded-lg">
+      <section className="sticky inset-0 z-10 flex w-full flex-col gap-2 border-b bg-background/20 px-4 py-2 backdrop-blur backdrop-filter">
         <header className="flex w-full items-center justify-between gap-4">
           <h1 className="text-2xl font-bold capitalize">New secret</h1>
 
@@ -19,7 +19,7 @@ export default function NewSecretPage() {
         </header>
       </section>
 
-      <section className="px-4">
+      <section className="w-full px-4">
         <Suspense>
           <SecretForm />
         </Suspense>

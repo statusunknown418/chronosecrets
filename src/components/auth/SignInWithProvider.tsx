@@ -23,7 +23,7 @@ export const SigninWithProvider = ({
   };
 
   return (
-    <Button onClick={onClick} className="group" variant="outline">
+    <Button onClick={onClick} disabled={signingIn} className="group" variant="outline">
       {signingIn && <Spinner size="sm" />}
 
       {icon}

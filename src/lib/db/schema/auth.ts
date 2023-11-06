@@ -26,6 +26,7 @@ export const users = mysqlTable(
       fsp: 3,
     }).defaultNow(),
     image: varchar("image", { length: 255 }),
+    credits: int("credits").notNull().default(0),
   },
   (t) => ({
     nameIdx: index("name_idx").on(t.name),

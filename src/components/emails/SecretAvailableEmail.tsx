@@ -38,7 +38,7 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
     <Tailwind>
       <Html>
         <Head />
-        <Preview>🫡 A secret is available to be seen now!</Preview>
+        <Preview>🫡 A secret made for you is available to be seen now!</Preview>
 
         <Body className="mx-auto my-auto font-sans">
           <Container className="rounded-lg border border-gray-500 p-5">
@@ -47,7 +47,8 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
             </Heading>
 
             <Text>
-              Hi, <span>{receiverName}!</span> You will want to check this out!
+              Hi, <span>{receiverName}!</span>
+              <span className="font-bold">You will want to check this out!</span>
             </Text>
 
             <Hr />
@@ -69,12 +70,11 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
               }}
               href={fullSecretUrl}
             >
-              Show it now!
+              I want to see it now!
             </Button>
 
             <Text>
-              Or, if you want, you can also copy and paste the following link into your
-              browser &rarr;{" "}
+              If the button is giving you any trouble, just click this link{" "}
               <Link className="underline" href={fullSecretUrl}>
                 {fullSecretUrl}
               </Link>
@@ -83,7 +83,7 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
             <Hr className="mt-5" />
 
             <Text className="text-center text-sm text-gray-500">
-              This email was intended for{" "}
+              Please note that this email was intended for{" "}
               <strong className="text-black">{receiverUsername}</strong> - registered as{" "}
               {receiverEmail}. If you received this email by mistake, please reach out to
               us{" "}
