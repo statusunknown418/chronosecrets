@@ -165,6 +165,7 @@ export const getSecretByShareableUrl = async (shareableUrl: string) => {
       with: {
         attachments: true,
         receivers: true,
+        creator: true,
       },
     });
 

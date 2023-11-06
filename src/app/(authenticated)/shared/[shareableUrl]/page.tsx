@@ -1,15 +1,21 @@
 import SignIn from "@/components/auth/SignIn";
 import { ErrorState } from "@/components/secrets/ErrorState";
-import Tiptap from "@/components/secrets/Tiptap";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   buildFullShareableUrl,
   getSecretByShareableUrl,
 } from "@/lib/api/secrets/queries";
 import { getUserAuth } from "@/lib/auth/utils";
-import { Ban, X } from "lucide-react";
+import { format } from "date-fns";
+import { Ban, Info, X } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
 
 export default async function ShareableUrlPage({
   params: { shareableUrl },
@@ -95,10 +101,28 @@ export default async function ShareableUrlPage({
         </div>
       </header>
 
-      <div className="px-4">
-        <Suspense>
-          <Tiptap content={shared.content} />
-        </Suspense>
+      <div className="flex flex-col gap-4 px-4">
+        <div className="text-muted-foreground">
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger className="flex items-center gap-1 text-indigo-500">
+                <span className="text-muted-foreground">From</span>
+                {shared.creator.username} <Info size={16} />
+              </TooltipTrigger>
+
+              <TooltipContent className="text-sm" side="bottom">
+                <span>Made by {shared.creator.name} at </span>
+                {format(shared.createdAt || new Date(), "PPpp")}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+
+        <Textarea
+          className="min-h-[200px] cursor-pointer resize-none sm:min-h-[140px]"
+          value={shared.content}
+          readOnly
+        />
       </div>
     </main>
   );

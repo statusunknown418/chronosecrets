@@ -35,14 +35,14 @@ export default function SignInPage({
 }) {
   return (
     <main className="flex h-full flex-col items-center justify-center gap-4 p-2">
-      <section className="flex w-full max-w-md flex-col gap-6 rounded-lg border bg-muted p-5 sm:p-8 md:p-10">
+      <section className="flex w-full max-w-md flex-col overflow-hidden rounded-lg border shadow-xl shadow-black sm:p-8 md:p-10">
         {error && (
           <div className="rounded-md border bg-red-800 p-2 text-sm text-destructive-foreground">
             Something happened {error}
           </div>
         )}
 
-        <header className="flex flex-col gap-4">
+        <header className="flex flex-col gap-4 px-5 py-5">
           <h2>LOGO</h2>
 
           <h1 className="text-2xl font-extrabold tracking-wide">
@@ -55,15 +55,16 @@ export default function SignInPage({
 
         <hr className="bg-border" />
 
-        <article className="flex flex-col gap-3">
+        <article className="flex flex-col gap-3 px-5 py-6">
           {providers.map((p) => (
             <SigninWithProvider key={p.provider} provider={p.provider} icon={p.icon} />
           ))}
-        </article>
 
-        <footer className="text-center text-xs text-muted-foreground">
-          Yeah we chose to only support social providers for a smooth and easy onboarding
-        </footer>
+          <footer className="mt-2 text-center text-xs text-muted-foreground">
+            Yeah we chose to only support social providers for a smooth and easy
+            onboarding
+          </footer>
+        </article>
       </section>
     </main>
   );
