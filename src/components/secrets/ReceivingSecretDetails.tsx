@@ -14,12 +14,16 @@ export const SecretAvailable = ({
 
   return (
     <section className="flex flex-col gap-4 px-3">
+      <span className="w-max rounded-full border border-indigo-600 bg-indigo-950 px-3 py-1 text-xs font-light text-indigo-400">
+        Encryption via {secret.encryptionType}
+      </span>
+
       <p className="rounded-lg border border-dashed p-4 text-sm font-light tracking-wide text-muted-foreground">
         {secret.content}
       </p>
 
       <div className="flex items-center gap-1 text-sm font-light text-muted-foreground">
-        {secret.wasEdited && <p className="underline underline-offset-2">Edited</p>}
+        {secret.wasEdited && <p className="italic text-foreground">Edited</p>}
         <p>-</p>
         <p>{format(secret.createdAt || new Date(), "PPpp")}</p>
         <TooltipProvider delayDuration={0}>
@@ -62,7 +66,9 @@ export const SecretAvailable = ({
 export const SecretIsNotRevealedYet = ({ secret }: { secret: Secret }) => {
   return (
     <section className="flex flex-col gap-4 px-4">
-      <h3>Hmm, this secret has not been revealed yet!</h3>
+      <div className="rounded-lg border border-yellow-700 bg-yellow-950/70 p-4">
+        <h3>Hmm, this secret has not been revealed yet!</h3>
+      </div>
 
       <p className="text-muted-foreground">
         It&apos;ll be available{" "}

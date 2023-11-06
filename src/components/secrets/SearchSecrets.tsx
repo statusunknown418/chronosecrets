@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 
-export const SearchSecrets = () => {
+export const SearchSecrets = ({ goBackTo = "/home" }: { goBackTo?: string }) => {
   const search = useSearchParams().get("search");
 
   const [show, change] = useState(false);
@@ -22,7 +22,7 @@ export const SearchSecrets = () => {
   });
 
   const onSubmit = form.handleSubmit((data) => {
-    if (data.search.length === 0) replace("/home");
+    if (data.search.length === 0) replace(goBackTo);
 
     replace(`?search=${data.search}`);
   });
@@ -30,7 +30,7 @@ export const SearchSecrets = () => {
   const clearSearch = () => {
     form.reset();
     change(false);
-    replace("/home");
+    replace(goBackTo);
   };
 
   return (

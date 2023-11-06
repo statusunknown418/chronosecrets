@@ -29,6 +29,7 @@ export const secrets = mysqlTable(
       .notNull(),
     editedAt: datetime("edited_at", { mode: "date" }),
     createdAt: datetime("created_at", { mode: "date" }),
+    viewed: boolean("viewed").default(false),
     wasEdited: boolean("was_edited").default(false),
     createdByUserId: varchar("created_by_user_id", { length: 256 }).notNull(),
   },
