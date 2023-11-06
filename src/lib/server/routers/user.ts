@@ -1,5 +1,5 @@
 import { checkUsernameAvailable, updateUser } from "@/lib/api/user/mutations";
-import { findUserByUsernameOrEmail } from "@/lib/api/user/queries";
+import { findUserByUsernameOrEmail, getSafeUserById } from "@/lib/api/user/queries";
 import { getFullUser, getUserAuth } from "@/lib/auth/utils";
 import { updateUserSchema } from "@/lib/db/schema";
 import { z } from "zod";
@@ -18,5 +18,8 @@ export const userRouter = router({
   }),
   getByUsernameOrEmail: publicProcedure.input(z.string()).query(async ({ input }) => {
     return findUserByUsernameOrEmail(input);
+  }),
+  getSafeUserById: publicProcedure.input(z.string()).query(async ({ input }) => {
+    return getSafeUserById(input);
   }),
 });
