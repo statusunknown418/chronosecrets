@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
   ArrowLeft,
-  MailPlus,
+  PenSquare,
   Satellite,
   SatelliteDish,
   Search,
@@ -27,7 +27,7 @@ export const links = [
   {
     name: "New Secret",
     href: "/secrets/new",
-    icon: <MailPlus size={24} />,
+    icon: <PenSquare size={22} />,
   },
   {
     name: "Find people",
