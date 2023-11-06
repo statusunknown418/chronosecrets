@@ -2,8 +2,13 @@ import { ReceivingList } from "@/components/secrets/ReceivingList";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { X } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Sent to Me",
+};
 
 export default function ReceivingSecretsPage() {
   return (

@@ -13,12 +13,17 @@ import {
 import { getSecretByIdForReceiver } from "@/lib/api/secrets/queries";
 import { Info, X } from "lucide-react";
 import Link from "next/link";
+import { SecretSlugPageProps } from "../../secrets/[id]/page";
+
+export const generateMetadata = async ({ params }: SecretSlugPageProps) => {
+  return {
+    title: `Revealing #${params.id}`,
+  };
+};
 
 export default async function ReceiveSecretByIdPage({
   params: { id },
-}: {
-  params: { id: string };
-}) {
+}: SecretSlugPageProps) {
   const { secret, error } = await getSecretByIdForReceiver(Number(id));
 
   if (error) {
@@ -30,10 +35,7 @@ export default async function ReceiveSecretByIdPage({
       <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 py-2 backdrop-blur backdrop-filter">
         <header className="flex w-full items-center justify-between gap-4">
           <h1 className="flex items-center gap-3 text-2xl font-bold capitalize tracking-tight">
-            <span>{secret.title}</span>
-            <span className="w-max rounded-full border border-indigo-600 bg-indigo-950 px-3 py-1 text-xs font-light text-indigo-400">
-              {secret.encryptionType}
-            </span>
+            {secret.title}
           </h1>
 
           <Link href="/receiving" className="focus-within:outline-none">
@@ -45,7 +47,9 @@ export default async function ReceiveSecretByIdPage({
       </section>
 
       <div className="flex items-center gap-1 px-4 text-sm">
-        <p>From {secret.creator.username}</p>
+        <p>
+          <span className="text-muted-foreground">From</span> {secret.creator.username}
+        </p>
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger>

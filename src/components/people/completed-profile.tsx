@@ -1,5 +1,5 @@
 import { FullUser } from "@/lib/db/schema";
-import { FindPeople } from "../my/FindPeople";
+import { FindPeople } from "./FindPeople";
 
 export const CompletedProfile = async ({ user }: { user: FullUser }) => {
   return (

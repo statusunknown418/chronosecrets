@@ -4,8 +4,8 @@ import { Edit2, Plus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-export const MySecretsList = async () => {
-  const { secrets } = await getSecrets();
+export const MySecretsList = async ({ query }: { query?: string }) => {
+  const { secrets } = await getSecrets(query);
 
   if (secrets.length === 0) {
     return <EmptySecretState />;

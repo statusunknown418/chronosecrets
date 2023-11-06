@@ -11,11 +11,11 @@ export const ReceivingList = async () => {
 
   const sorted = mine.sort((a, b) => {
     if (a.secret.revealingDate < b.secret.revealingDate) {
-      return -1;
+      return 1;
     }
 
     if (a.secret.revealingDate > b.secret.revealingDate) {
-      return 1;
+      return -1;
     }
 
     return 0;

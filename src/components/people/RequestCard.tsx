@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 export const RequestCard = ({ request }: { request: Requests[number] }) => {
-  const ctx = trpc.useContext();
+  const ctx = trpc.useUtils();
 
   const { mutate: accept } = trpc.friendships.acceptFriendRequest.useMutation({
     onSuccess: async () => {

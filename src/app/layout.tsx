@@ -3,18 +3,42 @@ import TrpcProvider from "@/lib/trpc/Provider";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import { GeistSans } from "geist/font";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "wait4it",
-  description: "Share and receive secrets with your friends!",
+  title: {
+    default: "ChronoSecrets",
+    template: "%s / ChronoSecrets",
+  },
+  description: "Schedule a secret now, deal with the consequences later!",
+  keywords: [
+    "secrets",
+    "friends",
+    "encryption",
+    "social media",
+    "connect",
+    "schedule",
+    "algorithms",
+  ],
+  creator: "Alvaro Aquije",
+  generator: "Next.js",
+  authors: [
+    {
+      name: "Alvaro Aquije",
+      url: "https://x.com/@alvaro_dotdev",
+    },
+  ],
+};
+
+export const viewport: Viewport = {
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark h-full bg-background">
+    <html lang="en" className="dark h-full dark:bg-background">
       <head>
         <Script
           async

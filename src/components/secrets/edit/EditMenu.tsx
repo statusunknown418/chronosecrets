@@ -33,7 +33,7 @@ export const EditMenu = ({ secret }: { secret: Secret }) => {
     });
   };
 
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const [openAlert, setOpenAlert] = useState(false);
   const { push, replace } = useRouter();

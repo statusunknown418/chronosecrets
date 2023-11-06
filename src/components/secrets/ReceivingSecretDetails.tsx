@@ -1,6 +1,6 @@
 import { Attachment, Secret } from "@/lib/db/schema";
 import { format, formatDistance } from "date-fns";
-import { Info } from "lucide-react";
+import { Clock2Icon, Info } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
@@ -14,13 +14,21 @@ export const SecretAvailable = ({
 
   return (
     <section className="flex flex-col gap-4 px-3">
-      <p className="rounded-lg border border-dashed p-4 text-sm font-light tracking-wide text-muted-foreground">
+      <span className="w-max rounded-full border border-indigo-600 bg-indigo-950 px-3 py-1 text-xs font-light text-indigo-400">
+        Encryption via {secret.encryptionType}
+      </span>
+
+      <p className="rounded-lg border border-dashed p-4 text-sm font-light tracking-wide">
         {secret.content}
       </p>
 
       <div className="flex items-center gap-1 text-sm font-light text-muted-foreground">
-        {secret.wasEdited && <p className="underline underline-offset-2">Edited</p>}
-        <p>-</p>
+        {secret.wasEdited && (
+          <>
+            <p className="italic text-foreground">Edited</p>
+            <span>-</span>
+          </>
+        )}
         <p>{format(secret.createdAt || new Date(), "PPpp")}</p>
         <TooltipProvider delayDuration={0}>
           <Tooltip>
@@ -62,11 +70,20 @@ export const SecretAvailable = ({
 export const SecretIsNotRevealedYet = ({ secret }: { secret: Secret }) => {
   return (
     <section className="flex flex-col gap-4 px-4">
-      <h3>Hmm, this secret has not been revealed yet!</h3>
+      <article className="flex justify-between rounded-lg border border-yellow-800 bg-yellow-950/50 p-4 text-sm text-yellow-600">
+        <div className="flex flex-col gap-1">
+          <h3 className="font-bold">Hmm, this secret has not been revealed yet!</h3>
+          <p>Gotta wait a bit more</p>
+        </div>
+
+        <Clock2Icon className="animate-pulse" />
+      </article>
 
       <p className="text-muted-foreground">
         It&apos;ll be available{" "}
-        {formatDistance(secret.revealingDate, new Date(), { addSuffix: true })}
+        <span className="text-foreground">
+          {formatDistance(secret.revealingDate, new Date(), { addSuffix: true })}
+        </span>
       </p>
     </section>
   );

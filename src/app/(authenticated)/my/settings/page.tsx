@@ -4,7 +4,12 @@ import HydrateSettingsForm from "@/components/my/HydrateSettingsForm";
 import { RequestsForUser } from "@/components/my/requests-for-user";
 import { Spinner } from "@/components/ui/spinner";
 import { getAllFriendships } from "@/lib/api/friendships/queries";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Me",
+};
 
 export default async function MySettings() {
   return (

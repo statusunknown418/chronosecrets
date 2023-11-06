@@ -5,11 +5,12 @@ import {
   secretIdSchema,
   updateSecretParams,
 } from "@/lib/db/schema/secrets";
+import { z } from "zod";
 import { publicProcedure, router } from "../trpc";
 
 export const secretsRouter = router({
-  getSecrets: publicProcedure.query(() => {
-    return getSecrets();
+  getSecrets: publicProcedure.input(z.string().optional()).query(({ input }) => {
+    return getSecrets(input);
   }),
   getSecretById: publicProcedure.input(secretIdSchema).query(({ input }) => {
     return getSecretById(input.id);

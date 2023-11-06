@@ -1,39 +1,28 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-export default function SignIn() {
+export default function SignIn({
+  callbackUrl,
+  label = "Sign in",
+}: {
+  callbackUrl?: string;
+  label?: string;
+}) {
   const { data: session, status } = useSession();
 
-  if (status === "loading") return <div>Loading...</div>;
+  if (status === "loading")
+    return (
+      <span className="flex h-10 items-center justify-center text-sm">Just a sec...</span>
+    );
 
   if (session) {
     return (
-      <>
-        Go to{" "}
-        <Link href="home">
-          <Button variant="link">Home</Button>
-        </Link>
-        <Button variant={"destructive"} onClick={() => signOut()}>
-          Sign out
-        </Button>
-      </>
+      <Link href="home">
+        <Button variant="link">Go home</Button>
+      </Link>
     );
   }
-  return (
-    <section>
-      <p>Not signed in</p>
-      <br />
-      <Button
-        onClick={() =>
-          signIn("discord", {
-            callbackUrl: "/home",
-          })
-        }
-      >
-        Sign in with Discord
-      </Button>
-    </section>
-  );
+  return <Button onClick={() => signIn(undefined, { callbackUrl })}>{label}</Button>;
 }

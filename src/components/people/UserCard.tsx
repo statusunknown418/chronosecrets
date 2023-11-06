@@ -19,7 +19,7 @@ export const UserCard = ({
   const [sent, setSent] = useState(false);
   const { data } = useSession();
 
-  const ctx = trpc.useContext();
+  const ctx = trpc.useUtils();
 
   const { mutate } = trpc.friendships.sendFriendRequest.useMutation({
     onMutate: (mutationData) => {
@@ -33,6 +33,8 @@ export const UserCard = ({
         email: data.user.email || "",
         name: data.user.name || "",
         image: data.user.image || "",
+        /** Purposely set to 0 because we don't need it */
+        credits: 0,
       };
 
       ctx.friendships.getFriends.setData(undefined, {
