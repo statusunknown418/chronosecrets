@@ -24,6 +24,7 @@ export default async function ShareableUrlPage({
 }) {
   const fullUrl = buildFullShareableUrl(shareableUrl);
   const { shared } = await getSecretByShareableUrl(fullUrl);
+  const { session } = await getUserAuth();
 
   if (!shared) {
     return (
@@ -39,17 +40,23 @@ export default async function ShareableUrlPage({
     );
   }
 
-  const { session } = await getUserAuth();
-
   if (!session?.user) {
     return (
-      <main>
-        <h1>Not logged in</h1>
+      <div className="flex h-full flex-col items-center justify-center gap-4 p-4">
+        <section className="flex flex-col gap-4 rounded-3xl border border-dashed p-6 sm:p-8 md:p-10">
+          <span className="self-start rounded-full border border-red-700 bg-red-950 px-3 py-1 text-xs font-medium text-red-300">
+            Heads up
+          </span>
 
-        <p>
-          Please login first <SignIn />
-        </p>
-      </main>
+          <h2 className="text-3xl font-bold">You need to be logged in!</h2>
+          <p className="text-sm text-muted-foreground">
+            You&apos;re trying to access a secret via a shared URL, please click the
+            button below and we&apos;ll make sure you&apos;re redirected back here
+          </p>
+
+          <SignIn label="Ok, Sign me in!" />
+        </section>
+      </div>
     );
   }
 

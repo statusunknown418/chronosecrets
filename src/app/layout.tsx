@@ -3,7 +3,7 @@ import TrpcProvider from "@/lib/trpc/Provider";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import { GeistSans } from "geist/font";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Toaster } from "sonner";
 
@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   },
   description: "Send a secret now, deal with the consequences later!",
   keywords: ["secrets", "friends", "encryption", "social media", "connect", "schedule"],
-  colorScheme: "dark light",
   creator: "Alvaro Aquije",
   authors: [
     {
@@ -22,6 +21,10 @@ export const metadata: Metadata = {
       url: "https://x.com/@alvaro_dotdev",
     },
   ],
+};
+
+export const viewport: Viewport = {
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
