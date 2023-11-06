@@ -42,7 +42,7 @@ const SecretForm = ({
   const disableSubmit = useDisableSubmit((s) => s.disableSubmit);
 
   const router = useRouter();
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const [parent] = useAutoAnimate();
   const [mainForm] = useAutoAnimate();
