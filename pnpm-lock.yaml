@@ -116,6 +116,9 @@ dependencies:
   '@react-email/render':
     specifier: ^0.0.9
     version: 0.0.9
+  '@rive-app/react-canvas':
+    specifier: ^4.5.0
+    version: 4.5.0(react@18.2.0)
   '@t3-oss/env-nextjs':
     specifier: ^0.7.1
     version: 0.7.1(typescript@5.2.2)(zod@3.22.4)
@@ -2871,6 +2874,19 @@ packages:
     resolution: {integrity: sha512-VlZQxwGnt1jtQ18D6JqdIF+uFZo525WEqrfp9BOc3COPpK4+AWCgdnAWL+ho6imWcoINlGjR/+3b6y5C1vBVEA==}
     dependencies:
       type-fest: 2.19.0
+    dev: false
+
+  /@rive-app/canvas@2.7.0:
+    resolution: {integrity: sha512-cB+St1q4wtzF09CUlsZXFUMiLIFEKLp4fbgJ87lF7tyZxoZFr3pViuQlEOaLOygwO1FGnbmhk0in5MS0xiLURQ==}
+    dev: false
+
+  /@rive-app/react-canvas@4.5.0(react@18.2.0):
+    resolution: {integrity: sha512-jK9od/tO1beCzDZSP6FIZBgjQA6vZ4A456J36q3Rzdv1Y1bPhbEP6rElmT1eAOCHZ6JKV1/9UNoC8IrSvrIYCQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@rive-app/canvas': 2.7.0
+      react: 18.2.0
     dev: false
 
   /@rushstack/eslint-patch@1.5.1:
