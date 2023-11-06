@@ -1,4 +1,5 @@
 "use client";
+
 import { trpc } from "@/lib/trpc/client";
 import { Rocket } from "lucide-react";
 import { useState } from "react";
@@ -6,13 +7,15 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
+export const BASE_URL = "https://wait4it.vercel.app";
+
 export const BypassingLink = () => {
   const { data } = trpc.user.getFullViewer.useQuery();
   const [copied, update] = useState(false);
 
   if (!data?.username) return;
 
-  const quickLink = `http://localhost:3000/secrets/new?bypass=true&sendingId=${data.id}&sendingUsername=${data.username}`;
+  const quickLink = `${BASE_URL}/secrets/new?bypass=true&sendingId=${data.id}&sendingUsername=${data.username}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(quickLink);
@@ -28,7 +31,7 @@ export const BypassingLink = () => {
       <PopoverTrigger asChild>
         <Button
           rounding="full"
-          className="absolute bottom-5 right-5 border border-indigo-400 bg-indigo-600 text-foreground hover:border-indigo-300 hover:bg-indigo-500 hover:text-foreground"
+          className="absolute bottom-5 right-5 border border-indigo-500 bg-indigo-700 text-foreground hover:border-indigo-300 hover:bg-indigo-600 hover:text-foreground"
         >
           <Rocket size={20} />
           {copied ? "Awesome!" : "Click me!"}
