@@ -105,7 +105,9 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
             You don&apos;t have anyone to send this secret to. Don&apos;t worry, it&apos;s
             easy to find & add friends, just visit the{" "}
             <Link href="/search">
-              <span className="font-semibold text-foreground">Search Page.</span>
+              <Button variant="link" className="p-0">
+                Search Page.
+              </Button>
             </Link>
           </span>
         </FormDescription>
