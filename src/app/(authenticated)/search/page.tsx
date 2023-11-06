@@ -2,8 +2,15 @@ import { CompletedProfile } from "@/components/people/completed-profile";
 import { UncompletedProfile } from "@/components/people/uncompleted-profile";
 import { Spinner } from "@/components/ui/spinner";
 import { getFullUser } from "@/lib/auth/utils";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Search for friends",
+  },
+};
 
 export default async function FriendshipsPage({
   searchParams,

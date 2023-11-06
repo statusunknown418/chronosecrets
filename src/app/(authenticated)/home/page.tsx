@@ -1,3 +1,4 @@
+import { BypassingLink } from "@/components/secrets/BypassingLink";
 import { SearchSecrets } from "@/components/secrets/SearchSecrets";
 import { Spinner } from "@/components/ui/spinner";
 import { Metadata } from "next";
@@ -34,6 +35,8 @@ export default async function HomePage({
           <MySecretsList query={searchParams?.search} />
         </Suspense>
       </div>
+
+      <BypassingLink />
     </main>
   );
 }
