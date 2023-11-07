@@ -5,7 +5,20 @@ const nextConfig = {
     serverMinification: false,
   },
   images: {
-    domains: ["cdn.discordapp.com", "lh3.googleusercontent.com", "utfs.io"],
+    remotePatterns: [
+      {
+        hostname: "cdn.discordapp.com",
+        protocol: "https",
+      },
+      {
+        hostname: "lh3.googleusercontent.com",
+        protocol: "https",
+      },
+      {
+        hostname: "utfs.io",
+        protocol: "https",
+      },
+    ],
   },
 };
 
