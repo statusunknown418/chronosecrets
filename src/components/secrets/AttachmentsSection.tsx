@@ -49,18 +49,6 @@ export const AttachmentsSection = ({
           </span>
         )}
 
-        {secret?.attachments.map((s) => (
-          <Link href={s.url} key={s.id} passHref rel="noopener noreferrer">
-            <Image
-              src={s.url}
-              width={200}
-              height={200}
-              className="min-h-max w-auto min-w-[200px] rounded-lg transition-all hover:opacity-90"
-              alt={`Attachment ${s.url}`}
-            />
-          </Link>
-        ))}
-
         {previewAttachments?.map((s) => (
           <Link href={s} key={s} passHref rel="noopener noreferrer">
             <Image
