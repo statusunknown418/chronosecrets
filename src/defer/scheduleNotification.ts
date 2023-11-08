@@ -34,5 +34,5 @@ const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) =
 };
 
 export default defer(scheduleNotificationForReceiver, {
-  concurrency: 5,
+  concurrency: 2,
 });
