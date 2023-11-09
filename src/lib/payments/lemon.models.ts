@@ -1,79 +1,99 @@
-import { z } from "zod";
+export type OrderWebhookPayload = {
+  data: Data;
+  meta: Meta;
+};
 
-const SPagination = z.object({
-  currentPage: z.number(),
-  from: z.number(),
-  lastPage: z.number(),
-  perPage: z.number(),
-  to: z.number(),
-  total: z.number(),
-});
+export type Data = {
+  id: string;
+  type: string;
+  links: DataLinks;
+  attributes: Attributes;
+  relationships: Relationships;
+};
 
-const SMeta = z.object({
-  page: SPagination,
-});
+export type Attributes = {
+  tax: number;
+  urls: Urls;
+  total: number;
+  status: string;
+  tax_usd: number;
+  currency: string;
+  refunded: boolean;
+  store_id: number;
+  subtotal: number;
+  tax_name: null;
+  tax_rate: string;
+  test_mode: boolean;
+  total_usd: number;
+  user_name: string;
+  created_at: Date;
+  identifier: string;
+  updated_at: Date;
+  user_email: string;
+  customer_id: number;
+  refunded_at: null;
+  order_number: number;
+  subtotal_usd: number;
+  currency_rate: string;
+  tax_formatted: string;
+  discount_total: number;
+  total_formatted: string;
+  first_order_item: FirstOrderItem;
+  status_formatted: string;
+  discount_total_usd: number;
+  subtotal_formatted: string;
+  discount_total_formatted: string;
+};
 
-const SJsonapi = z.object({
-  version: z.string(),
-});
+export type FirstOrderItem = {
+  id: number;
+  price: number;
+  order_id: number;
+  price_id: number;
+  test_mode: boolean;
+  created_at: Date;
+  product_id: number;
+  updated_at: Date;
+  variant_id: number;
+  product_name: string;
+  variant_name: string;
+};
 
-const SLinks = z.object({
-  first: z.string(),
-  last: z.string(),
-});
+export type Urls = {
+  receipt: string;
+};
 
-const SProductRelationships = z.object({
-  links: z.object({
-    related: z.string(),
-    self: z.string(),
-  }),
-});
+export type DataLinks = {
+  self: string;
+};
 
-const SAttributes = z.object({
-  product_id: z.number(),
-  name: z.string(),
-  slug: z.string(),
-  description: z.string(),
-  price: z.number(),
-  is_subscription: z.boolean(),
-  interval: z.string().nullable(),
-  interval_count: z.number().nullable(),
-  has_free_trial: z.boolean(),
-  trial_interval: z.string(),
-  trial_interval_count: z.number(),
-  pay_what_you_want: z.boolean(),
-  min_price: z.number(),
-  suggested_price: z.number(),
-  has_license_keys: z.boolean(),
-  license_activation_limit: z.number(),
-  is_license_limit_unlimited: z.boolean(),
-  license_length_value: z.number(),
-  license_length_unit: z.string(),
-  is_license_length_unlimited: z.boolean(),
-  sort: z.number(),
-  status: z.string(),
-  status_formatted: z.string(),
-  created_at: z.string(),
-  updated_at: z.string(),
-});
+export type Relationships = {
+  store: Customer;
+  customer: Customer;
+  "order-items": Customer;
+  "license-keys": Customer;
+  subscriptions: Customer;
+  "discount-redemptions": Customer;
+};
 
-const SVariants = z.object({
-  type: z.string(),
-  id: z.string(),
-  attributes: SAttributes,
-  relationships: z.object({
-    product: SProductRelationships,
-  }),
-  links: z.object({
-    self: z.string(),
-  }),
-});
+export type Customer = {
+  links: CustomerLinks;
+};
 
-export const SLemonSqueezyRequest = z.object({
-  meta: SMeta,
-  jsonapi: SJsonapi,
-  links: SLinks,
-  data: z.array(SVariants),
-});
+export type CustomerLinks = {
+  self: string;
+  related: string;
+};
 
-export type TLemonSqueezyRequest = z.infer<typeof SLemonSqueezyRequest>;
+export type Meta = {
+  test_mode: boolean;
+  event_name: string;
+  webhook_id: string;
+  custom_data: CustomData;
+};
+
+export type CustomData = {
+  tokens: string;
+  user_id: string;
+  previous_tokens: string;
+};

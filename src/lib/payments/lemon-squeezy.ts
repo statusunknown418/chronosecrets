@@ -1,43 +1,36 @@
-"use server";
+import { LemonSqueezy } from "@lemonsqueezy/lemonsqueezy.js";
+import { NextRequest, NextResponse } from "next/server";
+import { env } from "../env.mjs";
 
-import { SLemonSqueezyRequest, TLemonSqueezyRequest } from "./lemon.models";
+export const payments = new LemonSqueezy(env.LEMON_SQUEEZY_TOKEN);
 
-const lemonSqueezyBaseUrl = "https://api.lemonsqueezy.com/v1";
-const lemonSqueezyApiKey = process.env.LEMON_SQUEEZY_API_KEY;
-
-if (!lemonSqueezyApiKey)
-  throw new Error("No LEMON_SQUEEZY_API_KEY environment variable set");
-
-function createHeaders() {
-  const headers = new Headers();
-  headers.append("Accept", "application/vnd.api+json");
-  headers.append("Content-Type", "application/vnd.api+json");
-  headers.append("Authorization", `Bearer ${lemonSqueezyApiKey}`);
-  return headers;
+export async function getProductVariants(productId: number) {
+  return payments.getVariants({
+    productId,
+  });
 }
 
-function createRequestOptions(method: string, headers: Headers): RequestInit {
-  return {
-    method,
-    headers,
-    redirect: "follow",
-    cache: "no-store",
-  };
-}
+export async function verifyWebhookSignature(req: NextRequest) {
+  const crypto = require("crypto");
 
-export async function getProductVariants(
-  productId: string,
-): Promise<TLemonSqueezyRequest> {
-  const url = `${lemonSqueezyBaseUrl}/variants?filter[product_id]=${productId}`;
-  const headers = createHeaders();
-  const requestOptions = createRequestOptions("GET", headers);
+  const body = await req.text();
+  const signature = req.headers.get("X-Signature");
 
-  const response: Response = await fetch(url, requestOptions);
-  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+  const hmac = crypto.createHmac("sha256", env.PAYMENTS_WEBHOOK_SECRET);
+  const digest = Buffer.from(hmac.update(body).digest("hex"), "utf8");
+  const lemonSignature = Buffer.from(signature || "", "utf8");
 
-  const data = await response.json();
+  if (!crypto.timingSafeEqual(digest, lemonSignature)) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Invalid signature verified with crypto",
+      },
+      {
+        status: 403,
+      },
+    );
+  }
 
-  const parsedData = SLemonSqueezyRequest.parse(data);
-
-  return parsedData;
+  return JSON.parse(body);
 }

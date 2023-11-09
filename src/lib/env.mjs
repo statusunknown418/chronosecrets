@@ -30,6 +30,10 @@ export const env = createEnv({
     UPLOADTHING_APP_ID: z.string().min(1),
     DEFER_TOKEN: z.string(),
     EMAIL_URL: z.string().optional(),
+    LEMON_SQUEEZY_TOKEN: z.string(),
+    PRODUCT_ID: z.string(),
+    STORE_ID: z.string(),
+    PAYMENTS_WEBHOOK_SECRET: z.string(),
   },
   client: {
     // NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().min(1),
