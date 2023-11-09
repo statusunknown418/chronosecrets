@@ -25,7 +25,7 @@ export const FindPeople = () => {
   });
 
   const { data, isLoading } = trpc.user.getByUsernameOrEmail.useQuery(query || "", {
-    enabled: !!query && query.length > 0,
+    enabled: !!query,
     refetchOnMount: false,
   });
 
