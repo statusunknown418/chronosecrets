@@ -15,7 +15,7 @@ export default async function HomePage({
   searchParams?: { search: string };
 }) {
   return (
-    <main className="flex h-full w-full flex-col overflow-y-scroll">
+    <main className="flex w-full flex-col">
       <header className="sticky inset-0 flex flex-col gap-4 border-b bg-background/40 p-4 backdrop-blur backdrop-filter">
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
           Secrets created by you
