@@ -12,7 +12,7 @@ export const POST = async (req: NextRequest) => {
     const tokensToAdd = Number(body.meta.custom_data.tokens);
     const userId = body.meta.custom_data.user_id;
 
-    if (!body.meta.custom_data.user_id || !previousTokens) {
+    if (!body.meta.custom_data.user_id || previousTokens === undefined) {
       return NextResponse.json({
         success: false,
         error: "No user id or missing previous state",

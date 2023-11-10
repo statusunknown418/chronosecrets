@@ -16,14 +16,20 @@ export const metadata: Metadata = {
   title: "Me",
 };
 
-export default async function MySettings() {
+export default async function MySettings({
+  searchParams,
+}: {
+  searchParams: {
+    tab?: string;
+  };
+}) {
   return (
     <main className="flex h-full flex-col gap-4">
       <header className="sticky inset-0 z-10 flex flex-col bg-background/20 backdrop-blur backdrop-filter">
         <h1 className="border-b px-4 py-3 text-2xl font-bold">My Settings</h1>
       </header>
 
-      <Tabs className="px-2" defaultValue="profile">
+      <Tabs className="px-2" defaultValue={searchParams.tab || "profile"}>
         <TabsList className="w-full justify-between">
           <TabsTrigger value="profile" className="w-full">
             Profile
