@@ -167,7 +167,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
               )}
 
               {verifyOn && (
-                <FormDescription>
+                <FormDescription className="text-yellow-500">
                   You need to fill this out to complete your profile
                 </FormDescription>
               )}
