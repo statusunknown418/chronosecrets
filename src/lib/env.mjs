@@ -31,7 +31,6 @@ export const env = createEnv({
     DEFER_TOKEN: z.string(),
     EMAIL_URL: z.string().optional(),
     LEMON_SQUEEZY_TOKEN: z.string(),
-    PRODUCT_ID: z.string(),
     STORE_ID: z.string(),
     PAYMENTS_WEBHOOK_SECRET: z.string(),
   },
