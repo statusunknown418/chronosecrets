@@ -3,17 +3,14 @@ import { SecretByIdResponse } from "@/lib/api/secrets/queries";
 import { NewSecretParams, insertSecretParams } from "@/lib/db/schema";
 import { useDisableSubmit } from "@/lib/hooks/useDisableSubmit";
 import { trpc } from "@/lib/trpc/client";
-import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addDays, format } from "date-fns";
-import { CalendarIcon, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { Calendar } from "../ui/calendar";
 import {
   Form,
   FormControl,
@@ -23,12 +20,12 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { RequiredLabel } from "../ui/required-label";
 import { Textarea } from "../ui/textarea";
 import { ToggleGroupItem, ToggleGroupRoot } from "../ui/toggle-group";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { AttachmentsSection } from "./AttachmentsSection";
+import { DateTimeField } from "./DateTimePicker";
 import { SelectReceiver } from "./SelectReceiver";
 
 const SecretForm = ({
@@ -163,51 +160,7 @@ const SecretForm = ({
 
         <SelectReceiver isEditing={editing} />
 
-        <FormField
-          control={form.control}
-          name="revealingDate"
-          render={({ field }) => (
-            <FormItem ref={parent}>
-              <FormLabel>Revealing Date</FormLabel>
-
-              <Popover>
-                <PopoverTrigger asChild className="max-w-[290px]">
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground",
-                      )}
-                    >
-                      {field.value ? (
-                        <span>{format(field.value, "PPP")}</span>
-                      ) : (
-                        <span>Pick a date in the future</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    onSelect={field.onChange}
-                    disabled={(date) => date < new Date()}
-                    selected={
-                      field.value ? new Date(field.value) : addDays(new Date(), 1)
-                    }
-                    defaultMonth={field.value ? new Date(field.value) : new Date()}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <DateTimeField />
 
         <FormField
           control={form.control}
