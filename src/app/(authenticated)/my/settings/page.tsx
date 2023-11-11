@@ -1,15 +1,12 @@
 import { SignOut } from "@/components/auth/SignOut";
-import { ChronoBucks } from "@/components/my/ChronoBucks";
 import { FriendsList } from "@/components/my/FriendsList";
 import HydrateSettingsForm from "@/components/my/HydrateSettingsForm";
+import { Pricing } from "@/components/my/Pricing";
 import { RequestsForUser } from "@/components/my/requests-for-user";
 import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAllFriendships } from "@/lib/api/friendships/queries";
-import { getProducts } from "@/lib/api/products/queries";
-import { getFullUser } from "@/lib/auth/utils";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -77,7 +74,7 @@ export default async function MySettings({
         </TabsContent>
       </Tabs>
 
-      <div className="px-4">
+      <div className="p-4">
         <SignOut />
       </div>
     </main>
@@ -88,24 +85,4 @@ const ServerFriendListRequests = async () => {
   const friends = await getAllFriendships();
 
   return <FriendsList friendships={friends} />;
-};
-
-const Pricing = async () => {
-  const [products, session] = await Promise.all([getProducts(), getFullUser()]);
-
-  if (!session?.id) return redirect("/auth/signin");
-
-  return (
-    <section className="mx-2 flex flex-col gap-4">
-      <article className="flex flex-col gap-2 rounded-lg border p-4">
-        <p className="text-sm font-light text-muted-foreground">Your ChronoBucks:</p>
-
-        <h3 className="text-2xl font-light">${session.credits.toFixed(2)} CBs</h3>
-      </article>
-
-      {products.map((p) => (
-        <ChronoBucks product={p} user={session} key={p.id} />
-      ))}
-    </section>
-  );
 };

@@ -2,7 +2,7 @@ import NextAuthProvider from "@/lib/auth/Provider";
 import TrpcProvider from "@/lib/trpc/Provider";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
-import { GeistSans } from "geist/font";
+import { GeistSans } from "geist/font/sans";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Toaster } from "sonner";
