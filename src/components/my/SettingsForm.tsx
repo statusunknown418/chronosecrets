@@ -214,6 +214,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
         />
 
         <Button
+          className="w-max self-end"
           type="submit"
           disabled={!available || checkingUsername}
           loading={isLoading}
