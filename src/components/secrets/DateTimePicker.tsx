@@ -74,6 +74,7 @@ export const DateTimeField = () => {
                   type="time"
                   id="time"
                   className="bg-transparent"
+                  disabled={!field.value}
                   onChange={handleTimeSelect}
                 />
               </div>
