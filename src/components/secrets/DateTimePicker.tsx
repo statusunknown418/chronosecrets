@@ -1,7 +1,7 @@
 import { NewSecret } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { format } from "date-fns";
+import { format, subDays } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "../ui/button";
@@ -61,7 +61,7 @@ export const DateTimeField = () => {
               <Calendar
                 mode="single"
                 onSelect={field.onChange}
-                disabled={(date) => date < new Date()}
+                disabled={(date) => date < subDays(new Date(), 1)}
                 selected={field.value && new Date(field.value)}
                 defaultMonth={field.value ? new Date(field.value) : new Date()}
               />
@@ -70,7 +70,12 @@ export const DateTimeField = () => {
 
               <div className="flex flex-col gap-2 p-2">
                 <Label htmlFor="time">Select time (24h format)</Label>
-                <Input type="time" id="time" onChange={handleTimeSelect} />
+                <Input
+                  type="time"
+                  id="time"
+                  className="bg-transparent"
+                  onChange={handleTimeSelect}
+                />
               </div>
             </PopoverContent>
           </Popover>
