@@ -2,7 +2,7 @@ import NextAuthProvider from "@/lib/auth/Provider";
 import TrpcProvider from "@/lib/trpc/Provider";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
-import { GeistSans } from "geist/font";
+import { GeistSans } from "geist/font/sans";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Toaster } from "sonner";
@@ -38,7 +38,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark h-full dark:bg-background">
+    <html lang="en" className="bg-test h-full">
       <head>
         <Script
           async
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
 
-      <body className={cn(GeistSans.className, "h-full")}>
+      <body className={cn(GeistSans.className, "dark h-full")}>
         <NextAuthProvider>
           <TrpcProvider>{children}</TrpcProvider>
 

@@ -111,7 +111,7 @@ export default async function ShareableUrlPage({
               </TooltipTrigger>
 
               <TooltipContent className="text-sm" side="bottom">
-                <span>Made by {shared.creator.name} at </span>
+                Made by <span className="text-foreground">{shared.creator.name}</span> at{" "}
                 {format(shared.createdAt || new Date(), "PPpp")}
               </TooltipContent>
             </Tooltip>

@@ -16,8 +16,8 @@ export type NotifyAvailabilityDefer = {
 };
 
 const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) => {
-  const email = await resend.emails.send({
-    from: "Wait4it - Revealing! <onboarding@resend.dev>",
+  const emailPromise = resend.emails.send({
+    from: "ChronoSecrets - Revealing! <onboarding@resend.dev>",
     subject: "A secret has just been revealed!",
     text: "Powered by MeowStudios",
     to: "alvarodevcode@outlook.com",
@@ -25,14 +25,19 @@ const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) =
     react: SecretAvailableEmail(input),
   });
 
-  await db
+  const update = db
     .update(secrets)
     .set({ revealed: true })
     .where(eq(secrets.id, Number(input.secretId)));
 
-  return email;
+  const [email, secret] = await Promise.all([emailPromise, update]);
+
+  return {
+    email,
+    secret: secret.insertId,
+  };
 };
 
 export default defer(scheduleNotificationForReceiver, {
-  concurrency: 5,
+  concurrency: 2,
 });

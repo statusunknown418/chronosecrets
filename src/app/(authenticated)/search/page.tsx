@@ -24,8 +24,8 @@ export default async function FriendshipsPage({
   }
 
   return (
-    <main className="flex h-full flex-col gap-4">
-      <header className="w-full border-b px-4 py-3">
+    <main className="flex flex-col gap-4">
+      <header className="sticky inset-0 w-full border-b bg-background/30 px-4 py-3 backdrop-blur backdrop-filter">
         <h1 className="text-2xl font-bold">Search</h1>
       </header>
 

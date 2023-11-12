@@ -1,14 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import {
-  ArrowLeft,
-  PenSquare,
-  Satellite,
-  SatelliteDish,
-  Search,
-  User2,
-} from "lucide-react";
+import { ArrowLeft, Inbox, PenSquare, Search, Send, User2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSelectedLayoutSegment } from "next/navigation";
 import { Button } from "../ui/button";
@@ -17,12 +10,12 @@ export const links = [
   {
     name: "Home",
     href: "/home",
-    icon: <SatelliteDish size={24} />,
+    icon: <Send size={20} />,
   },
   {
     name: "Inbox",
     href: "/receiving",
-    icon: <Satellite size={24} />,
+    icon: <Inbox size={24} />,
   },
   {
     name: "New Secret",

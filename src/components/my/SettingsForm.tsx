@@ -167,7 +167,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
               )}
 
               {verifyOn && (
-                <FormDescription>
+                <FormDescription className="text-yellow-500">
                   You need to fill this out to complete your profile
                 </FormDescription>
               )}
@@ -214,6 +214,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
         />
 
         <Button
+          className="w-max self-end"
           type="submit"
           disabled={!available || checkingUsername}
           loading={isLoading}
