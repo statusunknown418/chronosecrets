@@ -68,7 +68,7 @@ const SecretForm = ({
   const onSuccess = async (action: "create" | "update" | "delete") => {
     Promise.all([
       utils.secrets.getSecrets.invalidate(),
-      utils.secrets.getSecrets.refetch(),
+      utils.user.getFullViewer.refetch(),
     ]);
 
     toast.success(`Secret ${action}d successfully`);

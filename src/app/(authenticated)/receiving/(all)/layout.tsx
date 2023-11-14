@@ -1,16 +1,9 @@
-import { ReceivingList } from "@/components/secrets/receiving/receiving-list";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { X } from "lucide-react";
-import { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
+import { ReactNode } from "react";
 
-export const metadata: Metadata = {
-  title: "Sent to Me",
-};
-
-export default function ReceivingSecretsPage() {
+export default function ReceivingAllLayout({ children }: { children: ReactNode }) {
   return (
     <main className="flex flex-col gap-4">
       <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 py-3 backdrop-blur backdrop-filter">
@@ -25,15 +18,7 @@ export default function ReceivingSecretsPage() {
         </header>
       </section>
 
-      <Suspense
-        fallback={
-          <div className="flex h-full flex-col items-center justify-center">
-            <Spinner />
-          </div>
-        }
-      >
-        <ReceivingList />
-      </Suspense>
+      {children}
     </main>
   );
 }
