@@ -9,13 +9,9 @@ export const metadata: Metadata = {
   title: "Home",
 };
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: { tab?: string };
-}) {
+export default function HomePage() {
   return (
-    <Tabs defaultValue={searchParams.tab || "scheduled"}>
+    <Tabs defaultValue={"scheduled"}>
       <TabsList className="w-full sm:w-max">
         <TabsTrigger value="scheduled" className="w-full sm:w-max">
           Scheduled
