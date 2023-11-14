@@ -91,13 +91,11 @@ export default async function ShareableUrlPage({
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold capitalize">{shared.title}</h1>
 
-          {wasEditing && (
-            <Link href={`/secrets/${shared.id}`}>
-              <Button variant="ghost" size="icon">
-                <X size={20} className="text-muted-foreground" />
-              </Button>
-            </Link>
-          )}
+          <Link href={wasEditing ? `/home?tab=delivered` : `/receiving`}>
+            <Button variant="ghost" size="icon">
+              <X size={20} className="text-muted-foreground" />
+            </Button>
+          </Link>
         </div>
       </header>
 

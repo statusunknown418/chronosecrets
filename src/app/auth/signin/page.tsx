@@ -1,5 +1,6 @@
 import { SigninWithProvider } from "@/components/auth/SignInWithProvider";
 import Image from "next/image";
+import { Suspense } from "react";
 
 const providers = [
   {
@@ -56,9 +57,11 @@ export default function SignInPage({
         <hr className="bg-border" />
 
         <article className="flex flex-col gap-3 px-5 py-6">
-          {providers.map((p) => (
-            <SigninWithProvider key={p.provider} provider={p.provider} icon={p.icon} />
-          ))}
+          <Suspense>
+            {providers.map((p) => (
+              <SigninWithProvider key={p.provider} provider={p.provider} icon={p.icon} />
+            ))}
+          </Suspense>
 
           <footer className="mt-2 text-center text-xs text-muted-foreground">
             Yeah we chose to only support social providers for a smooth and easy

@@ -48,7 +48,7 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
             </Heading>
 
             <Text>
-              Hi, <span>{receiverName}!</span>
+              Hi, <span>{receiverName}!</span>{" "}
               <span className="font-bold">You will want to check this out!</span>
             </Text>
 

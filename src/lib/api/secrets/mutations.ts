@@ -1,6 +1,6 @@
-import { getUserAuth } from "@/lib/auth/utils";
+import { getFullUser, getUserAuth } from "@/lib/auth/utils";
 import { db } from "@/lib/db";
-import { usersToSecrets } from "@/lib/db/schema";
+import { users, usersToSecrets } from "@/lib/db/schema";
 import {
   NewSecretParams,
   Secret,
@@ -96,31 +96,58 @@ export const createSecret = async (secret: NewSecretParams) => {
   }
 };
 
-export const updateSecret = async (id: SecretId, secret: UpdateSecretParams) => {
-  const { session } = await getUserAuth();
+export const updateSecret = async (
+  id: SecretId,
+  secret: UpdateSecretParams & { cost: number },
+) => {
+  const session = await getFullUser();
   const { id: secretId } = secretIdSchema.parse({ id });
+
+  if (!session) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "You are not authorized to edit secrets",
+    });
+  }
 
   const newSecret = updateSecretSchema.parse({
     ...secret,
-    createdByUserId: session?.user.id!,
+    createdByUserId: session.id,
   });
 
   const hashed = mapEncryptionTypeToAlgo(secret.encryptionType)
     .encrypt(secret.content, env.NEXTAUTH_SECRET!)
     .toString();
 
+  const updatePromise = db
+    .update(secrets)
+    .set({ ...newSecret, content: hashed, editedAt: new Date(), wasEdited: true })
+    .where(and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session.id)));
+
+  const applyCostPromise = db
+    .update(users)
+    .set({
+      credits: session.credits - secret.cost,
+    })
+    .where(eq(users.id, session.id));
+
   try {
-    await db
-      .update(secrets)
-      .set({ ...newSecret, content: hashed, editedAt: new Date(), wasEdited: true })
-      .where(
-        and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
-      );
+    if (session.credits < secret.cost) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "You don't have enough ChronoBucks to update this secret",
+      });
+    }
+
+    await Promise.all([updatePromise, applyCostPromise]);
 
     return { success: true };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
-    return { error: message };
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message,
+    });
   }
 };
 
@@ -133,6 +160,22 @@ export const deleteSecret = async (id: SecretId) => {
       .where(
         and(eq(secrets.id, secretId!), eq(secrets.createdByUserId, session?.user.id!)),
       );
+    return { success: true };
+  } catch (err) {
+    const message = (err as Error).message ?? "Error, please try again";
+
+    return { error: message };
+  }
+};
+
+export const viewSecretAsReceiver = async (id: SecretId) => {
+  const { id: secretId } = secretIdSchema.parse({ id });
+
+  try {
+    await db
+      .update(secrets)
+      .set({ viewed: true, viewedAt: new Date() })
+      .where(eq(secrets.id, secretId));
     return { success: true };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";

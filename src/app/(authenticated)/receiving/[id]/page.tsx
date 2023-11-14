@@ -2,7 +2,7 @@ import { ErrorState } from "@/components/secrets/ErrorState";
 import {
   SecretAvailable,
   SecretIsNotRevealedYet,
-} from "@/components/secrets/ReceivingSecretDetails";
+} from "@/components/secrets/receiving/ReceivingSecretDetails";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,

@@ -87,18 +87,18 @@ const BypassingLink = () => {
             </DropdownMenuItem>
           </DropdownMenuGroup>
 
+          <DropdownMenuLabel>Learn</DropdownMenuLabel>
           <DropdownMenuSeparator />
 
-          <DropdownMenuLabel>Learn</DropdownMenuLabel>
           <DropdownMenuGroup>
-            <DropdownMenuItem>
+            <DropdownMenuItem disabled>
               <Book size={16} />
-              Changelog
+              Changelog (Soon!)
             </DropdownMenuItem>
 
-            <DropdownMenuItem>
+            <DropdownMenuItem disabled>
               <File size={16} />
-              Blog
+              Blog (Soon!)
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
@@ -162,18 +162,24 @@ const AccountNotSetup = () => {
       <PopoverTrigger asChild>
         <Button
           rounding="full"
-          className="absolute bottom-5 right-5 border border-indigo-500 bg-indigo-700 text-foreground hover:border-indigo-300 hover:bg-indigo-600 hover:text-foreground"
+          className="absolute bottom-5 left-5 border border-indigo-500 bg-indigo-700 text-foreground hover:border-indigo-300 hover:bg-indigo-600 hover:text-foreground"
         >
           <ShieldQuestion size={20} />
-          Hmmm, click here
+          Warn?
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="flex w-[260px] flex-col gap-2 text-sm" sideOffset={5}>
-        <h3 className="text-base text-foreground">Something nice is waiting for you!</h3>
+      <PopoverContent
+        className="flex w-[260px] flex-col gap-2 text-sm"
+        sideOffset={5}
+        align="start"
+      >
+        <h3 className="text-base font-medium text-foreground">
+          Something nice is waiting for you!
+        </h3>
         <p>
-          There&apos;s a special link for you to share secrets with friends, but you need
-          to have your <span className="text-foreground">username</span> set up first!
+          There&apos;are special features waiting for you, however this requires to set up
+          your <span className="text-foreground">USERNAME</span> first!
         </p>
         <Link
           href={{

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "schedule",
     "algorithms",
   ],
-  creator: "Alvaro Aquije",
+  creator: "MeowStudios",
   generator: "Next.js",
   authors: [
     {
@@ -38,7 +38,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="bg-test h-full">
+    <html lang="en" className="h-full">
       <head>
         <Script
           async
@@ -53,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NextAuthProvider>
           <TrpcProvider>{children}</TrpcProvider>
 
-          <Toaster richColors closeButton theme="dark" visibleToasts={9} />
+          <Toaster richColors closeButton theme="dark" visibleToasts={6} />
         </NextAuthProvider>
       </body>
     </html>

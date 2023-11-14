@@ -1,5 +1,6 @@
-import { SearchSecrets } from "@/components/secrets/SearchSecrets";
+import { RevealedSecretsList } from "@/components/secrets/sent/RevealedSecretsList";
 import { Spinner } from "@/components/ui/spinner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { MySecretsList } from "../../../components/secrets/MySecretsList";
@@ -11,19 +12,20 @@ export const metadata: Metadata = {
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams?: { search: string };
+  searchParams: { tab?: string };
 }) {
   return (
-    <main className="flex w-full flex-col">
-      <header className="sticky inset-0 flex flex-col gap-4 border-b bg-background/40 p-4 backdrop-blur backdrop-filter">
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-          Secrets created by you
-        </h1>
+    <Tabs defaultValue={searchParams.tab || "scheduled"}>
+      <TabsList className="w-full sm:w-max">
+        <TabsTrigger value="scheduled" className="w-full sm:w-max">
+          Scheduled
+        </TabsTrigger>
+        <TabsTrigger value="delivered" className="w-full sm:w-max">
+          Delivered
+        </TabsTrigger>
+      </TabsList>
 
-        <SearchSecrets />
-      </header>
-
-      <div className="h-full p-4">
+      <TabsContent value="scheduled">
         <Suspense
           fallback={
             <div className="flex h-full items-center justify-center">
@@ -31,9 +33,21 @@ export default async function HomePage({
             </div>
           }
         >
-          <MySecretsList query={searchParams?.search} />
+          <MySecretsList />
         </Suspense>
-      </div>
-    </main>
+      </TabsContent>
+
+      <TabsContent value="delivered">
+        <Suspense
+          fallback={
+            <div className="flex h-full items-center justify-center">
+              <Spinner />
+            </div>
+          }
+        >
+          <RevealedSecretsList />
+        </Suspense>
+      </TabsContent>
+    </Tabs>
   );
 }

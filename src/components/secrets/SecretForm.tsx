@@ -1,15 +1,17 @@
 "use client";
 import { SecretByIdResponse } from "@/lib/api/secrets/queries";
+import { EDIT_CONTENT_COST, EDIT_REVELATION_DATE_COST } from "@/lib/constants";
 import { NewSecretParams, insertSecretParams } from "@/lib/db/schema";
 import { useDisableSubmit } from "@/lib/hooks/useDisableSubmit";
 import { trpc } from "@/lib/trpc/client";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Info } from "lucide-react";
+import { Coins, Info } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -25,7 +27,7 @@ import { Textarea } from "../ui/textarea";
 import { ToggleGroupItem, ToggleGroupRoot } from "../ui/toggle-group";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { AttachmentsSection } from "./AttachmentsSection";
-import { DateTimeField } from "./DateTimePicker";
+import { DateTimeField } from "./DateTimeField";
 import { SelectReceiver } from "./SelectReceiver";
 
 const SecretForm = ({
@@ -44,6 +46,8 @@ const SecretForm = ({
 
   const sendingId = searchParams.get("sendingId");
   const bypass = searchParams.get("bypass");
+
+  const [editCost, setEditCost] = useState(0);
   const [parent] = useAutoAnimate();
   const [mainForm] = useAutoAnimate();
 
@@ -62,8 +66,11 @@ const SecretForm = ({
   });
 
   const onSuccess = async (action: "create" | "update" | "delete") => {
-    await utils.secrets.getSecrets.invalidate();
-    router.refresh();
+    Promise.all([
+      utils.secrets.getSecrets.invalidate(),
+      utils.secrets.getSecrets.refetch(),
+    ]);
+
     toast.success(`Secret ${action}d successfully`);
     closeModal ? closeModal() : router.push("/home");
   };
@@ -95,6 +102,8 @@ const SecretForm = ({
   const { mutate: updateSecret, isLoading: isUpdating } =
     trpc.secrets.updateSecret.useMutation({
       onSuccess: () => {
+        editCost > 0 && toast.info(`Deducted ${editCost} ChronoBucks from your account!`);
+
         onSuccess("update");
       },
       onError: (err) => {
@@ -111,6 +120,8 @@ const SecretForm = ({
         editedAt: new Date(),
         wasEdited: true,
         viewed: false,
+        viewedAt: null,
+        cost: editCost,
       });
     } else {
       createSecret({
@@ -120,11 +131,24 @@ const SecretForm = ({
     }
   };
 
+  const touchedFields = form.formState.touchedFields;
+
   useEffect(() => {
     if (bypass && sendingId) {
       form.setValue("receiverId", sendingId);
     }
   }, [bypass, form, sendingId]);
+
+  useEffect(() => {
+    if (!editing) return;
+
+    const cost = [
+      (touchedFields.revealingDate && EDIT_REVELATION_DATE_COST) || 0,
+      (touchedFields.content && EDIT_CONTENT_COST) || 0,
+    ].reduce((a, b) => a + b, 0) as number;
+
+    setEditCost(cost);
+  }, [editing, touchedFields.content, touchedFields.revealingDate]);
 
   return (
     <Form {...form}>
@@ -145,12 +169,7 @@ const SecretForm = ({
               </FormLabel>
 
               <FormControl>
-                <Input
-                  {...field}
-                  autoFocus
-                  value={field.value || ""}
-                  placeholder="My secret"
-                />
+                <Input {...field} value={field.value || ""} placeholder="My secret" />
               </FormControl>
 
               <FormMessage />
@@ -225,6 +244,29 @@ const SecretForm = ({
             </FormItem>
           )}
         />
+
+        {editing && Object.values(touchedFields).length > 0 && (
+          <Alert variant="success">
+            <Coins size={16} />
+            <AlertTitle>Editing Cost</AlertTitle>
+
+            <AlertDescription className="flex flex-col gap-1">
+              {touchedFields.revealingDate && (
+                <p>
+                  Revealing date edit &rarr;{" "}
+                  <span className="text-foreground">-{EDIT_REVELATION_DATE_COST}</span>
+                </p>
+              )}
+
+              {touchedFields.content && (
+                <p>
+                  Content edit &rarr;{" "}
+                  <span className="text-foreground">-{EDIT_CONTENT_COST}</span>
+                </p>
+              )}
+            </AlertDescription>
+          </Alert>
+        )}
 
         <div className="flex w-full items-center justify-end gap-4 rounded-lg pb-4 text-sm backdrop-blur backdrop-filter">
           {editing && (
