@@ -49,7 +49,7 @@ const BypassingLink = () => {
   };
 
   const shareProfileWithFriends = () => {
-    const shareProfileLink = `${BASE_URL}/quick/${data.username}`;
+    const shareProfileLink = `${BASE_URL}/quick/${data.username}?sourceId=${data.id}`;
 
     navigator.clipboard.writeText(shareProfileLink);
     toast.success("it's copied!", {
@@ -140,8 +140,8 @@ const BypassingLink = () => {
               Share this to anyone you already know and want to join{" "}
               <span className="text-foreground">ChronoSecrets</span>, with this link he or
               she will be able to automatically add you as a{" "}
-              <span className="text-foreground">friend</span>. Your friend just needs to
-              click the link and sign up!
+              <span className="text-foreground">friend</span>. They just need to and sign
+              up & accept the request!
             </DialogDescription>
           </DialogHeader>
 
