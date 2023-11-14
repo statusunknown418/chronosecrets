@@ -54,7 +54,7 @@ export default async function SecretSlugPage({ params: { id } }: SecretSlugPageP
             Editing
           </span>
 
-          <span className="w-max rounded-full border border-indigo-500 px-2 py-1 text-xs text-indigo-400">
+          <span className="w-max rounded-full border border-indigo-500 px-2 py-1 text-xs text-indigo-400 sm:hidden">
             You have <span className="font-bold">{user?.credits} CBs</span> left
           </span>
         </div>

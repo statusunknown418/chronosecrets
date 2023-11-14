@@ -1,10 +1,13 @@
 "use client";
+import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ArrowLeft, Inbox, PenSquare, Search, Send, User2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSelectedLayoutSegment } from "next/navigation";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 
 export const links = [
   {
@@ -43,13 +46,17 @@ export const Navigation = () => {
   const { back } = useRouter();
   const [parent] = useAutoAnimate();
 
+  const { data } = trpc.user.getFullViewer.useQuery(undefined, { refetchOnMount: false });
+
   return (
-    <nav className="sticky inset-0 z-10 px-4 py-2 text-muted-foreground backdrop-blur-sm backdrop-filter">
-      <ul className="flex h-full w-full items-center justify-center gap-4 bg-transparent sm:justify-between">
-        <li className="hidden sm:flex">LOGO</li>
+    <nav className="sticky inset-0 z-10 px-4 pt-3 text-muted-foreground backdrop-blur-sm backdrop-filter">
+      <ul className="grid h-full w-full grid-cols-1 items-center gap-4 bg-transparent sm:grid-cols-3 sm:justify-between">
+        <li className="hidden sm:flex">
+          <Image src="/assets/app-logo.png" width={28} height={28} alt="app-logo" />
+        </li>
 
         <ul
-          className="flex max-w-xs flex-grow items-center justify-between justify-self-center bg-transparent"
+          className="flex max-w-xs items-center justify-between justify-self-center bg-transparent"
           ref={parent}
         >
           {selectedSegment !== "home" && (
@@ -77,7 +84,20 @@ export const Navigation = () => {
           ))}
         </ul>
 
-        <li className="hidden sm:flex">LOGO</li>
+        <div className="hidden justify-self-end sm:flex">
+          {data?.credits !== undefined ? (
+            <li
+              className={cn(
+                "hidden w-max rounded-full text-sm font-medium sm:flex",
+                "border border-indigo-500 px-2 py-0.5 text-indigo-300",
+              )}
+            >
+              ${data.credits}CB
+            </li>
+          ) : (
+            <Skeleton className="h-8 w-[6ch]" />
+          )}
+        </div>
       </ul>
     </nav>
   );
