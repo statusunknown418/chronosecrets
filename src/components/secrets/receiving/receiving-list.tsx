@@ -1,5 +1,5 @@
 import { getSecretsByReceiver } from "@/lib/api/secrets/queries";
-import { EmptySecretState } from "../MySecretsList";
+import { EmptySecretState } from "../secrets-list";
 import { ReceivingSecretCard } from "./ReceivingSecretCard";
 
 export const ReceivingList = async () => {

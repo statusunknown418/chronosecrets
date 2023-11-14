@@ -1,9 +1,9 @@
-import { RevealedSecretsList } from "@/components/secrets/sent/RevealedSecretsList";
+import { RevealedSecretsList } from "@/components/secrets/sent/revealed-list";
 import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { MySecretsList } from "../../../components/secrets/MySecretsList";
+import { MySecretsList } from "../../../components/secrets/secrets-list";
 
 export const metadata: Metadata = {
   title: "Home",

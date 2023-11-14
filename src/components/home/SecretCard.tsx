@@ -10,7 +10,9 @@ export const SecretCard = ({ secret }: { secret: Secret }) => {
     <article className="flex min-h-[172px] flex-col gap-3 rounded-xl border bg-gradient-to-r from-popover p-4 sm:p-4">
       <Badge className="w-max">{secret.encryptionType}</Badge>
       <div className="flex max-h-8 items-center justify-between gap-2">
-        <h2 className="text-lg font-medium">{secret.title}</h2>
+        <h2 className="overflow-hidden text-ellipsis whitespace-nowrap text-lg font-medium">
+          {secret.title}
+        </h2>
 
         <Link href={`/secrets/${secret.id}`}>
           <Button variant="ghost" size="icon" disabled={!!secret.revealed}>

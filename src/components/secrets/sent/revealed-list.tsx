@@ -1,6 +1,6 @@
 import { getRevealedSecrets } from "@/lib/api/secrets/queries";
 import { Suspense } from "react";
-import { EmptySecretState } from "../MySecretsList";
+import { EmptySecretState } from "../secrets-list";
 import { RevealingListWrapper } from "./RevealingListWrapper";
 
 export const RevealedSecretsList = async () => {

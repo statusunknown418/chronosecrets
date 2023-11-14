@@ -1,4 +1,4 @@
-import { ReceivingList } from "@/components/secrets/receiving/ReceivingList";
+import { ReceivingList } from "@/components/secrets/receiving/receiving-list";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { X } from "lucide-react";
