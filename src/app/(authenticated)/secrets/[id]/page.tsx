@@ -2,6 +2,7 @@ import { QuickShare } from "@/components/secrets/QuickShare";
 import { EditMenu } from "@/components/secrets/edit/EditMenu";
 import { Button } from "@/components/ui/button";
 import { getSecretById } from "@/lib/api/secrets/queries";
+import { getFullUser } from "@/lib/auth/utils";
 import { Cable, Eye, X } from "lucide-react";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
@@ -23,35 +24,13 @@ export const generateMetadata = async ({
   };
 };
 
-const DynamicSecretForm = dynamic(() => import("@/components/secrets/SecretForm"), {
-  ssr: true,
-  loading: () => (
-    <div className="-mt-1 flex flex-col gap-6 text-sm">
-      <div className="flex flex-col gap-1">
-        <p className="font-medium">Title</p>
-        <p className="h-10 rounded-lg border bg-background" />
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <p className="font-medium">Revealing date</p>
-        <p className="h-10 rounded-lg border bg-background" />
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <p className="font-medium">Encryption type</p>
-        <p className="h-10 rounded-lg border bg-background" />
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <p className="font-medium">Content</p>
-        <p className="h-96 rounded-lg border bg-background" />
-      </div>
-    </div>
-  ),
-});
+const DynamicSecretForm = dynamic(() => import("@/components/secrets/SecretForm"));
 
 export default async function SecretSlugPage({ params: { id } }: SecretSlugPageProps) {
-  const { secret } = await getSecretById(Number(id));
+  const [user, { secret }] = await Promise.all([
+    getFullUser(),
+    getSecretById(Number(id)),
+  ]);
 
   if (!secret) {
     return (
@@ -69,10 +48,16 @@ export default async function SecretSlugPage({ params: { id } }: SecretSlugPageP
 
   return (
     <main className="flex flex-col gap-4">
-      <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 py-3 backdrop-blur backdrop-filter">
-        <span className="w-max rounded-full border border-blue-800 bg-blue-950 px-4 py-1 text-xs text-blue-500">
-          Editing
-        </span>
+      <section className="sticky inset-0 z-10 flex flex-col gap-4 border-b bg-background/20 px-4 py-3 backdrop-blur backdrop-filter">
+        <div className="flex items-center justify-between">
+          <span className="w-max rounded-full border border-blue-800 bg-blue-950 px-4 py-1 text-xs text-blue-500">
+            Editing
+          </span>
+
+          <span className="w-max rounded-full border border-indigo-500 px-2 py-1 text-xs text-indigo-400">
+            You have <span className="font-bold">{user?.credits} CBs</span> left
+          </span>
+        </div>
 
         <header className="items-ce flex w-full justify-between gap-2 sm:items-center sm:gap-5">
           <div className="flex items-center gap-1 sm:gap-2">

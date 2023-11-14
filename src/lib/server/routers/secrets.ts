@@ -1,5 +1,10 @@
-import { createSecret, deleteSecret, updateSecret } from "@/lib/api/secrets/mutations";
-import { getSecretById, getSecrets } from "@/lib/api/secrets/queries";
+import {
+  createSecret,
+  deleteSecret,
+  updateSecret,
+  viewSecretAsReceiver,
+} from "@/lib/api/secrets/mutations";
+import { getRevealedSecrets, getSecretById, getSecrets } from "@/lib/api/secrets/queries";
 import {
   insertSecretParams,
   secretIdSchema,
@@ -12,16 +17,28 @@ export const secretsRouter = router({
   getSecrets: publicProcedure.input(z.string().optional()).query(({ input }) => {
     return getSecrets(input);
   }),
+  getRevealedSecrets: publicProcedure.input(z.string().optional()).query(({ input }) => {
+    return getRevealedSecrets(input);
+  }),
   getSecretById: publicProcedure.input(secretIdSchema).query(({ input }) => {
     return getSecretById(input.id);
   }),
   createSecret: publicProcedure.input(insertSecretParams).mutation(({ input }) => {
     return createSecret(input);
   }),
-  updateSecret: publicProcedure.input(updateSecretParams).mutation(({ input }) => {
-    return updateSecret(input.id, input);
-  }),
+  updateSecret: publicProcedure
+    .input(
+      updateSecretParams.extend({
+        cost: z.number(),
+      }),
+    )
+    .mutation(({ input }) => {
+      return updateSecret(input.id, input);
+    }),
   deleteSecret: publicProcedure.input(secretIdSchema).mutation(({ input }) => {
     return deleteSecret(input.id);
+  }),
+  viewSecretAsReceiver: publicProcedure.input(secretIdSchema).mutation(({ input }) => {
+    return viewSecretAsReceiver(input.id);
   }),
 });

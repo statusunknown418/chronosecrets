@@ -38,14 +38,14 @@ export const DateTimeField = () => {
           <FormLabel>Revealing Date</FormLabel>
 
           <Popover>
-            <PopoverTrigger asChild className="max-w-[290px]">
+            <PopoverTrigger asChild className="w-full max-w-[320px]">
               <FormControl>
                 <Button
-                  variant={"outline"}
                   className={cn(
-                    "w-full pl-3 text-left font-normal",
+                    "w-full bg-popover pl-3 text-left font-normal",
                     !field.value && "text-muted-foreground",
                   )}
+                  variant={"outline"}
                 >
                   {!!field.value ? (
                     <span>{format(field.value, "PPp")}</span>
@@ -57,10 +57,11 @@ export const DateTimeField = () => {
               </FormControl>
             </PopoverTrigger>
 
-            <PopoverContent className="max-w-[290px] p-0" align="start">
+            <PopoverContent className="max-w-[320px] p-0" align="start">
               <Calendar
                 mode="single"
                 onSelect={field.onChange}
+                onDayBlur={field.onBlur}
                 disabled={(date) => date < subDays(new Date(), 1)}
                 selected={field.value && new Date(field.value)}
                 defaultMonth={field.value ? new Date(field.value) : new Date()}
@@ -74,7 +75,10 @@ export const DateTimeField = () => {
                   type="time"
                   id="time"
                   className="bg-transparent"
+                  onBlur={field.onBlur}
+                  disabled={!field.value}
                   onChange={handleTimeSelect}
+                  value={field.value ? format(field.value, "HH:mm") : ""}
                 />
               </div>
             </PopoverContent>

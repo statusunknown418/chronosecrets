@@ -1,6 +1,7 @@
 import {
   acceptFriendRequest,
   createFriendRequest,
+  quickFriendship,
 } from "@/lib/api/friendships/mutations";
 import { getAcceptedFriends, getAllFriendships } from "@/lib/api/friendships/queries";
 import {
@@ -30,5 +31,10 @@ export const friendshipsRouter = router({
     .input(friendshipSchema)
     .mutation(async ({ input }) => {
       return cancelOrDeleteFriendRequest(input);
+    }),
+  quickFriendship: publicProcedure
+    .input(friendshipSchema.omit({ userId: true }))
+    .mutation(async ({ input }) => {
+      return quickFriendship(input);
     }),
 });

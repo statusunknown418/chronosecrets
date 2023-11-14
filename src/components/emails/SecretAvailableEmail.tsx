@@ -23,8 +23,6 @@ export type NewSecretEmailProps = {
   secretTitle: string;
 };
 
-const baseUrl = process.env.EMAIL_URL ? `https://${process.env.EMAIL_URL}` : "";
-
 export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
   receiverName,
   secretId,
@@ -32,7 +30,10 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
   receiverEmail,
   receiverUsername,
 }) => {
-  const fullSecretUrl = `${baseUrl}/receiving/${secretId}`;
+  /**
+   * TODO: Change this to the real URL when we have a domain
+   */
+  const fullSecretUrl = `https://wait4it.vercel.app/receiving/${secretId}`;
 
   return (
     <Tailwind>
@@ -47,7 +48,7 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
             </Heading>
 
             <Text>
-              Hi, <span>{receiverName}!</span>
+              Hi, <span>{receiverName}!</span>{" "}
               <span className="font-bold">You will want to check this out!</span>
             </Text>
 

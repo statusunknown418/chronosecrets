@@ -10,7 +10,10 @@ export const ToggleGroupRoot = React.forwardRef<
     <ToggleGroupPrimitive.Root
       ref={ref}
       {...props}
-      className={cn("flex overflow-hidden rounded-lg border text-center", className)}
+      className={cn(
+        "flex overflow-hidden rounded-full border bg-popover text-center",
+        className,
+      )}
     />
   );
 });
@@ -26,7 +29,7 @@ export const ToggleGroupItem = React.forwardRef<
       ref={ref}
       {...props}
       className={cn(
-        "flex w-full justify-center px-4 py-2 text-sm text-muted-foreground transition-colors duration-200 data-[state=on]:bg-indigo-600 data-[state=on]:font-semibold data-[state=on]:text-white",
+        "flex w-full justify-center rounded-full px-4 py-2 text-sm text-muted-foreground transition-colors duration-200 data-[state=on]:bg-indigo-600 data-[state=on]:text-white",
         className,
       )}
     />

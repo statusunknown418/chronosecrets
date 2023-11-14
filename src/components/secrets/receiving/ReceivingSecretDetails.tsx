@@ -3,14 +3,21 @@ import { format, formatDistance } from "date-fns";
 import { Clock2Icon, Info } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { notFound } from "next/navigation";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../../ui/tooltip";
+import { ShowFullContent } from "./ShowFullContent";
 
 export const SecretAvailable = ({
   secret,
 }: {
   secret: Secret & { attachments: Attachment[] };
 }) => {
-  if (!secret) return;
+  if (!secret) return notFound();
 
   return (
     <section className="flex flex-col gap-4 px-3">
@@ -18,9 +25,7 @@ export const SecretAvailable = ({
         Encryption via {secret.encryptionType}
       </span>
 
-      <p className="rounded-lg border border-dashed p-4 text-sm font-light tracking-wide">
-        {secret.content}
-      </p>
+      <ShowFullContent secret={secret} />
 
       <div className="flex items-center gap-1 text-sm font-light text-muted-foreground">
         {secret.wasEdited && (
@@ -29,7 +34,9 @@ export const SecretAvailable = ({
             <span>-</span>
           </>
         )}
+
         <p>{format(secret.createdAt || new Date(), "PPpp")}</p>
+
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger>

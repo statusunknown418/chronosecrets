@@ -145,7 +145,7 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
                   variant="outline"
                   role="combobox"
                   className={cn(
-                    "justify-between gap-2",
+                    "justify-between gap-2 bg-popover",
                     !field.value && "text-muted-foreground",
                   )}
                 >
