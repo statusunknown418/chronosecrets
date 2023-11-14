@@ -1,18 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Secret } from "@/lib/db/schema";
 import { formatDistance } from "date-fns";
-import { View } from "lucide-react";
+import { Eye } from "lucide-react";
 import Link from "next/link";
 
 export const SentSecretCard = ({ secret }: { secret: Secret }) => {
   return (
-    <article className="flex flex-col gap-3 rounded-xl border border-dashed bg-popover p-4 sm:p-4">
+    <article className="flex min-h-[172px] flex-col gap-3 rounded-xl border border-dashed bg-gradient-to-l from-popover p-4 sm:p-4">
       <header className="flex items-center justify-between">
         <h2 className="text-lg font-medium">{secret.title}</h2>
 
-        <Link href={secret.shareableUrl}>
+        <Link href={{ pathname: secret.shareableUrl, query: { wasEditing: true } }}>
           <Button variant="ghost" size="icon">
-            <View size={20} className="text-muted-foreground" />
+            <Eye size={20} className="text-muted-foreground" />
           </Button>
         </Link>
       </header>
@@ -22,9 +22,11 @@ export const SentSecretCard = ({ secret }: { secret: Secret }) => {
       </p>
 
       <div className="flex items-center gap-4">
-        <p className="inline-flex items-center gap-2 text-xs">
+        <p className="inline-flex items-center gap-1 text-xs tracking-wide text-muted-foreground">
           {secret.viewed && secret.viewedAt && (
-            <span>{formatDistance(secret.viewedAt, new Date())}</span>
+            <span>
+              Seen {formatDistance(secret.viewedAt, new Date(), { addSuffix: true })}
+            </span>
           )}
         </p>
       </div>

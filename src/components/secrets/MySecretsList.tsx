@@ -1,26 +1,21 @@
 import { getSecrets } from "@/lib/api/secrets/queries";
-import { Secret } from "@/lib/db/schema";
-import { Edit2, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Button } from "../ui/button";
+import { ListWrapper } from "./ListWrapper";
 
-export const MySecretsList = async ({ query }: { query?: string }) => {
-  const { secrets } = await getSecrets(query);
+export const MySecretsList = async () => {
+  const data = await getSecrets();
 
-  if (secrets.length === 0) {
+  if (data.secrets.length === 0) {
     return <EmptySecretState />;
   }
 
   return (
-    <section className="max-w-full">
-      <ul className="flex h-full flex-col gap-4">
-        {secrets.map((secret) => (
-          <li key={secret.id}>
-            <SecretCard secret={secret} />
-          </li>
-        ))}
-      </ul>
-    </section>
+    <Suspense>
+      <ListWrapper initialData={data} />
+    </Suspense>
   );
 };
 
@@ -36,25 +31,5 @@ export const EmptySecretState = () => {
         </Button>
       </Link>
     </div>
-  );
-};
-
-const SecretCard = ({ secret }: { secret: Secret }) => {
-  return (
-    <article className="flex flex-col gap-2 rounded-lg border p-3 px-4 sm:p-4">
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="text-lg font-medium">{secret.title}</h2>
-
-        <Link href={`/secrets/${secret.id}`} passHref>
-          <Button variant="ghost" size="icon">
-            <Edit2 size={16} />
-          </Button>
-        </Link>
-      </div>
-
-      <p className="min-w-[28ch] max-w-full text-ellipsis break-words text-sm text-slate-500 sm:w-max">
-        {secret.content.slice(0, 140)}...
-      </p>
-    </article>
   );
 };

@@ -8,7 +8,7 @@ export const ReceivingSecretCard = ({
   secret: SecretsByReceiverResponse["mine"][number]["secret"];
 }) => {
   return (
-    <article className="flex flex-col rounded-2xl border text-center text-sm">
+    <article className="flex flex-col justify-between rounded-2xl border text-center text-sm">
       <header className="flex justify-between rounded-t-2xl border-b bg-neutral-800 px-4 py-2 text-neutral-100 dark:bg-popover dark:text-muted-foreground">
         <span className="flex items-center gap-1 text-indigo-500">
           {secret.creator.username}

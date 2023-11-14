@@ -17,7 +17,7 @@ export const ListWrapper = ({
 
   return (
     <section className="max-w-full pt-2">
-      <ul className="flex h-full flex-col gap-4">
+      <ul className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
         {data.secrets.map((secret) => (
           <li key={secret.id}>
             <SecretCard secret={secret} />

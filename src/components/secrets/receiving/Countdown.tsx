@@ -34,7 +34,7 @@ export const Countdown = ({ secret }: { secret: Secret }) => {
   return (
     <div
       className={cn(
-        "rounded-b-2xl border-t bg-neutral-800 py-3 font-semibold text-neutral-100 dark:bg-popover",
+        "rounded-b-2xl border-t bg-neutral-800 py-3 font-medium text-neutral-100 dark:bg-popover",
       )}
     >
       {secret.revealed && secret.revealingDate < new Date() ? (

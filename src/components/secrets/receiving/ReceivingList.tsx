@@ -22,7 +22,7 @@ export const ReceivingList = async () => {
   });
 
   return (
-    <section className="flex h-full flex-col gap-4 px-4">
+    <section className="grid grid-cols-1 gap-4 px-4 md:grid-cols-2">
       {sorted.map((s) => (
         <ReceivingSecretCard key={s.secretId} secret={s.secret} />
       ))}
