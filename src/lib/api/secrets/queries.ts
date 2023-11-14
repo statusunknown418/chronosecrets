@@ -34,6 +34,30 @@ export const getSecrets = async (search?: string) => {
     where: (t, { eq, and, like }) =>
       and(
         eq(t.createdByUserId, session?.user.id!),
+        eq(t.revealed, false),
+        search ? like(t.title, `%${search}%`) : undefined,
+      ),
+    orderBy: ({ createdAt }, { desc }) => desc(createdAt),
+  });
+
+  return { secrets: s, session };
+};
+
+export const getRevealedSecrets = async (search?: string) => {
+  const { session } = await getUserAuth();
+
+  if (!session) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "You must be logged in to view your secrets.",
+    });
+  }
+
+  const s = await db.query.secrets.findMany({
+    where: (t, { eq, and, like }) =>
+      and(
+        eq(t.createdByUserId, session?.user.id!),
+        eq(t.revealed, true),
         search ? like(t.title, `%${search}%`) : undefined,
       ),
     orderBy: ({ createdAt }, { desc }) => desc(createdAt),

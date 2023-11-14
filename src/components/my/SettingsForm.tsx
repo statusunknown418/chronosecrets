@@ -32,6 +32,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
   const q = useSearchParams().get("q");
   const verifyOn = useSearchParams().get("verifyOn");
 
+  const utils = trpc.useUtils();
   const [parent] = useAutoAnimate();
   const [available, setAvailable] = useState(true);
 
@@ -64,10 +65,12 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
     });
 
   const { mutate, isLoading } = trpc.user.updateUser.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success(`Updated!${goBackTo ? " - Redirecting you back..." : ""}`);
 
       const query = q ? `&q=${q}` : "";
+
+      await utils.user.getFullViewer.refetch();
 
       goBackTo &&
         setTimeout(() => {

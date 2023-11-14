@@ -30,6 +30,7 @@ export const secrets = mysqlTable(
     editedAt: datetime("edited_at", { mode: "date" }),
     createdAt: datetime("created_at", { mode: "date" }),
     viewed: boolean("viewed").default(false),
+    viewedAt: datetime("viewed_at", { mode: "date" }),
     wasEdited: boolean("was_edited").default(false),
     createdByUserId: varchar("created_by_user_id", { length: 256 }).notNull(),
   },
@@ -79,6 +80,7 @@ export const insertSecretParams = createSelectSchema(secrets, {
     wasEdited: true,
     editedAt: true,
     viewed: true,
+    viewedAt: true,
   })
   .refine((schema) => {
     return schema.revealingDate > new Date();
