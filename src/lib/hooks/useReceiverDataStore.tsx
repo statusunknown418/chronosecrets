@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 export type ReceiverDataStore = {
   storedReceiver: Partial<User & { username: string }> | null;
-  setReceiverData: (data: Omit<ReceiverDataStore, "setReceiverData">) => void;
+  setReceiverData: (data: Omit<ReceiverDataStore, "setReceiverData" | "clear">) => void;
   clear: () => void;
 };
 
