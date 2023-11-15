@@ -14,7 +14,6 @@ import { AlertOctagon, CheckIcon, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "../ui/button";
 import {
@@ -36,28 +35,12 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
   const bypass = searchParams.get("bypass");
   const sendingUsername = searchParams.get("sendingUsername");
   const sendingId = searchParams.get("sendingId");
+  const syncedReceiver = useReceiverDataStore((s) => s.storedReceiver);
 
   const { data, isLoading } = trpc.friendships.getAcceptedFriends.useQuery();
   const { data: bypassUsername } = trpc.user.getSafeUserById.useQuery(sendingId || "", {
     enabled: !!sendingId && !!bypass,
   });
-
-  const receiverDisplayName = useCallback(
-    (value: string) => {
-      if (!data) return;
-
-      if (!data.people?.length || !value) return "Select someone";
-
-      const isUserSource = data.people.find((p) => data.viewer.id === p.source.id);
-
-      if (isUserSource) {
-        return data.people.find((p) => p.friends.id === value)?.friends.name;
-      }
-
-      return data.people.find((p) => p.source.id === value)?.source.name;
-    },
-    [data],
-  );
 
   if (isLoading) return <Spinner />;
 
@@ -149,7 +132,16 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
                     !field.value && "text-muted-foreground",
                   )}
                 >
-                  {receiverDisplayName(field.value)}
+                  {/* {receiverDisplayName(field.value)} */}
+
+                  {syncedReceiver?.username ? (
+                    <p>
+                      {syncedReceiver?.username}
+                      <span className="font-normal"> - {syncedReceiver?.name}</span>
+                    </p>
+                  ) : (
+                    "Select someone"
+                  )}
 
                   <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -193,7 +185,7 @@ const ReceiverItem = ({ friend }: { friend: FullUser }) => {
 
   return (
     <CommandItem
-      value={friend.id}
+      value={friend.username!}
       key={friend.id}
       onSelect={() => {
         form.setValue("receiverId", friend.id, {
@@ -208,7 +200,11 @@ const ReceiverItem = ({ friend }: { friend: FullUser }) => {
         });
       }}
     >
-      {friend.name}
+      <p className="flex items-center gap-2">
+        <span>{friend.name || "No name"}</span>
+        <span className="text-muted-foreground">{friend.username || "No username"}</span>
+      </p>
+
       <CheckIcon
         className={cn(
           "ml-auto h-4 w-4",

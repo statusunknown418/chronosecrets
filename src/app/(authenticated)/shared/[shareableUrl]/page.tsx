@@ -122,6 +122,16 @@ export default async function ShareableUrlPage({
           readOnly
         />
       </div>
+
+      <footer className="sticky inset-x-0 bottom-0 z-10 flex items-center justify-between gap-4 border-t bg-background/20 px-4 py-3 backdrop-blur backdrop-filter">
+        <p className="flex items-center gap-1 text-sm text-muted-foreground">
+          <span className="font-semibold underline underline-offset-2">
+            {shared.receivers.length}{" "}
+            {shared.receivers.length === 1 ? "receiver" : "receivers"}
+          </span>
+          <span>can see this secret</span>
+        </p>
+      </footer>
     </main>
   );
 }

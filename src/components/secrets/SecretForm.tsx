@@ -3,6 +3,7 @@ import { SecretByIdResponse } from "@/lib/api/secrets/queries";
 import { EDIT_CONTENT_COST, EDIT_REVELATION_DATE_COST } from "@/lib/constants";
 import { NewSecretParams, insertSecretParams } from "@/lib/db/schema";
 import { useDisableSubmit } from "@/lib/hooks/useDisableSubmit";
+import { useReceiverDataStore } from "@/lib/hooks/useReceiverDataStore";
 import { trpc } from "@/lib/trpc/client";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,6 +44,7 @@ const SecretForm = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const utils = trpc.useUtils();
+  const clearSyncedReceiver = useReceiverDataStore((s) => s.clear);
 
   const sendingId = searchParams.get("sendingId");
   const bypass = searchParams.get("bypass");
@@ -95,6 +97,7 @@ const SecretForm = ({
           });
         }
 
+        clearSyncedReceiver();
         onSuccess("create");
       },
     });
@@ -287,8 +290,8 @@ const SecretForm = ({
                   ? "Saving"
                   : "Save"
                 : isCreating
-                ? "Creating"
-                : "Create"}
+                  ? "Creating"
+                  : "Create"}
             </span>
           </Button>
         </div>
