@@ -1,3 +1,4 @@
+import { APP_URL, REPLY_TO_EMAIL } from "@/lib/constants";
 import {
   Body,
   Button,
@@ -33,7 +34,7 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
   /**
    * TODO: Change this to the real URL when we have a domain
    */
-  const fullSecretUrl = `https://wait4it.vercel.app/receiving/${secretId}`;
+  const fullSecretUrl = `${APP_URL}/${secretId}`;
 
   return (
     <Tailwind>
@@ -88,7 +89,7 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
               <strong className="text-black">{receiverUsername}</strong> - registered as{" "}
               {receiverEmail}. If you received this email by mistake, please reach out to
               us{" "}
-              <Link href="mailto:alvarodevcode@outlook.com" className="underline">
+              <Link href={`mailto:${REPLY_TO_EMAIL}`} className="underline">
                 here
               </Link>{" "}
               or if you prefer, just ignore this message.

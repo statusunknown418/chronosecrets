@@ -1,21 +1,25 @@
 "use client";
 import { trpc } from "@/lib/trpc/client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 export const QuickFriendship = ({ sourceId }: { sourceId: string }) => {
   const { replace } = useRouter();
+  const currentPath = usePathname();
 
   const utils = trpc.useUtils();
 
-  const { data, isLoading: friendsLoading } = trpc.friendships.getFriends.useQuery(
-    undefined,
-    {
-      refetchOnMount: false,
-    },
-  );
+  const {
+    data,
+    isLoading: friendsLoading,
+    error,
+  } = trpc.friendships.getFriends.useQuery(undefined, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    retry: 1,
+  });
 
   const { mutate, isLoading } = trpc.friendships.quickFriendship.useMutation({
     onSuccess: () => {
@@ -31,6 +35,26 @@ export const QuickFriendship = ({ sourceId }: { sourceId: string }) => {
       toast.error(error.message);
     },
   });
+
+  if (error)
+    return (
+      <div className="flex items-center gap-2">
+        <p className="text-sm text-muted-foreground">
+          Oh you just need to sign up first!
+        </p>
+
+        <Link
+          href={{
+            pathname: "/auth/signin",
+            query: { callbackUrl: `/${currentPath}?sourceId=${sourceId}` },
+          }}
+        >
+          <Button variant="link" className="p-0">
+            Click here!
+          </Button>
+        </Link>
+      </div>
+    );
 
   if (friendsLoading) return <Button loading />;
 
