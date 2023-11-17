@@ -1,3 +1,4 @@
+import { NewFriendRequestEmail } from "@/components/emails/NewFriendRequestEmail";
 import { NewSecretEmail } from "@/components/emails/NewSecretEmail";
 import scheduleNotification from "@/defer/scheduleNotification";
 import { db } from "@/lib/db";
@@ -38,11 +39,11 @@ export const notifySecretReceiver = async (input: NotifyReceiverInput) => {
   });
 
   return await resend.emails.send({
-    from: "Wait4it - [Notifications] <onboarding@resend.dev>",
+    from: "ChronoSecrets - [Notifications] <onboarding@resend.dev>",
     subject: "There's a new secret for you!",
     text: "Powered by MeowStudios",
     to: "alvarodevcode@outlook.com",
-    reply_to: "alvarodevcode@outlook.com",
+    reply_to: "alvaro.aquije@icloud.com",
     react: NewSecretEmail({
       receiverName: receiverProfile.name || "",
       receiverEmail: receiverProfile.email || "",
@@ -50,5 +51,30 @@ export const notifySecretReceiver = async (input: NotifyReceiverInput) => {
       secretId: input.secretId,
       secretTitle: input.secretTitle,
     }),
+  });
+};
+
+export const newFriendRequestNotificationSchema = z.object({
+  sourceId: z.string(),
+  sourceUsername: z.string(),
+  targetId: z.string(),
+  targetEmail: z.string(),
+  targetUsername: z.string(),
+});
+
+export type NewFriendRequestNotificationInput = z.infer<
+  typeof newFriendRequestNotificationSchema
+>;
+
+export const newFriendRequestNotification = async (
+  input: NewFriendRequestNotificationInput,
+) => {
+  return await resend.emails.send({
+    from: "ChronoSecrets - [Notifications] <onboarding@resend.dev>",
+    subject: "You have a new friend request!",
+    text: "Powered by MeowStudios",
+    to: "alvarodevcode@outlook.com",
+    reply_to: "alvaro.aquije@icloud.com",
+    react: NewFriendRequestEmail(input),
   });
 };

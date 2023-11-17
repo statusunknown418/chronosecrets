@@ -1,4 +1,6 @@
 import {
+  newFriendRequestNotification,
+  newFriendRequestNotificationSchema,
   notifyReceiverSchema,
   notifySecretReceiver,
 } from "@/lib/api/transactional/mutations";
@@ -9,5 +11,10 @@ export const transactionalRouter = router({
     .input(notifyReceiverSchema)
     .mutation(({ input }) => {
       return notifySecretReceiver(input);
+    }),
+  newFriendRequest: publicProcedure
+    .input(newFriendRequestNotificationSchema)
+    .mutation(({ input }) => {
+      return newFriendRequestNotification(input);
     }),
 });
