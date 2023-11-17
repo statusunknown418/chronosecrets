@@ -22,20 +22,26 @@ export function FriendsList({ friendships }: { friendships: GetAllFriendshipsOut
   }
 
   return (
-    <article
-      className={cn("relative flex max-h-80 flex-col gap-4 overflow-y-scroll")}
-      ref={parent}
-    >
-      {data.people.map((f) => (
-        <FriendCard
-          key={f.sourceId}
-          /**
-           * TODO: Probably improve queries and complexity later on, related to TOL-57
-           */
-          friend={data.viewer.id === f.sourceId ? f.friends : f.source}
-          requestAccepted={f.requestAccepted}
-        />
-      ))}
-    </article>
+    <div className="relative">
+      <article
+        className={cn("flex max-h-64 flex-col gap-4 overflow-y-scroll")}
+        ref={parent}
+      >
+        {data.people.map((f) => (
+          <FriendCard
+            key={data.viewer.id === f.sourceId ? f.userId : f.sourceId}
+            /**
+             * TODO: Probably improve queries and complexity later on, related to TOL-57
+             */
+            friend={data.viewer.id === f.sourceId ? f.friends : f.source}
+            requestAccepted={f.requestAccepted}
+          />
+        ))}
+      </article>
+
+      {data.people?.length > 2 && (
+        <div className="-bottom- absolute left-0 z-10 flex h-3 w-full flex-col items-center justify-center bg-black/70 blur" />
+      )}
+    </div>
   );
 }

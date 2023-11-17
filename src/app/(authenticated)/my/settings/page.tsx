@@ -51,6 +51,10 @@ export default async function MySettings({
           >
             <HydrateSettingsForm />
           </Suspense>
+
+          <div className="pt-4">
+            <SignOut />
+          </div>
         </TabsContent>
 
         <TabsContent value="chronoBucks">
@@ -62,7 +66,10 @@ export default async function MySettings({
         <TabsContent value="people">
           <section className="flex flex-col gap-4 px-2">
             <h2 className="text-lg font-bold">Friends</h2>
-            <ServerFriendListRequests />
+
+            <Suspense>
+              <ServerFriendListRequests />
+            </Suspense>
 
             <h2 className="text-lg font-bold">Your requests</h2>
             <Suspense fallback={<Spinner />}>
@@ -73,10 +80,6 @@ export default async function MySettings({
           </section>
         </TabsContent>
       </Tabs>
-
-      <div className="p-4">
-        <SignOut />
-      </div>
     </main>
   );
 }
