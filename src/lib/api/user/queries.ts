@@ -67,12 +67,17 @@ export async function getPendingRequestsForViewer() {
 
   const { user } = session;
 
-  return db.query.friendships.findMany({
+  const data = await db.query.friendships.findMany({
     where: (t, { eq, and }) => and(eq(t.userId, user.id), eq(t.requestAccepted, false)),
     with: {
       source: true,
     },
   });
+
+  return {
+    people: data,
+    viewer: session.user,
+  };
 }
 
 export type Requests = Awaited<ReturnType<typeof getPendingRequestsForViewer>>;
