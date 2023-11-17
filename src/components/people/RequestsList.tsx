@@ -1,7 +1,7 @@
 "use client";
 import { Requests } from "@/lib/api/user/queries";
 import { trpc } from "@/lib/trpc/client";
-import { ScrollArea } from "../ui/scroll-area";
+import { cn } from "@/lib/utils";
 import { RequestCard } from "./RequestCard";
 
 export const RequestsList = ({ requests }: { requests: Requests }) => {
@@ -9,7 +9,7 @@ export const RequestsList = ({ requests }: { requests: Requests }) => {
     initialData: requests,
   });
 
-  if (data.length === 0) {
+  if (data.people?.length === 0) {
     return (
       <div className="flex min-h-[120px] items-center justify-center rounded-lg border border-dashed text-muted-foreground">
         <p className="text-sm">You have no pending requests.</p>
@@ -18,10 +18,19 @@ export const RequestsList = ({ requests }: { requests: Requests }) => {
   }
 
   return (
-    <ScrollArea className="max-h-56">
-      {data.map((request) => (
-        <RequestCard key={request.userId} request={request} />
-      ))}
-    </ScrollArea>
+    <div className="relative">
+      <section className={cn("flex max-h-64 flex-col gap-4 overflow-y-scroll")}>
+        {data.people?.map((request) => (
+          <RequestCard
+            key={request.sourceId === data.viewer.id ? request.userId : request.sourceId}
+            request={request}
+          />
+        ))}
+      </section>
+
+      {data.people?.length > 2 && (
+        <div className="absolute -bottom-3 left-0 flex h-3 w-full flex-col items-center justify-center bg-black/60 blur" />
+      )}
+    </div>
   );
 };

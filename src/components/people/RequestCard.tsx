@@ -1,11 +1,13 @@
 import { Requests } from "@/lib/api/user/queries";
 import { trpc } from "@/lib/trpc/client";
 import { Check, X } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
-export const RequestCard = ({ request }: { request: Requests[number] }) => {
+export const RequestCard = ({ request }: { request: Requests["people"][number] }) => {
   const ctx = trpc.useUtils();
+  const { data } = useSession();
 
   const { mutate: accept } = trpc.friendships.acceptFriendRequest.useMutation({
     onSuccess: async () => {
@@ -20,20 +22,31 @@ export const RequestCard = ({ request }: { request: Requests[number] }) => {
     },
     onMutate: async () => {
       const prev = ctx.friendships.getPendingRequestsForViewer.getData();
-      const withoutCurrentRequest = prev?.filter(
+      const withoutCurrentRequest = prev?.people.filter(
         (r) => r.userId !== request.userId && r.sourceId !== request.sourceId,
       );
 
-      ctx.friendships.getPendingRequestsForViewer.setData(
-        undefined,
-        withoutCurrentRequest,
-      );
+      if (!data) return toast.error("You must be logged in to accept a friend request");
+
+      ctx.friendships.getPendingRequestsForViewer.setData(undefined, {
+        people: [
+          ...(withoutCurrentRequest ?? [
+            {
+              requestAccepted: true,
+              source: request.source,
+              sourceId: request.sourceId,
+              userId: request.userId,
+            },
+          ]),
+        ],
+        viewer: prev?.viewer || data.user,
+      });
 
       return { prev };
     },
-    onError: (_err, _variables, context) => {
+    onError: (_err, _variables) => {
       toast.error("Failed to accept request");
-      ctx.friendships.getPendingRequestsForViewer.setData(undefined, context?.prev);
+      ctx.friendships.getPendingRequestsForViewer.refetch();
     },
   });
 
@@ -50,14 +63,25 @@ export const RequestCard = ({ request }: { request: Requests[number] }) => {
     },
     onMutate: async () => {
       const prev = ctx.friendships.getPendingRequestsForViewer.getData();
-      const withoutCurrentRequest = prev?.filter(
+      const withoutCurrentRequest = prev?.people.filter(
         (r) => r.userId !== request.userId && r.sourceId !== request.sourceId,
       );
 
-      ctx.friendships.getPendingRequestsForViewer.setData(
-        undefined,
-        withoutCurrentRequest,
-      );
+      if (!data?.user) return;
+
+      ctx.friendships.getPendingRequestsForViewer.setData(undefined, {
+        people: [
+          ...(withoutCurrentRequest ?? [
+            {
+              requestAccepted: true,
+              source: request.source,
+              sourceId: request.sourceId,
+              userId: request.userId,
+            },
+          ]),
+        ],
+        viewer: prev?.viewer || data.user,
+      });
 
       return { prev };
     },

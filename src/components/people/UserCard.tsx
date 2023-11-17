@@ -2,7 +2,6 @@ import { FullUser } from "@/lib/db/schema";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { CheckCircle, Clock, Plus, X } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -17,28 +16,34 @@ export const UserCard = ({
   requestPending: boolean;
 }) => {
   const [sent, setSent] = useState(false);
-  const { data } = useSession();
+  const { data } = trpc.user.getFullViewer.useQuery();
 
   const ctx = trpc.useUtils();
+
+  const { mutate: notify } = trpc.transactional.newFriendRequest.useMutation();
 
   const { mutate } = trpc.friendships.sendFriendRequest.useMutation({
     onMutate: (mutationData) => {
       setSent(true);
       const prev = ctx.friendships.getFriends.getData();
 
-      if (!data?.user) return { prev };
+      if (!data) return { prev };
 
       const prevSource = {
-        ...data.user,
-        email: data.user.email || "",
-        name: data.user.name || "",
-        image: data.user.image || "",
+        ...data,
+        email: data?.email || "",
+        name: data?.name || "",
+        image: data?.image || "",
         /** Purposely set to 0 because we don't need it */
         credits: 0,
       };
 
       ctx.friendships.getFriends.setData(undefined, {
-        viewer: prev?.viewer ?? data.user,
+        viewer: prev?.viewer ?? {
+          ...data,
+          username: data?.username || "",
+          emailVerified: new Date(),
+        },
         people: [
           ...(prev?.people ?? []),
           {
@@ -54,6 +59,13 @@ export const UserCard = ({
     },
     onSuccess: () => {
       toast.success("Request sent!");
+      notify({
+        sourceId: data?.id || "",
+        targetId: friend.id,
+        sourceUsername: data?.username || "",
+        targetUsername: friend.username || "no-username",
+        targetEmail: friend.email || "",
+      });
     },
     onError: (_err, _variables, context) => {
       setSent(false);
@@ -86,7 +98,7 @@ export const UserCard = ({
           {friend.username || "No username 😭"}
         </h3>
 
-        {friend.id !== data?.user.id ? (
+        {friend.id !== data?.id ? (
           <Button
             variant="ghost"
             size="icon"
@@ -94,7 +106,7 @@ export const UserCard = ({
               data &&
                 !disableMutation &&
                 mutate({
-                  sourceId: data.user.id,
+                  sourceId: data.id,
                   userId: friend.id,
                 });
             }}
@@ -113,13 +125,13 @@ export const UserCard = ({
           </span>
         )}
 
-        {(requestPending || sent) && !alreadyFriends && data?.user.id !== friend.id && (
+        {(requestPending || sent) && !alreadyFriends && data?.id !== friend.id && (
           <Button
             size={"icon"}
             variant={"ghost"}
             onClick={() => {
               cancel({
-                sourceId: data.user.id,
+                sourceId: data.id,
                 userId: friend.id,
               });
             }}

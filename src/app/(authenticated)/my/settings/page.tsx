@@ -23,7 +23,7 @@ export default async function MySettings({
   return (
     <main className="flex h-full flex-col gap-4">
       <header className="sticky inset-0 z-10 flex flex-col bg-background/20 backdrop-blur backdrop-filter">
-        <h1 className="border-b px-4 py-3 text-2xl font-bold">My Settings</h1>
+        <h1 className="border-b px-4 py-3 text-2xl font-bold sm:text-3xl">Settings</h1>
       </header>
 
       <Tabs className="px-2" defaultValue={searchParams.tab || "profile"}>
@@ -65,7 +65,7 @@ export default async function MySettings({
 
         <TabsContent value="people">
           <section className="flex flex-col gap-4 px-2">
-            <h2 className="text-lg font-bold">Friends</h2>
+            <h2 className="text-lg font-bold">Your Friends</h2>
 
             <Suspense>
               <ServerFriendListRequests />
@@ -75,8 +75,6 @@ export default async function MySettings({
             <Suspense fallback={<Spinner />}>
               <RequestsForUser />
             </Suspense>
-
-            <hr className="bg-border" />
           </section>
         </TabsContent>
       </Tabs>

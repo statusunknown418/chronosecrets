@@ -2,6 +2,7 @@
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { animated, useSpring } from "@react-spring/web";
 import { ArrowLeft, Inbox, PenSquare, Search, Send, User2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -48,6 +49,13 @@ export const Navigation = () => {
 
   const { data } = trpc.user.getFullViewer.useQuery(undefined, { refetchOnMount: false });
 
+  const { number } = useSpring({
+    from: { number: 0 },
+    number: data?.credits ?? 0,
+    delay: 100,
+    config: { mass: 2, tension: 40, friction: 20 },
+  });
+
   return (
     <nav className="sticky inset-0 z-10 px-4 pt-3 text-muted-foreground backdrop-blur-sm backdrop-filter">
       <ul className="grid h-full w-full grid-cols-1 items-center gap-4 bg-transparent sm:grid-cols-3 sm:justify-between">
@@ -92,7 +100,8 @@ export const Navigation = () => {
                 "border border-indigo-500 px-2 py-0.5 text-indigo-300",
               )}
             >
-              ${data.credits}CB
+              $<animated.span>{number.to((n) => n.toFixed(0))}</animated.span>
+              CB
             </li>
           ) : (
             <Skeleton className="h-8 w-[6ch]" />

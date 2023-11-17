@@ -185,7 +185,7 @@ const ReceiverItem = ({ friend }: { friend: FullUser }) => {
 
   return (
     <CommandItem
-      value={friend.username!}
+      value={`${friend.username}-${friend.name}`}
       key={friend.id}
       onSelect={() => {
         form.setValue("receiverId", friend.id, {
