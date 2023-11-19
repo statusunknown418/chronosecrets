@@ -1,7 +1,15 @@
 "use client";
 
 import { trpc } from "@/lib/trpc/client";
-import { Book, File, Link2, Rocket, ShieldQuestion, Users2 } from "lucide-react";
+import {
+  Book,
+  File,
+  Link2,
+  LinkIcon,
+  Rocket,
+  ShieldQuestion,
+  Users2,
+} from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -34,6 +42,7 @@ const BypassingLink = () => {
   const { data, isLoading } = trpc.user.getFullViewer.useQuery();
   const [bypassDialog, setBypassDialog] = useState(false);
   const [shareProfileDialog, setShareProfileDialog] = useState(false);
+  const [referralDialog, setReferralDialog] = useState(false);
 
   if (isLoading || !data) return;
 
@@ -84,6 +93,11 @@ const BypassingLink = () => {
             <DropdownMenuItem onClick={() => setShareProfileDialog(true)}>
               <Users2 size={16} />
               Share your profile
+            </DropdownMenuItem>
+
+            <DropdownMenuItem onClick={() => setReferralDialog(true)}>
+              <LinkIcon size={16} />
+              Referral link
             </DropdownMenuItem>
           </DropdownMenuGroup>
 
@@ -142,6 +156,29 @@ const BypassingLink = () => {
               she will be able to automatically add you as a{" "}
               <span className="text-foreground">friend</span>. They just need to and sign
               up & accept the request!
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter className="mt-2">
+            <Button rounding="full" onClick={shareProfileWithFriends}>
+              Let&apos;s do it!
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={referralDialog} onOpenChange={setReferralDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Referral link!</DialogTitle>
+
+            <div className="my-4 flex h-40 w-full items-center justify-center rounded-lg border text-sm text-muted-foreground">
+              Link animation or small video here
+            </div>
+
+            <DialogDescription className="p-1 text-left">
+              Invite as many people as you want to ChronoSecrets and earn $50CB per new
+              user registered!
             </DialogDescription>
           </DialogHeader>
 
