@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+import withPlaiceholder from "@plaiceholder/next";
+
 const nextConfig = {
   experimental: {
     /** For defer.run to work correctly */
@@ -22,4 +24,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default withPlaiceholder(nextConfig);
