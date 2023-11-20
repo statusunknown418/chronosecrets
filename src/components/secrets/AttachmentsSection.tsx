@@ -55,6 +55,8 @@ export const AttachmentsSection = ({
               src={s}
               width={200}
               height={200}
+              blurDataURL={"data:image/png;base64"}
+              placeholder="blur"
               className="min-h-max w-auto min-w-[200px] rounded-lg transition-all hover:opacity-90"
               alt={`Attachment`}
             />
@@ -70,6 +72,7 @@ export const AttachmentsSection = ({
             }}
             onClientUploadComplete={(res) => {
               setDisableButton(false);
+
               if (!res) return;
 
               form.setValue("attachments", [

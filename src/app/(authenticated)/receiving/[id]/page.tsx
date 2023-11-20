@@ -32,7 +32,7 @@ export default async function ReceiveSecretByIdPage({
 
   return (
     <main className="flex flex-col gap-4">
-      <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 py-2 backdrop-blur backdrop-filter">
+      <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 p-4 backdrop-blur backdrop-filter">
         <header className="flex w-full items-center justify-between gap-4">
           <h1 className="flex items-center gap-3 text-2xl font-bold capitalize tracking-tight">
             {secret.title}
@@ -50,10 +50,8 @@ export default async function ReceiveSecretByIdPage({
         <span className="text-muted-foreground">Created by</span>{" "}
         <TooltipProvider delayDuration={0}>
           <Tooltip>
-            <TooltipTrigger className="flex items-center gap-1">
-              <span className="underline underline-offset-2">
-                {secret.creator.username}
-              </span>
+            <TooltipTrigger className="flex items-center gap-1 text-foreground">
+              <span>{secret.creator.username}</span>
               <Info size={15} className="text-blue-500" />
             </TooltipTrigger>
 

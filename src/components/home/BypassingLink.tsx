@@ -67,13 +67,13 @@ const BypassingLink = () => {
   };
 
   return (
-    <>
+    <div className="fixed bottom-4 left-4 z-20">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             rounding="full"
             size="icon"
-            className="absolute bottom-4 left-4 z-20 border border-indigo-500 bg-indigo-700 text-foreground hover:border-indigo-300 hover:bg-indigo-600 hover:text-foreground"
+            className="border border-indigo-500 bg-indigo-700 text-foreground hover:border-indigo-300 hover:bg-indigo-600 hover:text-foreground"
           >
             <Rocket size={16} />
           </Button>
@@ -189,7 +189,7 @@ const BypassingLink = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 
