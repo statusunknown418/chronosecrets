@@ -28,7 +28,7 @@ export const SecretAvailable = ({
       <ShowFullContent secret={secret} />
 
       <div className="flex items-center gap-1 text-sm font-light text-muted-foreground">
-        {secret.wasEdited && (
+        {secret.wasEdited && !secret.removeEditedLabel && (
           <>
             <p className="italic text-foreground">Edited</p>
             <span>-</span>

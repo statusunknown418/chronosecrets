@@ -27,7 +27,9 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import { RequiredLabel } from "../ui/required-label";
+import { Switch } from "../ui/switch";
 import { Textarea } from "../ui/textarea";
 import { ToggleGroupItem, ToggleGroupRoot } from "../ui/toggle-group";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
@@ -54,6 +56,7 @@ const SecretForm = ({
   const bypass = searchParams.get("bypass");
 
   const [editCost, setEditCost] = useState(0);
+  const [disableEditTag, setDisableEditTag] = useState(false);
   const [parent] = useAutoAnimate();
   const [mainForm] = useAutoAnimate();
 
@@ -152,10 +155,11 @@ const SecretForm = ({
     const cost = [
       (touchedFields.revealingDate && EDIT_REVELATION_DATE_COST) || 0,
       (touchedFields.content && EDIT_CONTENT_COST) || 0,
+      (touchedFields.content && disableEditTag && DELETE_EDITED_LABEL_COST) || 0,
     ].reduce((a, b) => a + b, 0) as number;
 
     setEditCost(cost);
-  }, [editing, touchedFields.content, touchedFields.revealingDate]);
+  }, [editing, touchedFields.content, touchedFields.revealingDate, disableEditTag]);
 
   return (
     <Form {...form}>
@@ -255,27 +259,28 @@ const SecretForm = ({
         {editing && touchedFields.content && (
           <Alert variant="warning">
             <Info size={16} />
-            <AlertTitle>Editing Content</AlertTitle>
+            <AlertTitle>Warning</AlertTitle>
 
-            <AlertDescription className="flex flex-col gap-1">
+            <AlertDescription className="flex flex-col gap-2">
               <p>
-                After you edit this secret a label will be added to it, so the receiver
-                can know that this secret was edited. Want to delete it?{" "}
+                After you edit this secret an{" "}
+                <span className="text-foreground">&quot;Edited&quot;</span> tag will be
+                added to it.
               </p>
 
-              <p>Cost: ${DELETE_EDITED_LABEL_COST}CB</p>
-
-              <Button
-                variant="ghost"
-                size="icon"
-                rounding="full"
-                onClick={() => {
-                  form.setValue("content", "");
-                  form.setValue("attachments", []);
-                }}
+              <Label
+                htmlFor="delete-edited"
+                className="flex w-max items-center gap-2 rounded-lg border bg-popover p-3"
               >
-                Yes!
-              </Button>
+                <Switch
+                  id="delete-edited"
+                  onCheckedChange={setDisableEditTag}
+                  checked={disableEditTag}
+                />
+                <span className="font-light text-foreground">
+                  Delete it for ${DELETE_EDITED_LABEL_COST}CB
+                </span>
+              </Label>
             </AlertDescription>
           </Alert>
         )}

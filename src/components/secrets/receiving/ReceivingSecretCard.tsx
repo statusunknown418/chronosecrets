@@ -1,3 +1,4 @@
+import { Scrambler } from "@/components/home/Scrambler";
 import { SecretsByReceiverResponse } from "@/lib/api/secrets/queries";
 import { formatDistance } from "date-fns";
 import Image from "next/image";
@@ -34,9 +35,7 @@ export const ReceivingSecretCard = ({
       <div className="flex flex-col gap-3 p-5">
         <h3 className="font-semibold uppercase">{secret.title}</h3>
 
-        <p className="break-words py-2 text-sm text-muted-foreground">
-          {secret.content.slice(0, 200)}...
-        </p>
+        <Scrambler text={secret.content} />
       </div>
 
       <Countdown secret={secret} />
