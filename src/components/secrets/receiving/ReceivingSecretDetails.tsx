@@ -22,7 +22,7 @@ export const SecretAvailable = ({
   return (
     <section className="flex flex-col gap-4 px-3">
       <span className="w-max rounded-full border border-indigo-600 bg-indigo-950 px-3 py-1 text-xs font-light text-indigo-400">
-        Encryption via {secret.encryptionType}
+        Encrypted via {secret.encryptionType}
       </span>
 
       <ShowFullContent secret={secret} />
@@ -40,7 +40,7 @@ export const SecretAvailable = ({
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger>
-              <Info size={16} className="text-blue-500" />
+              <Info size={15} className="text-muted-foreground" />
             </TooltipTrigger>
 
             <TooltipContent>The time this secret was created</TooltipContent>

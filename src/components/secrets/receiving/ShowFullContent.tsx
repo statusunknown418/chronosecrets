@@ -17,7 +17,7 @@ export const ShowFullContent = ({ secret }: { secret: Secret }) => {
     <section className="relative">
       <p
         className={cn(
-          "min-h-[156px] rounded-lg border border-dashed p-4 text-sm font-light tracking-wide transition-all duration-300",
+          "min-h-[200px] rounded-lg border border-dashed bg-popover p-4 text-sm font-light tracking-wide shadow-lg transition-all duration-300",
           !secret.viewed && !show ? "blur" : "blur-none",
         )}
       >

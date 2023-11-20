@@ -50,19 +50,21 @@ export const ChronoBucks = async ({
     >
       {product.tokens === 200 && (
         <Badge className="absolute -left-3 -top-3 w-max bg-indigo-600 text-indigo-100">
-          <Star size={12} />
+          <Star size={12} className="fill-indigo-200" />
           <span>Best value</span>
         </Badge>
       )}
 
       <section className="flex flex-col items-center justify-center">
-        <p className="text-sm text-muted-foreground">${product.price / 100}</p>
-        <h3 className="text-center text-2xl font-light">{product.name}CB</h3>
+        <p className="text-sm font-medium text-muted-foreground">
+          ${product.price / 100}
+        </p>
+        <h3 className="text-center font-mono text-2xl font-light">{product.name}CB</h3>
         <p className="text-sm text-muted-foreground">ChronoBucks</p>
 
         <Button type="submit" size="sm" rounding="full" className="mt-5">
           <ShoppingCart size={16} />
-          Buy now!
+          Buy now
         </Button>
       </section>
     </form>

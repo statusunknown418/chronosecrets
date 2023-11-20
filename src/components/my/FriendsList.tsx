@@ -23,8 +23,8 @@ export function FriendsList({ friendships }: { friendships: GetAllFriendshipsOut
 
   return (
     <div className="relative">
-      <article
-        className={cn("flex max-h-64 flex-col gap-4 overflow-y-scroll")}
+      <section
+        className={cn("grid grid-cols-1 gap-4 overflow-y-scroll md:grid-cols-2")}
         ref={parent}
       >
         {data.people.map((f) => (
@@ -37,7 +37,7 @@ export function FriendsList({ friendships }: { friendships: GetAllFriendshipsOut
             requestAccepted={f.requestAccepted}
           />
         ))}
-      </article>
+      </section>
 
       {data.people?.length > 2 && (
         <div className="-bottom- absolute left-0 z-10 flex h-3 w-full flex-col items-center justify-center bg-black/70 blur" />
