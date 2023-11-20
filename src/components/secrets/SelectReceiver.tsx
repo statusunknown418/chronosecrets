@@ -25,7 +25,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { RequiredLabel } from "../ui/required-label";
-import { Spinner } from "../ui/spinner";
+import { Skeleton } from "../ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
@@ -42,7 +42,17 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
     enabled: !!sendingId && !!bypass,
   });
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) {
+    return (
+      <FormItem>
+        <FormLabel>
+          Receiver <RequiredLabel />
+        </FormLabel>
+
+        <Skeleton className="h-10 w-full" />
+      </FormItem>
+    );
+  }
 
   if (!!bypass) {
     return (
@@ -105,19 +115,20 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
       render={({ field }) => (
         <FormItem>
           <TooltipProvider delayDuration={0}>
-            <FormLabel>
-              Receiver
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <AlertOctagon className="text-yellow-500" size={16} />
-                </TooltipTrigger>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <FormLabel>
+                  Receiver
+                  <AlertOctagon className="text-red-500" size={16} />
+                  <RequiredLabel />
+                </FormLabel>
+              </TooltipTrigger>
 
-                <TooltipContent className="font-normal">
-                  <span className="text-yellow-500">Watch out,</span> you cannot change
-                  the receiver after creation!
-                </TooltipContent>
-              </Tooltip>
-            </FormLabel>
+              <TooltipContent className="font-normal" align="start">
+                <span className="text-yellow-500">Watch out,</span> you cannot change the
+                receiver after creation!
+              </TooltipContent>
+            </Tooltip>
           </TooltipProvider>
 
           <Popover>
