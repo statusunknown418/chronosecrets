@@ -37,6 +37,13 @@ export const getSecrets = async (search?: string) => {
         eq(t.revealed, false),
         search ? like(t.title, `%${search}%`) : undefined,
       ),
+    with: {
+      receivers: {
+        with: {
+          receiver: true,
+        },
+      },
+    },
     orderBy: ({ createdAt }, { desc }) => desc(createdAt),
   });
 
@@ -60,6 +67,13 @@ export const getRevealedSecrets = async (search?: string) => {
         eq(t.revealed, true),
         search ? like(t.title, `%${search}%`) : undefined,
       ),
+    with: {
+      receivers: {
+        with: {
+          receiver: true,
+        },
+      },
+    },
     orderBy: ({ createdAt }, { desc }) => desc(createdAt),
   });
 

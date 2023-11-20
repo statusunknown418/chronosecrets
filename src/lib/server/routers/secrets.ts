@@ -4,7 +4,12 @@ import {
   updateSecret,
   viewSecretAsReceiver,
 } from "@/lib/api/secrets/mutations";
-import { getRevealedSecrets, getSecretById, getSecrets } from "@/lib/api/secrets/queries";
+import {
+  getRevealedSecrets,
+  getSecretById,
+  getSecrets,
+  getSecretsByReceiver,
+} from "@/lib/api/secrets/queries";
 import {
   insertSecretParams,
   secretIdSchema,
@@ -22,6 +27,9 @@ export const secretsRouter = router({
   }),
   getSecretById: publicProcedure.input(secretIdSchema).query(({ input }) => {
     return getSecretById(input.id);
+  }),
+  getSecretsByReceiver: publicProcedure.query(() => {
+    return getSecretsByReceiver();
   }),
   createSecret: publicProcedure.input(insertSecretParams).mutation(({ input }) => {
     return createSecret(input);
