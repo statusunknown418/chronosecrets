@@ -60,7 +60,13 @@ export const Navigation = () => {
     <nav className="sticky inset-0 z-10 px-4 pt-3 text-muted-foreground backdrop-blur-sm backdrop-filter">
       <ul className="grid h-full w-full grid-cols-1 items-center gap-4 bg-transparent sm:grid-cols-3 sm:justify-between">
         <li className="hidden sm:flex">
-          <Image src="/assets/app-logo.png" width={28} height={28} alt="app-logo" />
+          <Image
+            src="/assets/app-logo.png"
+            width={28}
+            height={28}
+            alt="app-logo"
+            priority
+          />
         </li>
 
         <ul
@@ -87,6 +93,8 @@ export const Navigation = () => {
                 >
                   {link.icon}
                 </Button>
+
+                <span className="sr-only">{link.name}</span>
               </Link>
             </li>
           ))}

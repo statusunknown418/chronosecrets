@@ -11,7 +11,7 @@ export const Pricing = async () => {
 
   return (
     <section className="mx-2 flex flex-col gap-4">
-      <article className="flex flex-col gap-3 rounded-lg border p-4">
+      <article className="flex flex-col gap-3 rounded-lg border bg-popover p-4">
         <p className="text-sm font-light text-muted-foreground">Your ChronoBucks</p>
 
         <MyChronoBucks bucks={session.credits} />
@@ -21,7 +21,7 @@ export const Pricing = async () => {
         </p>
       </article>
 
-      <h4 className="text-xl font-bold">I want more!</h4>
+      <h4 className="text-xl font-bold">Want or need more?</h4>
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {products.map((p) => (
@@ -29,7 +29,7 @@ export const Pricing = async () => {
         ))}
       </div>
 
-      <p className="text-sm font-light text-muted-foreground">
+      <p className="text-center text-sm font-light text-muted-foreground">
         Your ChronoBucks will be added to your account immediately after purchase!
       </p>
     </section>

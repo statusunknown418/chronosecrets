@@ -47,13 +47,14 @@ export default async function ReceiveSecretByIdPage({
       </section>
 
       <div className="flex items-center gap-1 px-4 text-sm">
-        <p>
-          <span className="text-muted-foreground">From</span> {secret.creator.username}
-        </p>
+        <span className="text-muted-foreground">Created by</span>{" "}
         <TooltipProvider delayDuration={0}>
           <Tooltip>
-            <TooltipTrigger>
-              <Info size={16} className="text-blue-500" />
+            <TooltipTrigger className="flex items-center gap-1">
+              <span className="underline underline-offset-2">
+                {secret.creator.username}
+              </span>
+              <Info size={15} className="text-blue-500" />
             </TooltipTrigger>
 
             <TooltipContent className="capitalize">{secret.creator.name}</TooltipContent>

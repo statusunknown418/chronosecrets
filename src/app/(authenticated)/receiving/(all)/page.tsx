@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ReceivingSecretsPage() {
   return (
-    <section className="h-full w-full">
+    <section className="h-full w-full pb-16">
       <Suspense
         fallback={
           <div className="flex h-full flex-col items-center justify-center">

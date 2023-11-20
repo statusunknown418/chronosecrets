@@ -10,7 +10,7 @@ import { Toaster } from "sonner";
 export const metadata: Metadata = {
   title: {
     default: "ChronoSecrets",
-    template: "%s / ChronoSecrets",
+    template: "%s | ChronoSecrets",
   },
   description: "Schedule a secret now, deal with the consequences later!",
   keywords: [

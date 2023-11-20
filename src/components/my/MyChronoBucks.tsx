@@ -19,8 +19,8 @@ export const MyChronoBucks = ({ bucks }: { bucks: number }) => {
     });
 
   return (
-    <h3 className="text-3xl">
-      $<animated.span>{number.to((n) => n.toFixed(2))}</animated.span>CB
+    <h3 className="font-mono text-3xl">
+      $<animated.span>{number.to((n) => n.toFixed(0))}</animated.span>CB
     </h3>
   );
 };

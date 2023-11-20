@@ -71,7 +71,7 @@ export const newFriendRequestNotification = async (
 ) => {
   return await resend.emails.send({
     from: "ChronoSecrets - [Notifications] <onboarding@resend.dev>",
-    subject: "You have a new friend request!",
+    subject: `${input.sourceUsername} wants to be your friend!`,
     text: "Powered by MeowStudios",
     to: "alvarodevcode@outlook.com",
     reply_to: "alvaro.aquije@icloud.com",

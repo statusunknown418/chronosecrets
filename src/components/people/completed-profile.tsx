@@ -6,7 +6,7 @@ export const CompletedProfile = async ({ user }: { user: FullUser }) => {
   return (
     <section className="flex flex-col gap-4">
       <p className="flex items-center gap-1 text-sm text-muted-foreground">
-        <span>Your username</span>
+        <span>Viewing as</span>
         <span className="text-foreground">{user?.username}</span>{" "}
         <span className="text-indigo-500">
           <Copy size={12} />

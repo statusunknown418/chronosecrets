@@ -170,15 +170,15 @@ const BypassingLink = () => {
       <Dialog open={referralDialog} onOpenChange={setReferralDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Referral link!</DialogTitle>
+            <DialogTitle>Yes we also do referrals!</DialogTitle>
 
             <div className="my-4 flex h-40 w-full items-center justify-center rounded-lg border text-sm text-muted-foreground">
               Link animation or small video here
             </div>
 
             <DialogDescription className="p-1 text-left">
-              Invite as many people as you want to ChronoSecrets and earn $50CB per new
-              user registered!
+              Invite as many people as you want to ChronoSecrets and earn up to{" "}
+              <span className="text-indigo-500">$50CB</span> per new user registered!
             </DialogDescription>
           </DialogHeader>
 

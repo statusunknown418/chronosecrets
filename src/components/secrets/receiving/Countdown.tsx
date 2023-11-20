@@ -2,7 +2,7 @@
 import { Secret } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
 import { formatDistance } from "date-fns";
-import { Dot } from "lucide-react";
+import { ArrowRight, Dot } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -32,16 +32,18 @@ export const Countdown = ({ secret }: { secret: Secret }) => {
   }, [secret.revealingDate]);
 
   return (
-    <div
-      className={cn(
-        "rounded-b-2xl border-t bg-neutral-800 py-3 font-medium text-neutral-100 dark:bg-popover",
-      )}
-    >
+    <div className={cn("rounded-b-2xl border-t py-3 font-medium text-neutral-100")}>
       {secret.revealed && secret.revealingDate < new Date() ? (
         <Link href={`/receiving/${secret.id}`}>
-          <p className="flex items-center justify-center gap-1">
+          <p className="group flex items-center justify-center gap-1">
             <Dot size={24} className="animate-ping text-green-500" />
+
             <span>Available Now!</span>
+
+            <ArrowRight
+              size={16}
+              className="text-green-400 duration-200 group-hover:translate-x-1"
+            />
           </p>
         </Link>
       ) : (

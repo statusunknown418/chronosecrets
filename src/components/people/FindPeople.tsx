@@ -46,7 +46,7 @@ export const FindPeople = () => {
                 <Label htmlFor="find">Find people</Label>
 
                 <div className="flex items-center gap-2">
-                  <Button type="submit" size="sm">
+                  <Button type="submit" size="icon">
                     <Search size={16} />
                   </Button>
 

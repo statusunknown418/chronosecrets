@@ -1,6 +1,10 @@
 "use client";
 import { SecretByIdResponse } from "@/lib/api/secrets/queries";
-import { EDIT_CONTENT_COST, EDIT_REVELATION_DATE_COST } from "@/lib/constants";
+import {
+  DELETE_EDITED_LABEL_COST,
+  EDIT_CONTENT_COST,
+  EDIT_REVELATION_DATE_COST,
+} from "@/lib/constants";
 import { NewSecretParams, insertSecretParams } from "@/lib/db/schema";
 import { useDisableSubmit } from "@/lib/hooks/useDisableSubmit";
 import { useReceiverDataStore } from "@/lib/hooks/useReceiverDataStore";
@@ -248,6 +252,34 @@ const SecretForm = ({
           )}
         />
 
+        {editing && touchedFields.content && (
+          <Alert variant="warning">
+            <Info size={16} />
+            <AlertTitle>Editing Content</AlertTitle>
+
+            <AlertDescription className="flex flex-col gap-1">
+              <p>
+                After you edit this secret a label will be added to it, so the receiver
+                can know that this secret was edited. Want to delete it?{" "}
+              </p>
+
+              <p>Cost: ${DELETE_EDITED_LABEL_COST}CB</p>
+
+              <Button
+                variant="ghost"
+                size="icon"
+                rounding="full"
+                onClick={() => {
+                  form.setValue("content", "");
+                  form.setValue("attachments", []);
+                }}
+              >
+                Yes!
+              </Button>
+            </AlertDescription>
+          </Alert>
+        )}
+
         {editing && Object.values(touchedFields).length > 0 && (
           <Alert variant="success">
             <Coins size={16} />
@@ -257,14 +289,14 @@ const SecretForm = ({
               {touchedFields.revealingDate && (
                 <p>
                   Revealing date edit &rarr;{" "}
-                  <span className="text-foreground">-{EDIT_REVELATION_DATE_COST}</span>
+                  <span className="text-foreground">${EDIT_REVELATION_DATE_COST}CB</span>
                 </p>
               )}
 
               {touchedFields.content && (
                 <p>
                   Content edit &rarr;{" "}
-                  <span className="text-foreground">-{EDIT_CONTENT_COST}</span>
+                  <span className="text-foreground">${EDIT_CONTENT_COST}CB</span>
                 </p>
               )}
             </AlertDescription>

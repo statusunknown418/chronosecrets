@@ -19,7 +19,7 @@ export const RequestsList = ({ requests }: { requests: Requests }) => {
 
   return (
     <div className="relative">
-      <section className={cn("flex max-h-64 flex-col gap-4 overflow-y-scroll")}>
+      <section className={cn("grid grid-cols-1 gap-4 overflow-y-scroll md:grid-cols-2")}>
         {data.people?.map((request) => (
           <RequestCard
             key={request.sourceId === data.viewer.id ? request.userId : request.sourceId}

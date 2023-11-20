@@ -21,12 +21,12 @@ export default async function MySettings({
   };
 }) {
   return (
-    <main className="flex h-full flex-col gap-4">
+    <main className="flex h-full flex-col gap-4 pb-10">
       <header className="sticky inset-0 z-10 flex flex-col bg-background/20 backdrop-blur backdrop-filter">
         <h1 className="border-b px-4 py-3 text-2xl font-bold sm:text-3xl">Settings</h1>
       </header>
 
-      <Tabs className="px-2" defaultValue={searchParams.tab || "profile"}>
+      <Tabs className="px-2 pb-14 md:pb-4" defaultValue={searchParams.tab || "profile"}>
         <TabsList className="w-full justify-between">
           <TabsTrigger value="profile" className="w-full">
             Profile
@@ -52,7 +52,7 @@ export default async function MySettings({
             <HydrateSettingsForm />
           </Suspense>
 
-          <div className="pt-4">
+          <div className="flex justify-end self-end pt-4">
             <SignOut />
           </div>
         </TabsContent>
@@ -64,18 +64,28 @@ export default async function MySettings({
         </TabsContent>
 
         <TabsContent value="people">
-          <section className="flex flex-col gap-4 px-2">
-            <h2 className="text-lg font-bold">Your Friends</h2>
+          <Tabs defaultValue="friends">
+            <TabsList>
+              <TabsTrigger value="friends">Friends</TabsTrigger>
+              <TabsTrigger value="requests">Requests</TabsTrigger>
+            </TabsList>
 
-            <Suspense>
-              <ServerFriendListRequests />
-            </Suspense>
+            <TabsContent value="friends" className="px-2">
+              <h2 className="mb-4 text-lg font-bold">Your Friends</h2>
 
-            <h2 className="text-lg font-bold">Your requests</h2>
-            <Suspense fallback={<Spinner />}>
-              <RequestsForUser />
-            </Suspense>
-          </section>
+              <Suspense>
+                <ServerFriendListRequests />
+              </Suspense>
+            </TabsContent>
+
+            <TabsContent value="requests" className="px-2">
+              <h2 className="mb-4 text-lg font-bold">Your requests</h2>
+
+              <Suspense fallback={<Spinner />}>
+                <RequestsForUser />
+              </Suspense>
+            </TabsContent>
+          </Tabs>
         </TabsContent>
       </Tabs>
     </main>

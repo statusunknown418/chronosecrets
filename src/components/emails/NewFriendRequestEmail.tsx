@@ -29,8 +29,7 @@ export const NewFriendRequestEmail = ({
         <Head />
 
         <Preview>
-          [Notifications] - {sourceUsername}
-          has sent you a friend request on ChronoSecrets!
+          {sourceUsername} has sent you a friend request on ChronoSecrets!
         </Preview>
 
         <Body className="mx-auto my-auto font-sans">
@@ -59,7 +58,7 @@ export const NewFriendRequestEmail = ({
 
             <Text className="text-center">
               If you are having trouble clicking the button, copy and paste the following
-              link in your browser <Link>{fullAcceptUrl}</Link>
+              link in your browser <Link href={fullAcceptUrl}>{fullAcceptUrl}</Link>
             </Text>
 
             <Hr className="mt-4" />
