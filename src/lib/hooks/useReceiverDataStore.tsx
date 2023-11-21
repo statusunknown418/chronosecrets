@@ -1,14 +1,16 @@
 import { User } from "next-auth";
 import { create } from "zustand";
 
+type Params = Partial<User & { username: string | null }> | null;
+
 export type ReceiverDataStore = {
-  storedReceiver: Partial<User & { username: string }> | null;
-  setReceiverData: (data: Omit<ReceiverDataStore, "setReceiverData" | "clear">) => void;
+  storedReceiver: Params;
+  setReceiverData: (data: Params) => void;
   clear: () => void;
 };
 
 export const useReceiverDataStore = create<ReceiverDataStore>((set) => ({
   storedReceiver: null,
-  setReceiverData: (data) => set(data),
+  setReceiverData: (data) => set({ storedReceiver: data }),
   clear: () => set({ storedReceiver: null }),
 }));

@@ -2,6 +2,7 @@ import { Requests } from "@/lib/api/user/queries";
 import { trpc } from "@/lib/trpc/client";
 import { Check, X } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
@@ -94,35 +95,49 @@ export const RequestCard = ({ request }: { request: Requests["people"][number] }
   return (
     <article
       key={request.userId}
-      className="flex flex-col gap-2 rounded-lg border px-4 pb-4 pt-2 text-sm"
+      className="flex items-start gap-2 rounded-lg border px-4 pb-4 pt-2 text-sm"
     >
-      <header className="flex items-center justify-between">
-        <p className="text-muted-foreground">{request.source.email}</p>
+      {request.source.image && (
+        <Image
+          src={request.source.image}
+          alt={request.source.name || "avatar"}
+          width={60}
+          height={60}
+          className="rounded-lg object-contain pt-3"
+        />
+      )}
 
-        <div className="flex items-center gap-2">
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            onClick={() => accept({ sourceId: request.sourceId, userId: request.userId })}
-          >
-            <Check size={16} className="text-green-500" />
-          </Button>
+      <div className="flex flex-col">
+        <header className="flex items-center justify-between">
+          <p className="text-muted-foreground">{request.source.email}</p>
 
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            onClick={() =>
-              decline({ sourceId: request.sourceId, userId: request.userId })
-            }
-          >
-            <X size={16} className="text-destructive" />
-          </Button>
-        </div>
-      </header>
+          <div className="flex items-center">
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              onClick={() =>
+                accept({ sourceId: request.sourceId, userId: request.userId })
+              }
+            >
+              <Check size={16} className="text-green-500" />
+            </Button>
 
-      <h4 className="font-bold tracking-wide">{request.source.name}</h4>
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              onClick={() =>
+                decline({ sourceId: request.sourceId, userId: request.userId })
+              }
+            >
+              <X size={16} className="text-destructive" />
+            </Button>
+          </div>
+        </header>
 
-      <p className="font-light text-indigo-500">{request.source.username}</p>
+        <h4 className="font-bold tracking-wide">{request.source.name}</h4>
+
+        <p className="font-light text-indigo-500">{request.source.username}</p>
+      </div>
     </article>
   );
 };

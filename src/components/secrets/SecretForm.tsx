@@ -94,7 +94,7 @@ const SecretForm = ({
 
   const { mutate: createSecret, isLoading: isCreating } =
     trpc.secrets.createSecret.useMutation({
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         if (data.secret) {
           notifyReceiver({
             receiverId: data.secret.receiverId,
@@ -105,19 +105,30 @@ const SecretForm = ({
         }
 
         clearSyncedReceiver();
+        await utils.secrets.getSecrets.invalidate();
         onSuccess("create");
       },
     });
 
   const { mutate: updateSecret, isLoading: isUpdating } =
     trpc.secrets.updateSecret.useMutation({
-      onSuccess: () => {
-        editCost > 0 && toast.info(`Deducted ${editCost} ChronoBucks from your account!`);
+      onSuccess: async ({ id }) => {
+        editCost > 0 &&
+          toast.info(`Secret edited successfully!`, {
+            description: `The total cost was ${editCost}CB`,
+          });
+
+        Promise.all([
+          utils.secrets.getSecrets.invalidate(),
+          utils.secrets.getSecretById.refetch({ id: Number(id) }),
+        ]);
 
         onSuccess("update");
       },
       onError: (err) => {
-        toast.error(err.message);
+        return toast.error(err.data?.code, {
+          description: err.message,
+        });
       },
     });
 
@@ -132,6 +143,7 @@ const SecretForm = ({
         viewed: false,
         viewedAt: null,
         cost: editCost,
+        removeEditedLabel: disableEditTag,
       });
     } else {
       createSecret({
@@ -155,7 +167,7 @@ const SecretForm = ({
     const cost = [
       (touchedFields.revealingDate && EDIT_REVELATION_DATE_COST) || 0,
       (touchedFields.content && EDIT_CONTENT_COST) || 0,
-      (touchedFields.content && disableEditTag && DELETE_EDITED_LABEL_COST) || 0,
+      (disableEditTag && DELETE_EDITED_LABEL_COST) || 0,
     ].reduce((a, b) => a + b, 0) as number;
 
     setEditCost(cost);
@@ -256,7 +268,7 @@ const SecretForm = ({
           )}
         />
 
-        {editing && touchedFields.content && (
+        {editing && (
           <Alert variant="warning">
             <Info size={16} />
             <AlertTitle>Warning</AlertTitle>
@@ -265,7 +277,7 @@ const SecretForm = ({
               <p>
                 After you edit this secret an{" "}
                 <span className="text-foreground">&quot;Edited&quot;</span> tag will be
-                added to it.
+                added to it. This is optional and you can remove it below.
               </p>
 
               <Label
@@ -277,9 +289,12 @@ const SecretForm = ({
                   onCheckedChange={setDisableEditTag}
                   checked={disableEditTag}
                 />
-                <span className="font-light text-foreground">
-                  Delete it for ${DELETE_EDITED_LABEL_COST}CB
-                </span>
+                <p className="font-light text-foreground">
+                  Delete it for{" "}
+                  <span className="font-mono font-medium">
+                    ${DELETE_EDITED_LABEL_COST}CB
+                  </span>
+                </p>
               </Label>
             </AlertDescription>
           </Alert>
@@ -293,15 +308,19 @@ const SecretForm = ({
             <AlertDescription className="flex flex-col gap-1">
               {touchedFields.revealingDate && (
                 <p>
-                  Revealing date edit &rarr;{" "}
-                  <span className="text-foreground">${EDIT_REVELATION_DATE_COST}CB</span>
+                  Revealing date edit for{" "}
+                  <span className="font-mono text-foreground">
+                    ${EDIT_REVELATION_DATE_COST}CB
+                  </span>
                 </p>
               )}
 
               {touchedFields.content && (
                 <p>
-                  Content edit &rarr;{" "}
-                  <span className="text-foreground">${EDIT_CONTENT_COST}CB</span>
+                  Content edit for{" "}
+                  <span className="font-mono text-green-400 underline underline-offset-4">
+                    ${EDIT_CONTENT_COST}CB
+                  </span>
                 </p>
               )}
             </AlertDescription>
@@ -310,7 +329,14 @@ const SecretForm = ({
 
         <div className="flex w-full items-center justify-end gap-4 rounded-lg pb-4 text-sm backdrop-blur backdrop-filter">
           {editing && (
-            <Button variant={"ghost"} type="button" onClick={() => form.reset()}>
+            <Button
+              variant={"ghost"}
+              type="button"
+              onClick={() => {
+                form.reset();
+                setDisableEditTag(false);
+              }}
+            >
               <span>Reset</span>
             </Button>
           )}

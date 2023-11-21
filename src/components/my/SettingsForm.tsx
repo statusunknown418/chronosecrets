@@ -26,7 +26,13 @@ import { Input } from "../ui/input";
 import { RequiredLabel } from "../ui/required-label";
 import { Spinner } from "../ui/spinner";
 
-export const SettingsForm = ({ user }: { user: FullUser }) => {
+export const SettingsForm = ({
+  user,
+  submitter = "Save",
+}: {
+  user: FullUser;
+  submitter?: string;
+}) => {
   const router = useRouter();
   const goBackTo = useSearchParams().get("goBackTo");
   const q = useSearchParams().get("q");
@@ -35,6 +41,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
   const utils = trpc.useUtils();
   const [parent] = useAutoAnimate();
   const [available, setAvailable] = useState(true);
+  const [initiallyDisabled, setInitiallyDisabled] = useState(true);
 
   const form = useForm<UpdateUserSchema>({
     defaultValues: {
@@ -61,6 +68,7 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
       },
       onSuccess: (data) => {
         setAvailable(data.available);
+        setInitiallyDisabled(false);
       },
     });
 
@@ -93,10 +101,12 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
     }
   }, [checkUsername, value]);
 
+  const disableSubmit = initiallyDisabled || !available || checkingUsername;
+
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-6 rounded-lg border p-4"
+        className="flex w-full flex-col gap-6 rounded-lg border p-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <div className="flex flex-col items-center gap-2">
@@ -145,6 +155,10 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
                 <FormControl>
                   <input
                     {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setInitiallyDisabled(true);
+                    }}
                     value={field.value || ""}
                     placeholder="status.n_418"
                     className="h-full w-full bg-background px-3 text-sm focus:outline-none"
@@ -219,10 +233,10 @@ export const SettingsForm = ({ user }: { user: FullUser }) => {
         <Button
           className="w-max self-end justify-self-end"
           type="submit"
-          disabled={!available || checkingUsername}
+          disabled={disableSubmit}
           loading={isLoading}
         >
-          {isLoading ? "Updating..." : "Update"}
+          {isLoading ? "Working on it..." : submitter}
         </Button>
       </form>
     </Form>

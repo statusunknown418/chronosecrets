@@ -1,3 +1,4 @@
+import { useReceiverDataStore } from "@/lib/hooks/useReceiverDataStore";
 import { RouterOutputs } from "@/lib/server/routers/_app";
 import { format } from "date-fns";
 import { Edit, Eye, User2 } from "lucide-react";
@@ -12,6 +13,8 @@ export const SecretCard = ({
 }: {
   secret: RouterOutputs["secrets"]["getSecrets"]["secrets"][number];
 }) => {
+  const syncReceiver = useReceiverDataStore((s) => s.setReceiverData);
+
   return (
     <article className="flex min-h-[172px] cursor-default flex-col gap-3 rounded-2xl border bg-gradient-to-br from-popover py-4 duration-200 hover:zoom-in-50 [&>*]:px-4">
       <div>
@@ -24,13 +27,18 @@ export const SecretCard = ({
         </h2>
 
         <Link href={`/secrets/${secret.id}`}>
-          <Button variant="ghost" size="icon" disabled={!!secret.revealed}>
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={!!secret.revealed}
+            onClick={() => syncReceiver(secret.receivers[0].receiver || null)}
+          >
             <Edit size={16} className="text-muted-foreground" />
           </Button>
         </Link>
       </div>
 
-      <Scrambler text={secret.content.slice(0, 300)} />
+      <Scrambler text={secret.content.slice(0, 200)} />
 
       <Separator />
 
