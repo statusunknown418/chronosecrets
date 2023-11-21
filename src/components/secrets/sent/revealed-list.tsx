@@ -1,7 +1,7 @@
 import { getRevealedSecrets } from "@/lib/api/secrets/queries";
 import { Suspense } from "react";
 import { EmptySecretState } from "../secrets-list";
-import { RevealingListWrapper } from "./RevealingListWrapper";
+import { DeliveredListWrapper } from "./DeliveredListWrapper";
 
 export const RevealedSecretsList = async () => {
   const data = await getRevealedSecrets();
@@ -12,7 +12,7 @@ export const RevealedSecretsList = async () => {
 
   return (
     <Suspense>
-      <RevealingListWrapper initialData={data} />
+      <DeliveredListWrapper initialData={data} />
     </Suspense>
   );
 };

@@ -1,4 +1,5 @@
 "use client";
+import { useReceiverDataStore } from "@/lib/hooks/useReceiverDataStore";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -46,6 +47,7 @@ export const Navigation = () => {
 
   const { back } = useRouter();
   const [parent] = useAutoAnimate();
+  const clear = useReceiverDataStore((s) => s.clear);
 
   const { data } = trpc.user.getFullViewer.useQuery(undefined, { refetchOnMount: false });
 
@@ -92,6 +94,11 @@ export const Navigation = () => {
                     className={cn(
                       path === link.href && "text-primary hover:text-primary",
                     )}
+                    onClick={() => {
+                      if (link.href !== "/secrets/new") return;
+
+                      clear();
+                    }}
                   >
                     {link.icon}
                   </Button>

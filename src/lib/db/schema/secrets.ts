@@ -82,6 +82,7 @@ export const insertSecretParams = createSelectSchema(secrets, {
     editedAt: true,
     viewed: true,
     viewedAt: true,
+    removeEditedLabel: true,
   })
   .refine((schema) => {
     return schema.revealingDate > new Date();

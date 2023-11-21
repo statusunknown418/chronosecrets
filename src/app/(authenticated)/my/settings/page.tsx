@@ -27,7 +27,7 @@ export default async function MySettings({
       </header>
 
       <Tabs className="px-2 pb-14 md:pb-4" defaultValue={searchParams.tab || "profile"}>
-        <TabsList className="w-full justify-between">
+        <TabsList className="w-full justify-between md:w-max">
           <TabsTrigger value="profile" className="w-full">
             Profile
           </TabsTrigger>

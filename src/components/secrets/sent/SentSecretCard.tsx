@@ -11,7 +11,7 @@ export const SentSecretCard = ({
   secret: RouterOutputs["secrets"]["getRevealedSecrets"]["secrets"][number];
 }) => {
   return (
-    <article className="flex min-h-[172px] flex-col gap-3 rounded-xl border border-dashed bg-gradient-to-l from-popover py-4 sm:p-4 [&>*]:px-4">
+    <article className="flex flex-col gap-3 rounded-xl border border-dashed bg-gradient-to-l from-popover p-4">
       <header className="flex items-center justify-between">
         <h2 className="text-lg font-medium">{secret.title}</h2>
 
@@ -22,7 +22,7 @@ export const SentSecretCard = ({
         </Link>
       </header>
 
-      <Scrambler text={secret.content} />
+      <Scrambler text={secret.content.slice(0, 200)} />
 
       <div className="flex items-center gap-4">
         {secret.viewed && secret.viewedAt && (

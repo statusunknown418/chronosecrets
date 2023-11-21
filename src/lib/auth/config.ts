@@ -35,6 +35,7 @@ export const authOptions: NextAuthOptions = {
     signIn: "/auth/signin",
     signOut: "/auth/bye",
     error: "/auth/signin",
+    newUser: "/auth/setup?goBackTo=/home",
   },
   providers: [
     DiscordProvider({

@@ -1,5 +1,7 @@
-import { ReceivingListWrapper } from "@/components/secrets/receiving/ReceivingListWrapper";
+import { ReceivingList } from "@/components/secrets/receiving/receiving-list";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Sent to Me",
@@ -8,7 +10,17 @@ export const metadata: Metadata = {
 export default function ReceivingSecretsPage() {
   return (
     <section className="h-full w-full pb-16">
-      <ReceivingListWrapper />
+      <Suspense
+        fallback={
+          <section className="grid grid-cols-1 gap-4 px-4 md:grid-cols-2">
+            {[1, 2, 3, 4, 5, 6].map((s) => (
+              <Skeleton key={s} className="h-64 w-full" />
+            ))}
+          </section>
+        }
+      >
+        <ReceivingList />
+      </Suspense>
     </section>
   );
 }

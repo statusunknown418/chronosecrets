@@ -135,13 +135,14 @@ export const updateSecret = async (
     if (session.credits < secret.cost) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "You don't have enough ChronoBucks to update this secret",
+        message: `You need at least - ${secret.cost - session.credits}CB to do this!`,
+        cause: "INSUFFICIENT_FUNDS",
       });
     }
 
     await Promise.all([updatePromise, applyCostPromise]);
 
-    return { success: true };
+    return { success: true, id: secretId };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
     throw new TRPCError({

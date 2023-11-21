@@ -1,4 +1,5 @@
 import { QuickShare } from "@/components/secrets/QuickShare";
+import { Sync } from "@/components/secrets/Sync";
 import { EditMenu } from "@/components/secrets/edit/EditMenu";
 import { Button } from "@/components/ui/button";
 import { getSecretById } from "@/lib/api/secrets/queries";
@@ -85,6 +86,8 @@ export default async function SecretSlugPage({ params: { id } }: SecretSlugPageP
           </div>
         </header>
       </section>
+
+      <Sync userId={secret.receivers.at(0)?.userId!} />
 
       <section className="px-4">
         <Suspense>

@@ -46,7 +46,7 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
     return (
       <FormItem>
         <FormLabel>
-          Receiver <RequiredLabel />
+          Receiver <AlertOctagon className="text-red-500" size={14} /> <RequiredLabel />
         </FormLabel>
 
         <Skeleton className="h-10 w-full" />
@@ -58,11 +58,12 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
     return (
       <FormItem>
         <FormLabel>
-          Receiver <RequiredLabel />
+          Receiver
+          <span className="text-muted-foreground">(prefilled)</span>
         </FormLabel>
 
         {sendingId ? (
-          <Button variant="outline" className="justify-start gap-4" disabled>
+          <Button variant="outline" className="justify-start gap-2" disabled>
             {bypassUsername?.image && (
               <Image
                 className="rounded-full"
@@ -119,7 +120,7 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
               <TooltipTrigger asChild>
                 <FormLabel>
                   Receiver
-                  <AlertOctagon className="text-red-500" size={16} />
+                  <AlertOctagon className="text-red-500" size={14} />
                   <RequiredLabel />
                 </FormLabel>
               </TooltipTrigger>
@@ -143,12 +144,19 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
                     !field.value && "text-muted-foreground",
                   )}
                 >
-                  {/* {receiverDisplayName(field.value)} */}
-
                   {syncedReceiver?.username ? (
-                    <p>
+                    <p className="flex items-center gap-2">
+                      {syncedReceiver?.image && (
+                        <Image
+                          className="rounded-full"
+                          src={syncedReceiver?.image}
+                          alt={syncedReceiver?.name || "Profile pic"}
+                          width={22}
+                          height={22}
+                        />
+                      )}
+
                       {syncedReceiver?.username}
-                      <span className="font-normal"> - {syncedReceiver?.name}</span>
                     </p>
                   ) : (
                     "Select someone"
@@ -203,12 +211,7 @@ const ReceiverItem = ({ friend }: { friend: FullUser }) => {
           shouldValidate: true,
         });
 
-        syncReceiver({
-          storedReceiver: {
-            ...friend,
-            username: friend.username || "",
-          },
-        });
+        syncReceiver(friend);
       }}
     >
       <p className="flex items-center gap-2">

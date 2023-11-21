@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RouterOutputs } from "@/lib/server/routers/_app";
 import { trpc } from "@/lib/trpc/client";
-import { Info } from "lucide-react";
+import { Info, Plus } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { SentSecretCard } from "./SentSecretCard";
 
-export const RevealingListWrapper = ({
+export const DeliveredListWrapper = ({
   initialData,
 }: {
   initialData?: RouterOutputs["secrets"]["getRevealedSecrets"];
@@ -26,7 +26,7 @@ export const RevealingListWrapper = ({
 
   if (isLoading) {
     return (
-      <section className="flex max-w-full flex-col gap-5 pt-2">
+      <section className="flex max-w-full flex-col gap-5">
         <Alert variant="warning">
           <Info size={16} />
           <AlertTitle>Note</AlertTitle>
@@ -44,18 +44,29 @@ export const RevealingListWrapper = ({
 
   if (data?.secrets.length === 0) {
     return (
-      <section className="flex flex-col items-center justify-center gap-5 rounded-xl border p-4">
-        <Info size={32} className="text-gray-500" />
-        <p className="text-center text-gray-500">No secrets yet</p>
-        <Link href="/secrets/new">
-          <Button variant="link">Create one!</Button>
-        </Link>
+      <section className="flex flex-col gap-5">
+        <Alert variant="warning">
+          <Info size={16} />
+          <AlertTitle>Note</AlertTitle>
+          <AlertDescription>These secrets have already been revealed!</AlertDescription>
+        </Alert>
+
+        <div className="flex h-full flex-col items-center justify-center gap-2 rounded-lg border p-4 text-sm text-slate-500">
+          <p>You have no secrets yet.</p>
+
+          <Link href="/secrets/new" className="focus-within:outline-none">
+            <Button variant={"link"}>
+              <Plus size={16} />
+              <span>Add secret</span>
+            </Button>
+          </Link>
+        </div>
       </section>
     );
   }
 
   return (
-    <section className="flex max-w-full flex-col gap-5 pt-2">
+    <section className="flex max-w-full flex-col gap-5">
       <Alert variant="warning">
         <Info size={16} />
         <AlertTitle>Note</AlertTitle>

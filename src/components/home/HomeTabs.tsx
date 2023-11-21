@@ -1,6 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ListWrapper } from "../secrets/ListWrapper";
-import { RevealingListWrapper } from "../secrets/sent/RevealingListWrapper";
+import { Suspense } from "react";
+import { MySecretsList } from "../secrets/secrets-list";
+import { DeliveredListWrapper } from "../secrets/sent/DeliveredListWrapper";
+import { Skeleton } from "../ui/skeleton";
 
 export const HomeTabs = () => {
   return (
@@ -15,11 +17,23 @@ export const HomeTabs = () => {
       </TabsList>
 
       <TabsContent value="scheduled">
-        <ListWrapper />
+        <Suspense
+          fallback={
+            <section className="max-w-full pt-2">
+              <ul className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
+                {[1, 2, 3, 4, 5, 6].map((s) => (
+                  <Skeleton key={s} className="h-64 w-full" />
+                ))}
+              </ul>
+            </section>
+          }
+        >
+          <MySecretsList />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="delivered">
-        <RevealingListWrapper />
+        <DeliveredListWrapper />
       </TabsContent>
     </Tabs>
   );
