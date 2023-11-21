@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { X } from "lucide-react";
 import Link from "next/link";
-import { ReactNode } from "react";
 
-export default function ReceivingAllLayout({ children }: { children: ReactNode }) {
+export default function LoadingAllReceivingPage() {
   return (
-    <main className="flex flex-col gap-4">
+    <div className="flex h-full w-full flex-col gap-4">
       <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 py-2 backdrop-blur backdrop-filter sm:py-4">
         <header className="flex w-full items-center justify-between gap-4">
           <h1 className="text-2xl font-bold capitalize tracking-tight sm:text-3xl">
@@ -20,7 +20,7 @@ export default function ReceivingAllLayout({ children }: { children: ReactNode }
         </header>
       </section>
 
-      {children}
-    </main>
+      <Spinner />
+    </div>
   );
 }

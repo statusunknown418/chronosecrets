@@ -34,7 +34,7 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
   /**
    * TODO: Change this to the real URL when we have a domain
    */
-  const fullSecretUrl = `${APP_URL}/${secretId}`;
+  const fullSecretUrl = `${APP_URL}/receiving/${secretId}`;
 
   return (
     <Tailwind>

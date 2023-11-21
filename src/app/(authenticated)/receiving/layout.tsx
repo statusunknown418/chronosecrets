@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
 
-export default function ReceivingWrapperLayout({ children }: { children: ReactNode }) {
-  return children;
+export default function ReceivingAllLayout({ children }: { children: ReactNode }) {
+  return <main className="flex flex-col gap-4">{children}</main>;
 }
