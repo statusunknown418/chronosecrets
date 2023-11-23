@@ -100,9 +100,8 @@ export const DateTimeField = () => {
           </Popover>
 
           <FormDescription>
-            This is the date and time when your secret will be revealed to the receiver.
             We limit the revealing date to a{" "}
-            <span className="text-yellow-500">maximum of 30 days in the future</span> to
+            <span className="text-blue-500">maximum of 30 days in the future</span> to
             prevent abuse 👀.
           </FormDescription>
 

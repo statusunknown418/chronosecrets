@@ -5,6 +5,7 @@ import { z } from "zod";
 import { createSecret } from "@/lib/api/secrets/mutations";
 import { getSecrets } from "@/lib/api/secrets/queries";
 import { insertSecretParams } from "@/lib/db/schema/secrets";
+import { addDays } from "date-fns";
 
 /**
  *
@@ -29,6 +30,16 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const validatedData = insertSecretParams.parse(await req.json());
+
+    if (validatedData.revealingDate > addDays(new Date(), 30)) {
+      return NextResponse.json(
+        {
+          error: "Revealing date cannot be more than 30 days from today",
+        },
+        { status: 400 },
+      );
+    }
+
     const { success, error } = await createSecret(validatedData);
 
     if (error) return NextResponse.json({ error }, { status: 500 });
