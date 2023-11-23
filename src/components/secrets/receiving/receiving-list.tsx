@@ -5,7 +5,7 @@ import { ReceivingSecretCard } from "./ReceivingSecretCard";
 export const ReceivingList = async () => {
   const { mine } = await getSecretsByReceiver();
 
-  if (mine.length === 0) {
+  if (!mine || mine.length === 0) {
     return <EmptySecretState />;
   }
 

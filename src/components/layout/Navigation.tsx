@@ -1,5 +1,4 @@
 "use client";
-import { useReceiverDataStore } from "@/lib/hooks/useReceiverDataStore";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -47,7 +46,6 @@ export const Navigation = () => {
 
   const { back } = useRouter();
   const [parent] = useAutoAnimate();
-  const clear = useReceiverDataStore((s) => s.clear);
 
   const { data } = trpc.user.getFullViewer.useQuery(undefined, { refetchOnMount: false });
 
@@ -59,21 +57,21 @@ export const Navigation = () => {
   });
 
   return (
-    <section className="sticky inset-0 z-10 flex flex-col gap-2 bg-background/40 px-4 pb-2 pt-3 backdrop-blur backdrop-filter sm:px-10">
+    <section className="sticky inset-0 z-10 flex flex-col gap-2 bg-background/40 px-4 pb-2 pt-3 backdrop-blur backdrop-filter sm:px-8">
       <nav className="w-full text-muted-foreground">
         <ul className="grid h-full w-full grid-cols-1 items-center gap-4 bg-transparent sm:grid-cols-3 sm:justify-between">
-          <li className="hidden sm:flex">
+          <button className="hidden w-max sm:flex sm:items-center sm:gap-2">
             <Image
               src="/assets/app-logo.png"
-              width={28}
-              height={28}
+              width={25}
+              height={25}
               alt="app-logo"
               priority
             />
-          </li>
+          </button>
 
           <ul
-            className="flex w-full max-w-sm items-center justify-between gap-1 justify-self-center rounded-full border bg-popover/70 p-1 backdrop-blur backdrop-filter md:w-auto"
+            className="flex w-full max-w-sm items-center justify-between gap-1 justify-self-center rounded-full border bg-popover/70 p-1 backdrop-blur backdrop-filter sm:w-max md:w-auto"
             ref={parent}
           >
             {selectedSegment !== "home" && (
@@ -94,12 +92,8 @@ export const Navigation = () => {
                     className={cn(
                       path === link.href && "text-primary hover:text-primary",
                     )}
-                    onClick={() => {
-                      if (link.href !== "/secrets/new") return;
-
-                      clear();
-                    }}
                   >
+                    <span className="sr-only">{link.name}</span>
                     {link.icon}
                   </Button>
 
@@ -113,7 +107,7 @@ export const Navigation = () => {
             {data?.credits !== undefined ? (
               <li
                 className={cn(
-                  "hidden w-max rounded-full text-sm font-medium sm:flex",
+                  "hidden w-max rounded-full font-mono text-sm font-medium sm:flex",
                   "border border-indigo-500 px-2 py-0.5 text-indigo-300",
                 )}
               >

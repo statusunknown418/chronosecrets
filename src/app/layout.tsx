@@ -1,4 +1,5 @@
 import NextAuthProvider from "@/lib/auth/Provider";
+import { getUserAuth } from "@/lib/auth/utils";
 import TrpcProvider from "@/lib/trpc/Provider";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
@@ -38,7 +39,9 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const auth = await getUserAuth();
+
   return (
     <html lang="en" className="h-full">
       <head>
@@ -52,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
 
       <body className={cn(GeistSans.className, "dark h-full")}>
-        <NextAuthProvider>
+        <NextAuthProvider session={auth.session || undefined}>
           <TrpcProvider>{children}</TrpcProvider>
 
           <Toaster richColors closeButton theme="dark" visibleToasts={6} />

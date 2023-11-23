@@ -277,7 +277,7 @@ const SecretForm = ({
               <p>
                 After you edit this secret an{" "}
                 <span className="text-foreground">&quot;Edited&quot;</span> tag will be
-                added to it. This is optional and you can remove it below.
+                added to it. This is optional but you can remove it below.
               </p>
 
               <Label
