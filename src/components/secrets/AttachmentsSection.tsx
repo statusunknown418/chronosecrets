@@ -36,8 +36,8 @@ export const AttachmentsSection = ({
           </FormLabel>
 
           <TooltipContent>
-            <span className="font-semibold text-yellow-500">Careful,</span> you cannot
-            edit this after creation!
+            Careful, you <span className="text-yellow-500">cannot</span> edit this after
+            creation!
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

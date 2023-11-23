@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { Button } from "../ui/button";
 import { ListWrapper } from "./ListWrapper";
+import { ShareCustomLink } from "./QuickShare";
 
 export const MySecretsList = async () => {
   const data = await getSecrets();
@@ -16,6 +17,16 @@ export const MySecretsList = async () => {
     <Suspense>
       <ListWrapper initialData={data} />
     </Suspense>
+  );
+};
+
+export const EmptyInboxState = async () => {
+  return (
+    <div className="flex h-full flex-col items-center justify-center gap-2 rounded-lg border p-4 text-sm text-slate-500">
+      <p>No one has scheduled any secrets for you yet. 😢</p>
+
+      <ShareCustomLink />
+    </div>
   );
 };
 

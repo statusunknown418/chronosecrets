@@ -1,4 +1,6 @@
 import { SignOut } from "@/components/auth/SignOut";
+import { MainContent } from "@/components/layout/MainContent";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { FriendsList } from "@/components/my/FriendsList";
 import HydrateSettingsForm from "@/components/my/HydrateSettingsForm";
 import { Pricing } from "@/components/my/Pricing";
@@ -21,10 +23,8 @@ export default async function MySettings({
   };
 }) {
   return (
-    <main className="flex h-full flex-col gap-4 pb-10">
-      <header className="sticky inset-0 z-10 flex flex-col border-b bg-background/20 p-4 backdrop-blur backdrop-filter sm:py-4">
-        <h1 className="text-2xl font-bold sm:text-3xl">Settings</h1>
-      </header>
+    <MainContent>
+      <PageHeader title="Settings" />
 
       <Tabs className="px-2 pb-14 md:pb-4" defaultValue={searchParams.tab || "profile"}>
         <TabsList className="w-full justify-between md:w-max">
@@ -88,7 +88,7 @@ export default async function MySettings({
           </Tabs>
         </TabsContent>
       </Tabs>
-    </main>
+    </MainContent>
   );
 }
 

@@ -1,3 +1,4 @@
+import { MainContent } from "@/components/layout/MainContent";
 import SecretForm from "@/components/secrets/SecretForm";
 import { BypassingBanner } from "@/components/secrets/edit/BypassingBanner";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,7 @@ export const metadata = {
 
 export default function NewSecretPage() {
   return (
-    <main className="flex w-full flex-col gap-4 rounded-lg">
+    <MainContent>
       <section className="sticky inset-0 z-10 flex w-full flex-col gap-2 border-b bg-background/20 px-4 py-2 backdrop-blur backdrop-filter sm:py-4">
         <header className="flex w-full items-center justify-between gap-4">
           <h1 className="text-2xl font-bold capitalize sm:text-3xl">New secret</h1>
@@ -33,6 +34,6 @@ export default function NewSecretPage() {
           <SecretForm />
         </Suspense>
       </section>
-    </main>
+    </MainContent>
   );
 }

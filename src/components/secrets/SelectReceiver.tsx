@@ -50,6 +50,11 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
         </FormLabel>
 
         <Skeleton className="h-10 w-full" />
+
+        <FormDescription>
+          The person you&apos;re making this secret for, he or she will get a notification
+          right after it&apos;s created.
+        </FormDescription>
       </FormItem>
     );
   }
@@ -126,7 +131,7 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
               </TooltipTrigger>
 
               <TooltipContent className="font-normal" align="start">
-                <span className="text-yellow-500">Watch out,</span> you cannot change the
+                Watch out, you <span className="text-red-500">cannot</span> change the
                 receiver after creation!
               </TooltipContent>
             </Tooltip>

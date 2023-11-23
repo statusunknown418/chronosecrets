@@ -1,12 +1,16 @@
 import { getSecretsByReceiver } from "@/lib/api/secrets/queries";
-import { EmptySecretState } from "../secrets-list";
+import { EmptyInboxState } from "../secrets-list";
 import { ReceivingSecretCard } from "./ReceivingSecretCard";
 
 export const ReceivingList = async () => {
   const { mine } = await getSecretsByReceiver();
 
   if (!mine || mine.length === 0) {
-    return <EmptySecretState />;
+    return (
+      <div className="px-4">
+        <EmptyInboxState />
+      </div>
+    );
   }
 
   const sorted = mine.sort((a, b) => {
