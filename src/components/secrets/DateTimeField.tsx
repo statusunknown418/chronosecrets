@@ -1,12 +1,19 @@
 import { NewSecret } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { format, subDays } from "date-fns";
+import { addDays, format, subDays } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -26,6 +33,11 @@ export const DateTimeField = () => {
 
     date.setHours(parseInt(hours));
     date.setMinutes(parseInt(minutes));
+
+    if (date > new Date()) {
+      form.clearErrors("revealingDate");
+    }
+
     form.setValue("revealingDate", date);
   };
 
@@ -38,7 +50,7 @@ export const DateTimeField = () => {
           <FormLabel>Revealing Date</FormLabel>
 
           <Popover>
-            <PopoverTrigger asChild className="w-full max-w-[320px]">
+            <PopoverTrigger asChild className="w-full max-w-[320px]" ref={field.ref}>
               <FormControl>
                 <Button
                   className={cn(
@@ -62,14 +74,17 @@ export const DateTimeField = () => {
                 mode="single"
                 onSelect={field.onChange}
                 onDayBlur={field.onBlur}
-                disabled={(date) => date < subDays(new Date(), 1)}
+                disabled={(date) =>
+                  date < subDays(new Date(), 1) || date > addDays(new Date(), 30)
+                }
+                toMonth={addDays(new Date(), 30)}
                 selected={field.value && new Date(field.value)}
                 defaultMonth={field.value ? new Date(field.value) : new Date()}
               />
 
               <Separator />
 
-              <div className="flex flex-col gap-2 p-2">
+              <div className="mt-1 flex flex-col gap-2 px-4 py-2">
                 <Label htmlFor="time">Select time (24h format)</Label>
                 <Input
                   type="time"
@@ -83,6 +98,13 @@ export const DateTimeField = () => {
               </div>
             </PopoverContent>
           </Popover>
+
+          <FormDescription>
+            This is the date and time when your secret will be revealed to the receiver.
+            We limit the revealing date to a{" "}
+            <span className="text-yellow-500">maximum of 30 days in the future</span> to
+            prevent abuse 👀.
+          </FormDescription>
 
           <FormMessage />
         </FormItem>

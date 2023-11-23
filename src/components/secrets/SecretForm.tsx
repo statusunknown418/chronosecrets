@@ -36,6 +36,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { AttachmentsSection } from "./AttachmentsSection";
 import { DateTimeField } from "./DateTimeField";
 import { SelectReceiver } from "./SelectReceiver";
+import { Sync } from "./Sync";
 
 const SecretForm = ({
   secret,
@@ -200,7 +201,9 @@ const SecretForm = ({
           )}
         />
 
-        <SelectReceiver isEditing={editing} />
+        <div>
+          <SelectReceiver isEditing={editing} />
+        </div>
 
         <DateTimeField />
 
@@ -358,6 +361,8 @@ const SecretForm = ({
             </span>
           </Button>
         </div>
+
+        <Sync userId={secret?.receivers.at(0)?.userId || undefined} />
       </form>
     </Form>
   );
