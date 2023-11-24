@@ -1,5 +1,5 @@
 import { getSecrets } from "@/lib/api/secrets/queries";
-import { Plus } from "lucide-react";
+import { Clock, Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Button } from "../ui/button";
@@ -22,8 +22,10 @@ export const MySecretsList = async () => {
 
 export const EmptyInboxState = async () => {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-2 rounded-lg border p-4 text-sm text-slate-500">
-      <p>No one has scheduled any secrets for you yet. 😢</p>
+    <div className="flex h-full flex-col items-center justify-center gap-3 rounded-lg border p-4 text-sm text-slate-500">
+      <Clock size={36} />
+
+      <p className="text-center">No one has scheduled any secrets for you yet. 😢</p>
 
       <ShareCustomLink />
     </div>
@@ -32,7 +34,7 @@ export const EmptyInboxState = async () => {
 
 export const EmptySecretState = () => {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-2 rounded-lg border p-4 text-sm text-slate-500">
+    <div className="flex h-full flex-col items-center justify-center gap-3 rounded-lg border p-4 text-sm text-slate-500">
       <p>You have no secrets yet.</p>
 
       <Link href="/secrets/new" className="focus-within:outline-none">

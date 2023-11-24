@@ -219,8 +219,17 @@ const ReceiverItem = ({ friend }: { friend: FullUser }) => {
         syncReceiver(friend);
       }}
     >
+      {friend.image && (
+        <Image
+          className="mr-2 rounded-full"
+          src={friend.image}
+          alt={friend.name || "Profile pic"}
+          width={22}
+          height={22}
+        />
+      )}
+
       <p className="flex items-center gap-2">
-        <span>{friend.name || "No name"}</span>
         <span className="text-muted-foreground">{friend.username || "No username"}</span>
       </p>
 

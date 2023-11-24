@@ -27,6 +27,7 @@ export const ourFileRouter = {
       /**
        * TODO: Maybe do something with this data later on
        */
+      return Promise.resolve();
     }),
   profilePictureUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     .middleware(async () => {

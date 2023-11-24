@@ -21,6 +21,7 @@
     "@auth/core": "^0.16.1",
     "@auth/drizzle-adapter": "^0.3.6",
     "@defer/client": "^1.13.1",
+    "@dotlottie/react-player": "^1.6.5",
     "@formkit/auto-animate": "^0.8.1",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
