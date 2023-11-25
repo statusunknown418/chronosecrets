@@ -1,4 +1,3 @@
-import { getPlaiceholder } from "plaiceholder";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { updateProfilePictureServer } from "../api/user/mutations";
 import { getUserAuth } from "../auth/utils";
@@ -12,17 +11,13 @@ export const ourFileRouter = {
     /**
      * Whatever is returned here is accessible in onUploadComplete as `metadata`
      */
-    .middleware(async ({ req }) => {
+    .middleware(async () => {
       const { session } = await getUserAuth();
 
       if (!session?.user) throw new Error("Unauthorized");
 
       try {
-        const buffer = await req.arrayBuffer();
-
-        const { base64 } = await getPlaiceholder(Buffer.from(buffer));
-
-        return { userId: session.user.id, blur: base64 };
+        return { userId: session.user.id };
       } catch (e) {
         const error = e as Error;
         return { error: true, message: error.message };
