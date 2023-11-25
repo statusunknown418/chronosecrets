@@ -17,17 +17,22 @@ export const ourFileRouter = {
 
       if (!session?.user) throw new Error("Unauthorized");
 
-      const buffer = await req.arrayBuffer();
+      try {
+        const buffer = await req.arrayBuffer();
 
-      const { base64 } = await getPlaiceholder(Buffer.from(buffer));
+        const { base64 } = await getPlaiceholder(Buffer.from(buffer));
 
-      return { userId: session.user.id, blur: base64 };
+        return { userId: session.user.id, blur: base64 };
+      } catch (e) {
+        const error = e as Error;
+        return { error: true, message: error.message };
+      }
     })
-    .onUploadComplete(({ file, metadata }) => {
+    .onUploadComplete(() => {
       /**
        * TODO: Maybe do something with this data later on
        */
-      return Promise.resolve();
+      return;
     }),
   profilePictureUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     .middleware(async () => {
