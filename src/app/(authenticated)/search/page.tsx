@@ -1,12 +1,9 @@
 import { MainContent } from "@/components/layout/MainContent";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { CompletedProfile } from "@/components/people/completed-profile";
-import { UncompletedProfile } from "@/components/people/uncompleted-profile";
 import { Spinner } from "@/components/ui/spinner";
-import { getFullUser } from "@/lib/auth/utils";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import { ProfileChecker } from "./profile-checker";
 
 export const metadata: Metadata = {
   title: {
@@ -14,17 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function FriendshipsPage({
-  searchParams,
-}: {
-  searchParams?: { verified: boolean; q: string };
-}) {
-  const data = await getFullUser();
-
-  if (!data) {
-    redirect("/api/auth/signin");
-  }
-
+export default async function SearchPage() {
   return (
     <MainContent>
       <PageHeader title="Search" />
@@ -37,11 +24,7 @@ export default async function FriendshipsPage({
             </section>
           }
         >
-          {!data.username && !searchParams?.verified ? (
-            <UncompletedProfile />
-          ) : (
-            <CompletedProfile user={data} />
-          )}
+          <ProfileChecker />
         </Suspense>
       </div>
     </MainContent>

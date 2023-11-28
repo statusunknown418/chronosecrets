@@ -3,7 +3,7 @@ import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { animated, useSpring } from "@react-spring/web";
-import { ArrowLeft, BookLock, Inbox, PenSquare, Search, User2 } from "lucide-react";
+import { ArrowLeft, Inbox, PenSquare, Search, Send, User2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSelectedLayoutSegment } from "next/navigation";
@@ -14,7 +14,7 @@ export const links = [
   {
     name: "Home",
     href: "/home",
-    icon: <BookLock size={20} />,
+    icon: <Send size={20} />,
   },
   {
     name: "Inbox",

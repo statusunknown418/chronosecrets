@@ -43,14 +43,21 @@ export default function SignInPage({
           </div>
         )}
 
-        <header className="flex flex-col gap-4 px-5 py-5">
-          <h2>LOGO</h2>
+        <header className="flex flex-col items-center gap-4 px-5 py-5">
+          <Image
+            src="/favicon.ico"
+            width={50}
+            height={50}
+            alt="logo"
+            className="transition-all duration-300"
+          />
 
           <h1 className="text-2xl font-extrabold tracking-wide">
             Sign In to ChronoSecrets
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Schedule and share encrypted secrets with your friends
+
+          <p className="text-center text-sm text-muted-foreground">
+            Schedule and share encrypted secrets with your friends!
           </p>
         </header>
 
