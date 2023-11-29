@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Me",
 };
 
-export default async function MySettings() {
+export default function MySettings() {
   return (
     <MainContent>
       <PageHeader title="Settings" />
