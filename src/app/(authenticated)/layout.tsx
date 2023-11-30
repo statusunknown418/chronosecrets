@@ -1,8 +1,7 @@
 import { Navigation } from "@/components/layout/Navigation";
-import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
-const DynamicRocketDropdown = dynamic(() => import("@/components/home/BypassingLink"));
+// const DynamicRocketDropdown = dynamic(() => import("@/components/home/BypassingLink"));
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
@@ -13,7 +12,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
         {children}
       </section>
 
-      <DynamicRocketDropdown />
+      {/* <DynamicRocketDropdown /> */}
     </section>
   );
 }
