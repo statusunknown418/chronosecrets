@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function NotFoundPage() {
   return (
     <main className="flex h-full flex-col items-center justify-center gap-4 px-4">
-      <span className="rounded-full border border-indigo-800 px-4 py-1 text-3xl font-light text-indigo-500">
+      <span className="rounded-full border border-indigo-800 px-4 py-1 text-3xl font-light text-indigo-400">
         404
       </span>
 

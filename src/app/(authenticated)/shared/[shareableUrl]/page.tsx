@@ -1,5 +1,6 @@
 import SignIn from "@/components/auth/SignIn";
 import { ErrorState } from "@/components/secrets/ErrorState";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -35,7 +36,7 @@ export default async function ShareableUrlPage({
   if (!shared) {
     return (
       <main className="flex h-full flex-col items-center justify-center gap-4 px-4">
-        <Ban size={32} className="text-indigo-500" />
+        <Ban size={32} className="text-indigo-400" />
 
         <h1 className="text-center text-2xl font-bold">Shared secret not found</h1>
 
@@ -76,6 +77,7 @@ export default async function ShareableUrlPage({
           code: "UNAUTHORIZED",
           message: "You are not authorized to view this secret",
           name: "Unauthorized",
+          cause: Error("Authentication matching failed"),
         }}
       />
     );
@@ -84,7 +86,7 @@ export default async function ShareableUrlPage({
   return (
     <main className="flex flex-col gap-4">
       <header className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 py-3 backdrop-blur backdrop-filter">
-        <span className="w-max rounded-full border border-indigo-800 bg-indigo-950 px-4 py-1 text-xs text-indigo-500">
+        <span className="w-max rounded-full border border-indigo-800 bg-indigo-950 px-4 py-1 text-xs text-indigo-400">
           Shared
         </span>
 
@@ -99,11 +101,20 @@ export default async function ShareableUrlPage({
         </div>
       </header>
 
+      {session.user.id === shared.createdByUserId && (
+        <div className="px-4">
+          <Alert variant="warning">
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>You are the creator of this secret</AlertDescription>
+          </Alert>
+        </div>
+      )}
+
       <div className="flex flex-col gap-4 px-4">
         <div className="text-muted-foreground">
           <TooltipProvider delayDuration={0}>
             <Tooltip>
-              <TooltipTrigger className="flex items-center gap-1 text-indigo-500">
+              <TooltipTrigger className="flex items-center gap-1 text-sm text-indigo-400">
                 <span className="text-muted-foreground">From</span>
                 {shared.creator.username} <Info size={16} />
               </TooltipTrigger>
@@ -117,7 +128,7 @@ export default async function ShareableUrlPage({
         </div>
 
         <Textarea
-          className="min-h-[200px] cursor-pointer resize-none sm:min-h-[140px]"
+          className="min-h-[200px] cursor-pointer resize-none sm:min-h-[300px]"
           value={shared.content}
           readOnly
         />

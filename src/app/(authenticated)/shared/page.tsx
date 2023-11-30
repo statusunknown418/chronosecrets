@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function SharedPage() {
   return (
     <main className="flex h-full flex-col items-center justify-center gap-4 rounded-lg p-4">
-      <Ban size={32} className="text-indigo-500" />
+      <Ban size={32} className="text-indigo-400" />
 
       <h2 className="text-center text-2xl">
         Hmm, no <span className="font-bold">shareable url</span> detected 🤔
