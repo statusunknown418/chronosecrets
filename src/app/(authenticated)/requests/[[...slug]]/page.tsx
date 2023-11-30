@@ -12,7 +12,7 @@ export default async function QuickRequest({ params }: { params: { slug: string[
     <main className="flex h-full w-full flex-col items-center justify-center gap-10 p-2 sm:p-5">
       <section className="flex flex-col gap-6 rounded-xl border bg-popover p-4 sm:p-6">
         <h1 className="text-2xl font-bold sm:text-3xl">
-          Friend request from <span className="text-indigo-500">{target?.username}</span>
+          Friend request from <span className="text-indigo-400">{target?.username}</span>
         </h1>
 
         <p className="text-muted-foreground">

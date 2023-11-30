@@ -35,7 +35,7 @@ export default async function SecretSlugPage({ params: { id } }: SecretSlugPageP
   if (!secret) {
     return (
       <main className="flex h-full flex-col items-center justify-center gap-4 px-4">
-        <Cable size={32} className="text-indigo-500" />
+        <Cable size={32} className="text-indigo-400" />
 
         <h1 className="text-center text-2xl font-bold">Secret not found 😭</h1>
 
