@@ -12,7 +12,8 @@ export const ErrorState = ({ error }: { error: TRPCError }) => {
       <p>{error.message}</p>
 
       <p className="text-center text-sm text-muted-foreground">
-        This is likely an error on our side, please reach out!
+        {error.cause?.message ||
+          "This is likely an error on our side, please reach out to us!"}
       </p>
     </main>
   );
