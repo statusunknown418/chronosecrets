@@ -40,7 +40,7 @@ export const createSecret = async (secret: NewSecretParams) => {
   const { session } = await getUserAuth();
 
   const slugId = createId();
-  const slug = slugify(`${secret.title}-${slugId}`);
+  const slug = slugify(`${secret.title.replace("'", "")}-${slugId}`);
   const hashed = mapEncryptionTypeToAlgo(secret.encryptionType)
     .encrypt(secret.content, env.NEXTAUTH_SECRET!)
     .toString();

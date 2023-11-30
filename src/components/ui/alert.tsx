@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative w-full rounded-xl border border-dashed p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  "relative w-full rounded-xl border border-dashed p-4 [&>svg~*]:pl-8 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
   {
     variants: {
       variant: {
@@ -14,7 +14,7 @@ const alertVariants = cva(
         success:
           "border-green-600/50 text-green-500/90 [&>svg]:text-green-500/90 dark:bg-green-950/30",
         warning:
-          "border-yellow-600/50 text-yellow-600 [&>svg]:text-yellow-600 dark:bg-yellow-950/30",
+          "[&>svg]:text-yellow-200/80 border border-yellow-500/50 bg-yellow-900/30 p-3 text-xs text-yellow-200/80",
       },
     },
     defaultVariants: {
@@ -40,7 +40,11 @@ const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, children, ...props }, ref) => (
-  <h5 ref={ref} className={cn("mb-1 font-medium leading-none", className)} {...props}>
+  <h5
+    ref={ref}
+    className={cn("mb-1 text-sm font-bold leading-none", className)}
+    {...props}
+  >
     {children}
   </h5>
 ));
