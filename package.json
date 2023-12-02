@@ -61,6 +61,8 @@
     "@react-email/render": "^0.0.9",
     "@react-spring/web": "^9.7.3",
     "@rive-app/react-canvas": "^4.5.4",
+    "@splinetool/react-spline": "^2.2.6",
+    "@splinetool/runtime": "^0.9.516",
     "@t3-oss/env-nextjs": "^0.7.1",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^4.36.1",
