@@ -1,4 +1,3 @@
-import { PageHeader } from "@/components/layout/PageHeader";
 import { ReceivingList } from "@/components/secrets/receiving/receiving-list";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Metadata } from "next";
@@ -11,8 +10,6 @@ export const metadata: Metadata = {
 export default function ReceivingSecretsPage() {
   return (
     <div className="flex flex-col gap-4">
-      <PageHeader title="Sent to me" back={true} />
-
       <section className="h-full w-full pb-16">
         <Suspense
           fallback={

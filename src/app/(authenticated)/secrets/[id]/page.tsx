@@ -48,7 +48,7 @@ export default async function SecretSlugPage({ params: { id } }: SecretSlugPageP
 
   return (
     <main className="flex flex-col gap-4">
-      <section className="sticky inset-0 z-10 flex flex-col gap-4 border-b bg-background/20 px-4 py-3 backdrop-blur backdrop-filter">
+      <section className="sticky inset-0 z-10 flex flex-col gap-4 border-b bg-background/20 px-4 py-2 backdrop-blur backdrop-filter">
         <div className="flex items-center justify-between">
           <span className="w-max rounded-full border border-blue-800 bg-blue-950 px-4 py-1 text-xs text-blue-500">
             Editing

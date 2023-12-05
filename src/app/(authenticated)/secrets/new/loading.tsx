@@ -9,7 +9,7 @@ export default function NewSecretPageLoader() {
 
       <h2 className="text-muted-foreground">Assembling the components</h2>
 
-      <Hammer size={40} className="animate-bounce text-indigo-500" />
+      <Hammer size={40} className="animate-bounce text-indigo-400" />
     </div>
   );
 }

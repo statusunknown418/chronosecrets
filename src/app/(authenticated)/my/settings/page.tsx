@@ -1,6 +1,5 @@
 import { SignOut } from "@/components/auth/SignOut";
 import { MainContent } from "@/components/layout/MainContent";
-import { PageHeader } from "@/components/layout/PageHeader";
 import HydrateSettingsForm from "@/components/my/HydrateSettingsForm";
 import { Pricing } from "@/components/my/Pricing";
 import { RequestsForUser } from "@/components/my/requests-for-user";
@@ -19,8 +18,6 @@ export const metadata: Metadata = {
 export default function MySettings() {
   return (
     <MainContent>
-      <PageHeader title="Settings" />
-
       <Suspense
         fallback={
           <div className="flex w-full items-center gap-2">
