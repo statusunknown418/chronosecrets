@@ -20,7 +20,7 @@ export default function SignIn({
     return (
       <Link href="home">
         <Button variant="ghost" rounding="full" size="sm" className="group">
-          Go home{" "}
+          App
           <ArrowRight size={15} className="transition-all group-hover:translate-x-1" />
         </Button>
       </Link>
