@@ -1,23 +1,34 @@
-import { X } from "lucide-react";
+"use client";
+import { X } from "@phosphor-icons/react";
 import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
 import { ReactNode } from "react";
 import { Button } from "../ui/button";
+import { links } from "./NavigationWrapper";
 
 export const PageHeader = ({
   back = false,
   title,
   extra,
 }: {
-  title: string;
+  title?: string;
   back?: boolean;
   extra?: ReactNode;
 }) => {
-  return (
-    <section className="sticky inset-0 z-10 flex w-full flex-col gap-2 border-b bg-background/20 px-4 py-2 backdrop-blur backdrop-filter sm:py-4">
-      {extra && extra}
+  const path = usePathname();
+  const { id, shareableUrl } = useParams();
 
-      <header className="flex h-10 w-full items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold sm:text-3xl">{title}</h1>
+  if (id || shareableUrl) {
+    return;
+  }
+
+  return (
+    <section className="sticky inset-0 z-10 flex w-full flex-col gap-2 border-b bg-background/20 px-4 py-4 backdrop-blur backdrop-filter sm:px-14">
+      {extra && extra}
+      <header className="flex h-7 w-full items-center justify-between gap-4">
+        <h1 className="text-xl font-bold sm:text-2xl">
+          {links.find((l) => l.href === path)?.name ?? title}
+        </h1>
 
         {back && (
           <Link href="/home" className="focus-within:outline-none">

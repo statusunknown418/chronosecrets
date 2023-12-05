@@ -18,7 +18,7 @@ export const ListWrapper = ({
 
   if (isLoading) {
     return (
-      <section className="max-w-full pt-2">
+      <section className="max-w-full">
         <ul className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
           {[1, 2, 3, 4, 5, 6].map((s) => (
             <Skeleton key={s} className="h-64 w-full" />
@@ -30,21 +30,19 @@ export const ListWrapper = ({
 
   if (data?.secrets.length === 0) {
     return (
-      <section className="max-w-full pt-2">
+      <section>
         <p className="text-center text-gray-500">No secrets found</p>
       </section>
     );
   }
 
   return (
-    <section className="max-w-full pt-2">
-      <ul className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
-        {data?.secrets.map((secret) => (
-          <li key={secret.id}>
-            <SecretCard secret={secret} />
-          </li>
-        ))}
-      </ul>
-    </section>
+    <ul className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
+      {data?.secrets.map((secret) => (
+        <li key={secret.id}>
+          <SecretCard secret={secret} />
+        </li>
+      ))}
+    </ul>
   );
 };

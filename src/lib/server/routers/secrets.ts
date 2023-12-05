@@ -7,6 +7,7 @@ import {
 import {
   getRevealedSecrets,
   getSecretById,
+  getSecretByShareableUrl,
   getSecrets,
   getSecretsByReceiver,
 } from "@/lib/api/secrets/queries";
@@ -48,5 +49,8 @@ export const secretsRouter = router({
   }),
   viewSecretAsReceiver: publicProcedure.input(secretIdSchema).mutation(({ input }) => {
     return viewSecretAsReceiver(input.id);
+  }),
+  getSecretByShareableLink: publicProcedure.input(z.string()).query(({ input }) => {
+    return getSecretByShareableUrl(input);
   }),
 });

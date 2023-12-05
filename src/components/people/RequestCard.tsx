@@ -136,7 +136,7 @@ export const RequestCard = ({ request }: { request: Requests["people"][number] }
 
         <h4 className="font-bold tracking-wide">{request.source.name}</h4>
 
-        <p className="font-light text-indigo-500">{request.source.username}</p>
+        <p className="font-light text-indigo-400">{request.source.username}</p>
       </div>
     </article>
   );

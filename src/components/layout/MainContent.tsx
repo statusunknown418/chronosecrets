@@ -8,5 +8,5 @@ export const MainContent = ({
   children: ReactNode;
   className?: string;
 }) => {
-  return <main className={cn("flex flex-col gap-4 pb-16", className)}>{children}</main>;
+  return <main className={cn("flex flex-col gap-4 py-4", className)}>{children}</main>;
 };

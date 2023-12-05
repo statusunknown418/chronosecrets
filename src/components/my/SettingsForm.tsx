@@ -149,7 +149,7 @@ export const SettingsForm = ({
 
               <fieldset className="flex h-10 w-full items-center overflow-hidden rounded-lg border focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background">
                 <span className="flex h-full w-12 items-center justify-center border-r text-center text-muted-foreground">
-                  <AtSign size={16} className="text-indigo-500" />
+                  <AtSign size={16} className="text-indigo-400" />
                 </span>
 
                 <FormControl>

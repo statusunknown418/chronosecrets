@@ -34,7 +34,7 @@ export const MobileNavigation = ({
 
   return (
     <>
-      <div className="sticky inset-0 z-10 flex flex-col gap-2 bg-background/40 px-4 pb-2 pt-3 backdrop-blur backdrop-filter sm:px-8 md:hidden">
+      <div className="sticky inset-0 z-10 flex flex-col gap-2 bg-background/40 px-4 pt-3 backdrop-blur backdrop-filter sm:px-8 md:hidden">
         <nav className="w-full text-muted-foreground">
           <ul className="grid h-full w-full grid-cols-1 items-center gap-4 bg-transparent sm:grid-cols-3 sm:justify-between">
             <button className="hidden w-max sm:flex sm:items-center sm:gap-2">

@@ -77,14 +77,16 @@ export const FindPeople = () => {
         </div>
       )}
 
-      {data?.people.map((p) => (
-        <UserCard
-          key={p.id}
-          friend={p}
-          alreadyFriends={p.alreadyFriends}
-          requestPending={p.alreadyRequested}
-        />
-      ))}
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        {data?.people.map((p) => (
+          <UserCard
+            key={p.id}
+            friend={p}
+            alreadyFriends={p.alreadyFriends}
+            requestPending={p.alreadyRequested}
+          />
+        ))}
+      </div>
     </section>
   );
 };

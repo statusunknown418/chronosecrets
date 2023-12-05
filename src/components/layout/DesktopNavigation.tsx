@@ -9,7 +9,7 @@ export const DesktopNavigation = () => {
   const path = usePathname();
 
   return (
-    <div className="hidden min-w-[200px] grid-cols-1 grid-rows-3 border-r px-2 py-8 shadow shadow-indigo-800 md:grid md:h-full">
+    <div className="md::h-full hidden min-w-[190px] grid-cols-1 grid-rows-3 border-r px-2 py-5 md:grid lg:min-w-[220px]">
       <div className="flex cursor-default select-none items-center gap-2 self-start px-2">
         <Image src="/favicon.ico" width={25} height={25} alt="app-logo" priority />
         <h1 className="text-sm font-semibold">ChronoSecrets</h1>

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Spinner } from "./spinner";
 
 const buttonVariants = cva(
-  "inline-flex items-center gap-2 px-4 py-2 justify-center text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none",
+  "inline-flex items-center gap-2 px-4 py-2 select-none text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none",
   {
     variants: {
       variant: {
@@ -21,8 +21,8 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10",
-        sm: "h-8 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
+        sm: "h-8 px-3",
+        lg: "h-11 px-8",
         icon: "h-10 min-w-[40px] rounded-full p-0",
       },
       rounding: {
@@ -34,11 +34,17 @@ const buttonVariants = cva(
         sm: "h-8 w-8",
         lg: "h-12 w-12",
       },
+      alignment: {
+        default: "justify-center",
+        start: "justify-start",
+        end: "justify-end",
+      },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
       rounding: "default",
+      alignment: "default",
     },
   },
 );

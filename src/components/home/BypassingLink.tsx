@@ -92,7 +92,7 @@ const BypassingLink = () => {
 
             <DropdownMenuItem onClick={() => setShareProfileDialog(true)}>
               <Users2 size={16} />
-              Share your profile
+              Quick friendship
             </DropdownMenuItem>
 
             <DropdownMenuItem onClick={() => setReferralDialog(true)}>
@@ -178,7 +178,12 @@ const BypassingLink = () => {
 
             <DialogDescription className="p-1 text-left">
               Invite as many people as you want to ChronoSecrets and earn up to{" "}
-              <span className="text-indigo-500">$50CB</span> per new user registered!
+              <span className="font-mono text-base text-indigo-400">$50CB</span> per new
+              user registered!
+            </DialogDescription>
+
+            <DialogDescription className="p-1 text-foreground">
+              You just need to share the link and we&apos;ll take care of the rest!
             </DialogDescription>
           </DialogHeader>
 

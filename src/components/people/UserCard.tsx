@@ -2,6 +2,7 @@ import { FullUser } from "@/lib/db/schema";
 import { trpc } from "@/lib/trpc/client";
 import { cn } from "@/lib/utils";
 import { CheckCircle, Clock, Plus, X } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -92,58 +93,84 @@ export const UserCard = ({
   if (!data) return;
 
   return (
-    <article className={cn("flex flex-col gap-3 rounded-lg border p-4 text-sm")}>
-      <div className="flex max-h-6 items-center">
-        <h3 className="grow text-muted-foreground">
-          {friend.username || "No username 😭"}
-        </h3>
+    <div className="flex flex-col gap-4 rounded-lg border bg-gradient-to-t from-popover p-4 text-sm md:flex-row">
+      {friend.image && (
+        <div>
+          <Image
+            src={friend.image}
+            width={100}
+            height={100}
+            alt="avatar"
+            className="rounded-lg"
+          />
+        </div>
+      )}
 
-        {friend.id !== data?.id ? (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => {
-              data &&
-                !disableMutation &&
-                mutate({
+      <article className={cn("flex w-full flex-col gap-2")}>
+        <div className="flex max-h-6 items-center">
+          <h3 className="grow text-muted-foreground">
+            {friend.username || "No username 😭"}
+          </h3>
+
+          {friend.id !== data?.id ? (
+            <Button
+              variant="outline"
+              size={"sm"}
+              rounding={"full"}
+              className={cn(disableMutation && "pointer-events-none", "text-xs")}
+              onClick={() => {
+                data &&
+                  !disableMutation &&
+                  mutate({
+                    sourceId: data.id,
+                    userId: friend.id,
+                  });
+              }}
+            >
+              {alreadyFriends ? (
+                <>
+                  <CheckCircle size={16} className="text-green-500" />
+
+                  <span className="hidden sm:block">Already friends!</span>
+                </>
+              ) : sent || requestPending ? (
+                <>
+                  <Clock size={16} className="text-yellow-500" />
+                  <p className="hidden text-yellow-500 sm:block">Waiting...</p>
+                </>
+              ) : (
+                <>
+                  <Plus size={16} className="text-blue-500" />
+                  <span className="hidden sm:block">Add friend</span>
+                </>
+              )}
+            </Button>
+          ) : (
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              You
+            </span>
+          )}
+
+          {(requestPending || sent) && !alreadyFriends && data?.id !== friend.id && (
+            <Button
+              variant={"outline"}
+              className="text-destructive"
+              onClick={() => {
+                cancel({
                   sourceId: data.id,
                   userId: friend.id,
                 });
-            }}
-          >
-            {alreadyFriends ? (
-              <CheckCircle size={16} className="text-green-500" />
-            ) : sent || requestPending ? (
-              <Clock size={16} className="text-yellow-500" />
-            ) : (
-              <Plus size={16} className="text-blue-500" />
-            )}
-          </Button>
-        ) : (
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            You
-          </span>
-        )}
+              }}
+            >
+              <X size={16} className="text-destructive" /> Cancel
+            </Button>
+          )}
+        </div>
 
-        {(requestPending || sent) && !alreadyFriends && data?.id !== friend.id && (
-          <Button
-            size={"icon"}
-            variant={"ghost"}
-            onClick={() => {
-              cancel({
-                sourceId: data.id,
-                userId: friend.id,
-              });
-            }}
-          >
-            <X size={16} className="text-destructive" />
-          </Button>
-        )}
-      </div>
+        <h3 className="capitalize">{friend.name}</h3>
 
-      <h3 className="capitalize">{friend.name}</h3>
-
-      <p className="text-indigo-500">{friend.email}</p>
-    </article>
+        <p className="text-indigo-400">{friend.email}</p>
+      </article>
+    </div>
   );
 };
