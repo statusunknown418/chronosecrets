@@ -28,6 +28,7 @@
     "@internationalized/date": "^3.5.0",
     "@lemonsqueezy/lemonsqueezy.js": "^1.2.2",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@phosphor-icons/react": "^2.0.15",
     "@plaiceholder/next": "^3.0.0",
     "@planetscale/database": "^1.11.0",
     "@radix-ui/react-accordion": "^1.1.2",

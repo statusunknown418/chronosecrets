@@ -35,6 +35,9 @@ dependencies:
   '@paralleldrive/cuid2':
     specifier: ^2.2.2
     version: 2.2.2
+  '@phosphor-icons/react':
+    specifier: ^2.0.15
+    version: 2.0.15(react-dom@18.2.0)(react@18.2.0)
   '@plaiceholder/next':
     specifier: ^3.0.0
     version: 3.0.0(next@14.0.2)(plaiceholder@3.0.0)(sharp@0.32.6)
@@ -1448,6 +1451,17 @@ packages:
     resolution: {integrity: sha512-ZOBkgDwEdoYVlSeRbYYXs0S9MejQofiVYoTbKzy/6GQa39/q5tQU2IX46+shYnUkpEl3wc+J6wRlar7r2EK2xA==}
     dependencies:
       '@noble/hashes': 1.3.2
+    dev: false
+
+  /@phosphor-icons/react@2.0.15(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-PQKNcRrfERlC8gJGNz0su0i9xVmeubXSNxucPcbCLDd9u0cwJVTEyYK87muul/svf0UXFdL2Vl6bbeOhT1Mwow==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>= 16.8'
+      react-dom: '>= 16.8'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@pkgjs/parseargs@0.11.0:
