@@ -62,7 +62,13 @@ export const ChronoBucks = async ({
         <h3 className="text-center font-mono text-2xl font-light">{product.name}CB</h3>
         <p className="text-sm text-muted-foreground">ChronoBucks</p>
 
-        <Button type="submit" size="sm" rounding="full" className="mt-5">
+        <Button
+          type="submit"
+          variant={product.tokens === 200 ? "default" : "primary"}
+          size="sm"
+          rounding="full"
+          className="mt-5"
+        >
           <ShoppingCart size={16} />
           Buy now
         </Button>

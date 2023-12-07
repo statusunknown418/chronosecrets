@@ -1,15 +1,7 @@
 "use client";
 
 import { trpc } from "@/lib/trpc/client";
-import {
-  Book,
-  File,
-  Link2,
-  LinkIcon,
-  Rocket,
-  ShieldQuestion,
-  Users2,
-} from "lucide-react";
+import { Book, Coins, File, Link2, Rocket, ShieldQuestion, Users2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -95,9 +87,9 @@ const BypassingLink = () => {
               Quick friendship
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => setReferralDialog(true)}>
-              <LinkIcon size={16} />
-              Referral link
+            <DropdownMenuItem onClick={() => setReferralDialog(true)} disabled>
+              <Coins size={16} />
+              Referrals (Soon!)
             </DropdownMenuItem>
           </DropdownMenuGroup>
 

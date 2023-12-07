@@ -46,14 +46,14 @@ export default function SignInPage({
         <header className="flex flex-col items-center gap-4 px-5 py-5">
           <Image
             src="/favicon.ico"
-            width={50}
-            height={50}
+            width={52}
+            height={52}
             alt="logo"
             className="transition-all duration-300"
           />
 
-          <h1 className="text-2xl font-extrabold tracking-wide">
-            Sign In to ChronoSecrets
+          <h1 className="text-center text-2xl font-extrabold tracking-wide">
+            Sign in to ChronoSecrets
           </h1>
 
           <p className="text-center text-sm text-muted-foreground">

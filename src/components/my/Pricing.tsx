@@ -10,7 +10,7 @@ export const Pricing = async () => {
   if (!session?.id) return redirect("/auth/signin");
 
   return (
-    <section className="mx-2 flex flex-col gap-4">
+    <section className="flex flex-col gap-4">
       <article className="flex flex-col gap-3 rounded-lg border bg-popover p-4">
         <p className="text-sm font-light text-muted-foreground">Your ChronoBucks</p>
 
