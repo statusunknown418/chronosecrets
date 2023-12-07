@@ -43,7 +43,7 @@ const NavigationWrapper = () => {
     <>
       {width <= breakpoints.md && <MobileNavigation user={data} />}
 
-      <DesktopNavigation />
+      <DesktopNavigation user={data} />
     </>
   );
 };

@@ -1,6 +1,6 @@
-/** @type {import('next').NextConfig} */
 import withPlaiceholder from "@plaiceholder/next";
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
     /** For defer.run to work correctly */
