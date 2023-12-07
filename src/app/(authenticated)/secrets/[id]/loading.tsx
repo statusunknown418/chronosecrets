@@ -1,11 +1,17 @@
+import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Spinner } from "@/components/ui/spinner";
 
 export default function LoadingSecretById() {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
-      <Skeleton />
-      <Spinner />
+    <div className="mt-2 flex h-full w-full flex-col gap-4">
+      <Skeleton className="h-20 w-full" />
+      <Separator />
+      <Skeleton className="h-16 w-full" />
+      <Skeleton className="h-16 w-full" />
+      <Skeleton className="h-16 w-full" />
+      <Skeleton className="h-16 w-full" />
+      <Skeleton className="h-16 w-full" />
+      <Skeleton className="h-56 w-full" />
     </div>
   );
 }

@@ -8,7 +8,7 @@ export const TabsWrapper = ({ children }: { children: ReactNode }) => {
   const tab = useSearchParams().get("tab");
 
   return (
-    <Tabs className="px-2 pb-14 md:pb-4" defaultValue={tab || "profile"}>
+    <Tabs className="pb-14 md:pb-4" defaultValue={tab || "profile"}>
       {children}
     </Tabs>
   );

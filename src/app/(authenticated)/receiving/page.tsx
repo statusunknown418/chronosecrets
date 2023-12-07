@@ -13,7 +13,7 @@ export default function ReceivingSecretsPage() {
       <section className="h-full w-full pb-16">
         <Suspense
           fallback={
-            <section className="grid grid-cols-1 gap-4 px-4 md:grid-cols-2">
+            <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {[1, 2, 3, 4, 5, 6].map((s) => (
                 <Skeleton key={s} className="h-64 w-full" />
               ))}

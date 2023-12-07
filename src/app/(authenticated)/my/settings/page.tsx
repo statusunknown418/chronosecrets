@@ -70,7 +70,7 @@ export default function MySettings() {
                 <TabsTrigger value="requests">Requests</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="friends" className="px-2">
+              <TabsContent value="friends">
                 <h2 className="mb-4 text-lg font-bold">Your Friends</h2>
 
                 <Suspense>
@@ -78,7 +78,7 @@ export default function MySettings() {
                 </Suspense>
               </TabsContent>
 
-              <TabsContent value="requests" className="px-2">
+              <TabsContent value="requests">
                 <h2 className="mb-4 text-lg font-bold">Your requests</h2>
 
                 <Suspense fallback={<Spinner />}>

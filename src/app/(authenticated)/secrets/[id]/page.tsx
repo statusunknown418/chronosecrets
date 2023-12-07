@@ -3,7 +3,7 @@ import { EditMenu } from "@/components/secrets/edit/EditMenu";
 import { Button } from "@/components/ui/button";
 import { getSecretById } from "@/lib/api/secrets/queries";
 import { getFullUser } from "@/lib/auth/utils";
-import { Cable, Eye, X } from "lucide-react";
+import { Cable, Eye, HelpCircle, X } from "lucide-react";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -48,15 +48,23 @@ export default async function SecretSlugPage({ params: { id } }: SecretSlugPageP
 
   return (
     <main className="flex flex-col gap-4">
-      <section className="sticky inset-0 z-10 flex flex-col gap-4 border-b bg-background/20 px-4 py-2 backdrop-blur backdrop-filter">
+      <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 pb-2 pt-4 backdrop-blur backdrop-filter">
         <div className="flex items-center justify-between">
-          <span className="w-max rounded-full border border-blue-800 bg-blue-950 px-4 py-1 text-xs text-blue-500">
+          <span className="flex h-7 w-max items-center justify-center rounded-full border border-blue-800 bg-blue-950 px-4 text-xs text-blue-500">
             Editing
           </span>
 
-          <span className="w-max rounded-full border border-indigo-500 px-2 py-1 text-xs text-indigo-400 sm:hidden">
-            You have <span className="font-bold">{user?.credits} CBs</span> left
-          </span>
+          <Link href="/my/settings?tab=chronoBucks">
+            <Button
+              size="xs"
+              variant="outline"
+              rounding="full"
+              className="rounded-full border border-indigo-500 px-2 py-1 text-xs text-indigo-400 sm:hidden"
+            >
+              <span className="font-bold">{user?.credits} CBs</span> left{" "}
+              <HelpCircle size={16} />
+            </Button>
+          </Link>
         </div>
 
         <header className="items-ce flex w-full justify-between gap-2 sm:items-center sm:gap-5">
