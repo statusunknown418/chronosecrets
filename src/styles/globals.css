@@ -72,7 +72,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply scroll-smooth border-border;
   }
 
   body {
