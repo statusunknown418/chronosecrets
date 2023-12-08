@@ -6,11 +6,7 @@ export const ReceivingList = async () => {
   const { mine } = await getSecretsByReceiver();
 
   if (!mine || mine.length === 0) {
-    return (
-      <div className="px-4">
-        <EmptyInboxState />
-      </div>
-    );
+    return <EmptyInboxState />;
   }
 
   const sorted = mine.sort((a, b) => {
@@ -26,7 +22,7 @@ export const ReceivingList = async () => {
   });
 
   return (
-    <section className="grid grid-cols-1 gap-4 px-4 md:grid-cols-2">
+    <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {sorted.map((s) => (
         <ReceivingSecretCard key={s.secretId} secret={s.secret} />
       ))}

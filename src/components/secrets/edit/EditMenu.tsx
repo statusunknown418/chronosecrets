@@ -17,6 +17,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import { DELETE_SECRET_COST } from "@/lib/constants";
 import { Secret } from "@/lib/db/schema";
 import { trpc } from "@/lib/trpc/client";
 import { Eye, Info, Menu, Share, Trash } from "lucide-react";
@@ -88,9 +90,18 @@ export const EditMenu = ({ secret }: { secret: Secret }) => {
 
             <AlertDialogDescription>
               This action cannot be undone. This secret will be deleted forever. The
-              receiver will <strong>not</strong> be notified 👀.
+              receiver <span className="text-foreground">will not</span> be notified 👀.
             </AlertDialogDescription>
           </AlertDialogHeader>
+
+          <Separator />
+
+          <AlertDialogDescription className="text-foreground">
+            This has a cost of{" "}
+            <span className="font-mono text-indigo-400">${DELETE_SECRET_COST}CB</span>
+          </AlertDialogDescription>
+
+          <Separator />
 
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>

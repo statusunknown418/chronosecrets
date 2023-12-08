@@ -347,6 +347,7 @@ const SecretForm = ({
           <Button
             type="submit"
             rounding={"full"}
+            variant={"primary"}
             loading={isCreating || isUpdating}
             disabled={disableSubmit}
           >
