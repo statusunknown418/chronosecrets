@@ -179,6 +179,9 @@ dependencies:
   '@uploadthing/react':
     specifier: ^6.0.2
     version: 6.0.2(next@14.0.2)(react@18.2.0)(uploadthing@6.0.4)
+  '@vercel/speed-insights':
+    specifier: ^1.0.0
+    version: 1.0.0
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -5295,6 +5298,11 @@ packages:
         optional: true
     dependencies:
       '@uploadthing/mime-types': 0.2.2
+    dev: false
+
+  /@vercel/speed-insights@1.0.0:
+    resolution: {integrity: sha512-5blmCVGGPn+3BqwBPb1jc3OnzRozNuLgJVr7xH6XjxCTvocs7z/Bml7lo+JzLKUXR1Q35qI/PlEllmNbZmP9Ew==}
+    requiresBuild: true
     dev: false
 
   /abbrev@2.0.0:

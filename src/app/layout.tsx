@@ -2,6 +2,7 @@ import NextAuthProvider from "@/lib/auth/Provider";
 import TrpcProvider from "@/lib/trpc/Provider";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata, Viewport } from "next";
 import { Toaster } from "sonner";
@@ -46,6 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <Toaster richColors closeButton theme="dark" visibleToasts={6} />
         </NextAuthProvider>
+
+        <SpeedInsights />
       </body>
     </html>
   );
