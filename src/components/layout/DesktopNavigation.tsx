@@ -59,13 +59,13 @@ export const DesktopNavigation = ({
         )}
       </header>
 
-      <nav className="flex h-full w-full flex-col items-start gap-4 px-2">
+      <nav className="flex h-full w-full flex-col items-start gap-1 px-2">
         {links.map((link) => (
           <Link
             key={link.href}
             href={link.href}
             className={cn(
-              "flex h-20 w-full items-center gap-2.5 rounded-full border border-transparent px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-popover",
+              "flex h-12 w-full items-center gap-2.5 rounded-full border border-transparent px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-popover",
               link.href === path
                 ? "bg-popover text-indigo-400 shadow-black"
                 : "text-popover-foreground",

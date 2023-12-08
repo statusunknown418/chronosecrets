@@ -1,3 +1,4 @@
+import { APP_URL } from "@/lib/constants";
 import { Product } from "@/lib/db/schema";
 import { env } from "@/lib/env.mjs";
 import { payments } from "@/lib/payments/lemon-squeezy";
@@ -23,7 +24,7 @@ export const ChronoBucks = async ({
       variantId: product.variantId,
       attributes: {
         product_options: {
-          redirect_url: `https://wait4it.vercel.app/my/settings?tab=chronoBucks&cheers=1`,
+          redirect_url: `${APP_URL}/my/settings?tab=chronoBucks&cheers=1`,
         },
         checkout_data: {
           custom: {
@@ -44,12 +45,12 @@ export const ChronoBucks = async ({
       className={cn(
         "relative grid grid-cols-1 gap-4 rounded-xl border p-5",
         product.tokens < 200 && "",
-        product.tokens === 200 && "border-dashed border-indigo-800",
-        product.tokens === 500 && "",
+        product.tokens === 200 && "",
+        product.tokens >= 500 && "border-dashed border-indigo-800",
       )}
     >
-      {product.tokens === 200 && (
-        <Badge className="absolute -left-3 -top-3 w-max bg-indigo-600 text-indigo-100">
+      {product.tokens === 500 && (
+        <Badge className="absolute -left-3 -top-3 w-max bg-indigo-600 text-indigo-100 hover:bg-indigo-500">
           <Star size={12} className="fill-indigo-200" />
           <span>Best value</span>
         </Badge>
@@ -64,7 +65,7 @@ export const ChronoBucks = async ({
 
         <Button
           type="submit"
-          variant={product.tokens === 200 ? "default" : "primary"}
+          variant={product.tokens === 500 ? "default" : "primary"}
           size="sm"
           rounding="full"
           className="mt-5"

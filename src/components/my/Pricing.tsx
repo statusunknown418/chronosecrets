@@ -29,7 +29,7 @@ export const Pricing = async () => {
         ))}
       </div>
 
-      <p className="text-center text-sm font-light text-muted-foreground">
+      <p className="text-sm font-light text-muted-foreground">
         Your ChronoBucks will be added to your account immediately after purchase!
       </p>
     </section>
