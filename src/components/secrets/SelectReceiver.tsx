@@ -27,6 +27,7 @@ import {
 import { RequiredLabel } from "../ui/required-label";
 import { Skeleton } from "../ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { ShareCustomLink } from "./QuickShare";
 
 export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
   const form = useFormContext<NewSecretParams>();
@@ -99,17 +100,23 @@ export const SelectReceiver = ({ isEditing }: { isEditing: boolean }) => {
           Receiver <RequiredLabel />
         </FormLabel>
 
-        <FormDescription>
-          <span>
-            You don&apos;t have anyone to send this secret to. Don&apos;t worry, it&apos;s
-            easy to find & add friends, just visit the{" "}
-            <Link href="/search">
-              <Button variant="link" className="p-0">
-                Search Page.
-              </Button>
-            </Link>
-          </span>
-        </FormDescription>
+        <div>
+          <FormDescription>
+            <span>
+              You don&apos;t have anyone to send this secret to. Don&apos;t worry,
+              it&apos;s easy to find & add friends, just visit the{" "}
+              <Link href="/search">
+                <Button variant="link" size="sm" className="p-0">
+                  search page.
+                </Button>
+              </Link>
+            </span>
+          </FormDescription>
+
+          <FormDescription>
+            Or <ShareCustomLink />
+          </FormDescription>
+        </div>
       </FormItem>
     );
   }

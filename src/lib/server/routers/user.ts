@@ -1,14 +1,23 @@
 import { checkUsernameAvailable, updateUser } from "@/lib/api/user/mutations";
 import { findUserByUsernameOrEmail, getSafeUserById } from "@/lib/api/user/queries";
-import { getFullUser, getUserAuth } from "@/lib/auth/utils";
+import { getFullUser } from "@/lib/auth/utils";
 import { updateUserSchema } from "@/lib/db/schema";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { publicProcedure, router } from "../trpc";
 
 export const userRouter = router({
   updateUser: publicProcedure.input(updateUserSchema).mutation(async ({ input }) => {
-    const { session } = await getUserAuth();
-    return updateUser(session?.user.id!, input);
+    const user = await getFullUser();
+
+    if (!user) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "You must be logged in to do that.",
+      });
+    }
+
+    return updateUser(user.id, input);
   }),
   getFullViewer: publicProcedure.query(() => {
     return getFullUser();

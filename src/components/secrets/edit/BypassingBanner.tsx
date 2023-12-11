@@ -10,19 +10,17 @@ export const BypassingBanner = () => {
 
   return (
     bypass && (
-      <div className="px-4">
-        <Alert variant="warning">
-          <AlertCircle size={20} />
+      <Alert variant="warning">
+        <AlertCircle size={20} />
 
-          <AlertTitle>QuickLink detected</AlertTitle>
+        <AlertTitle>QuickLink detected</AlertTitle>
 
-          <AlertDescription>
-            Heads up - The current link is bypassing the normal flow and so you&apos;ll
-            only be able to send this secret to{" "}
-            <span className="text-yellow-50">{sendingUsername}!</span>
-          </AlertDescription>
-        </Alert>
-      </div>
+        <AlertDescription>
+          Heads up - The current link is bypassing the normal flow and so you&apos;ll only
+          be able to send this secret to{" "}
+          <span className="text-yellow-50">{sendingUsername}!</span>
+        </AlertDescription>
+      </Alert>
     )
   );
 };

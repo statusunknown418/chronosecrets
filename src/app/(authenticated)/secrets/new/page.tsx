@@ -1,6 +1,7 @@
 import { MainContent } from "@/components/layout/MainContent";
 import SecretForm from "@/components/secrets/SecretForm";
 import { BypassingBanner } from "@/components/secrets/edit/BypassingBanner";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 
 export const metadata = {
@@ -10,7 +11,13 @@ export const metadata = {
 export default function NewSecretPage() {
   return (
     <MainContent>
-      <Suspense>
+      <Suspense
+        fallback={
+          <div className="flex flex-col gap-4">
+            <Skeleton className="h-24 w-full" />
+          </div>
+        }
+      >
         <BypassingBanner />
       </Suspense>
 
@@ -21,7 +28,7 @@ export default function NewSecretPage() {
           </Suspense>
         </section>
 
-        <div className="sticky left-0 top-[80px] col-span-2 hidden h-72 w-full items-center justify-center rounded-lg border bg-popover text-muted-foreground lg:flex">
+        <div className="sticky left-0 top-[80px] col-span-2 hidden h-72 w-full items-center justify-center rounded-lg border bg-popover p-5 text-muted-foreground lg:flex">
           Select an encryption type to visualize it
         </div>
       </div>

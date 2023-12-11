@@ -17,15 +17,15 @@ export const metadata: Metadata = {
 
 export default function MySettings() {
   return (
-    <MainContent>
-      <Suspense
-        fallback={
-          <div className="flex w-full items-center gap-2">
-            <Skeleton className="w-20" />
-            <Skeleton className="w-20" />
-          </div>
-        }
-      >
+    <Suspense
+      fallback={
+        <div className="flex w-full items-center gap-2">
+          <Skeleton className="w-20" />
+          <Skeleton className="w-20" />
+        </div>
+      }
+    >
+      <MainContent>
         <TabsWrapper>
           <TabsList className="w-full justify-between md:w-max">
             <TabsTrigger value="profile" className="w-full">
@@ -45,7 +45,7 @@ export default function MySettings() {
             <Suspense
               fallback={
                 <div className="flex h-full items-center justify-center">
-                  <Spinner />
+                  <Skeleton className="h-1/4 w-40" />
                 </div>
               }
             >
@@ -73,7 +73,15 @@ export default function MySettings() {
               <TabsContent value="friends">
                 <h2 className="mb-4 text-lg font-bold">Your Friends</h2>
 
-                <Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex h-full items-center justify-center gap-2">
+                      <Skeleton className="h-20 w-full" />
+                      <Skeleton className="h-20 w-full" />
+                      <Skeleton className="h-20 w-full" />
+                    </div>
+                  }
+                >
                   <ServerFriendListRequests />
                 </Suspense>
               </TabsContent>
@@ -88,7 +96,7 @@ export default function MySettings() {
             </Tabs>
           </TabsContent>
         </TabsWrapper>
-      </Suspense>
-    </MainContent>
+      </MainContent>
+    </Suspense>
   );
 }

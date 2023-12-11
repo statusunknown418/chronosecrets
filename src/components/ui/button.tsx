@@ -28,7 +28,7 @@ const buttonVariants = cva(
         icon: "h-10 min-w-[40px] rounded-full p-0",
       },
       rounding: {
-        default: "rounded-lg",
+        lg: "rounded-lg",
         full: "rounded-full",
       },
       iconButtonSize: {
@@ -45,7 +45,7 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: "default",
       size: "default",
-      rounding: "default",
+      rounding: "full",
       alignment: "default",
     },
   },
