@@ -178,7 +178,7 @@ const SecretForm = ({
     <Form {...form}>
       <form
         action="#"
-        className="flex flex-col gap-6 pb-3"
+        className="flex flex-col gap-6 px-2 pb-3"
         onSubmit={form.handleSubmit(onSubmit)}
         ref={mainForm}
       >

@@ -1,6 +1,7 @@
 "use client";
 
 import { trpc } from "@/lib/trpc/client";
+import { cn } from "@/lib/utils";
 import { Book, Coins, File, Link2, Rocket, ShieldQuestion, Users2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -30,7 +31,7 @@ export const BASE_URL =
     ? "http://localhost:3000"
     : "https://wait4it.vercel.app";
 
-const BypassingLink = () => {
+const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => {
   const { data, isLoading } = trpc.user.getFullViewer.useQuery();
   const [bypassDialog, setBypassDialog] = useState(false);
   const [shareProfileDialog, setShareProfileDialog] = useState(false);
@@ -59,19 +60,35 @@ const BypassingLink = () => {
   };
 
   return (
-    <div className="fixed bottom-4 left-4 z-20">
+    <div
+      className={cn(
+        mode === "mobile" ? "fixed bottom-4 left-4 z-20" : "self-end px-2 pb-4",
+      )}
+    >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             rounding="full"
-            size="icon"
-            className="border border-indigo-500 bg-indigo-700 text-foreground hover:border-indigo-300 hover:bg-indigo-600 hover:text-foreground"
+            variant={mode === "mobile" ? "primary" : "default"}
+            size={mode === "mobile" ? "icon" : "lg"}
+            className={cn(
+              "hover:text-foreground",
+              mode === "mobile"
+                ? "border border-indigo-500 bg-indigo-700 text-foreground hover:border-indigo-300 hover:bg-indigo-600 "
+                : "w-full justify-start gap-2.5 border px-4",
+            )}
           >
             <Rocket size={16} />
+
+            {mode === "desktop" && <span>Quick access</span>}
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent sideOffset={5} align="start" className="w-[200px]">
+        <DropdownMenuContent
+          sideOffset={5}
+          align={mode === "mobile" ? "start" : "center"}
+          className="w-[200px]"
+        >
           <DropdownMenuLabel>Quick Access</DropdownMenuLabel>
 
           <DropdownMenuSeparator />

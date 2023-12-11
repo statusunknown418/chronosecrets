@@ -235,6 +235,7 @@ export const SettingsForm = ({
           type="submit"
           disabled={disableSubmit}
           loading={isLoading}
+          rounding={"full"}
         >
           {isLoading ? "Working on it..." : submitter}
         </Button>

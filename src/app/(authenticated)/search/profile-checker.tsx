@@ -1,18 +1,14 @@
-"use client";
 import { CompletedProfile } from "@/components/people/completed-profile";
 import { UncompletedProfile } from "@/components/people/uncompleted-profile";
 import { Skeleton } from "@/components/ui/skeleton";
-import { trpc } from "@/lib/trpc/client";
-import { useSearchParams } from "next/navigation";
+import { api } from "@/lib/trpc/api";
+import { getVerified } from "./page";
 
-export const ProfileChecker = () => {
-  const { data, isLoading } = trpc.user.getFullViewer.useQuery(undefined, {
-    refetchOnMount: false,
-  });
+export const ProfileChecker = async () => {
+  const data = await api.user.getFullViewer.query();
+  const verified = getVerified();
 
-  const verified = useSearchParams().get("verified");
-
-  if (isLoading) {
+  if (!data) {
     return <Skeleton className="h-20 w-full" />;
   }
 

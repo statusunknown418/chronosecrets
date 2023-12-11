@@ -5,6 +5,7 @@ import { Coins, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import BypassingLink from "../home/BypassingLink";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import { links } from "./NavigationWrapper";
@@ -76,6 +77,8 @@ export const DesktopNavigation = ({
           </Link>
         ))}
       </nav>
+
+      <BypassingLink mode="desktop" />
     </div>
   );
 };

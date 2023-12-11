@@ -1,4 +1,4 @@
-import { getSecrets } from "@/lib/api/secrets/queries";
+import { api } from "@/lib/trpc/api";
 import { Clock, Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -7,7 +7,7 @@ import { ListWrapper } from "./ListWrapper";
 import { ShareCustomLink } from "./QuickShare";
 
 export const MySecretsList = async () => {
-  const data = await getSecrets();
+  const data = await api.secrets.getSecrets.query();
 
   if (data.secrets.length === 0) {
     return <EmptySecretState />;

@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { Spinner } from "../ui/spinner";
+import { Skeleton } from "../ui/skeleton";
 import { UserCard } from "./UserCard";
 
 export const FindPeople = () => {
@@ -27,6 +27,7 @@ export const FindPeople = () => {
   const { data, isLoading } = trpc.user.getByUsernameOrEmail.useQuery(query || "", {
     enabled: !!query,
     refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 
   const onSubmit = (data: { search: string }) => {
@@ -66,8 +67,10 @@ export const FindPeople = () => {
       </Form>
 
       {!!q && isLoading && (
-        <div className="flex flex-col items-center justify-center">
-          <Spinner />
+        <div className="flex flex-col items-center justify-center gap-4">
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
         </div>
       )}
 

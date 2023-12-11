@@ -154,7 +154,9 @@ export const UserCard = ({
           {(requestPending || sent) && !alreadyFriends && data?.id !== friend.id && (
             <Button
               variant={"outline"}
-              className="text-destructive"
+              rounding={"full"}
+              size={"sm"}
+              className="ml-2 text-xs text-destructive"
               onClick={() => {
                 cancel({
                   sourceId: data.id,
