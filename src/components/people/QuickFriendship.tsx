@@ -68,6 +68,20 @@ export const QuickFriendship = ({ sourceId }: { sourceId: string }) => {
       <div className="flex flex-col gap-2">
         <Button disabled>Already friends!</Button>
 
+        <p className="text-sm">
+          If your friend is not showing up on your list, make sure any of you has accepted
+          the request on your end at{" "}
+          <Link href="/my/settings?tab=people">
+            <Button variant="link" className="p-0">
+              this page.
+            </Button>
+          </Link>
+        </p>
+
+        <p className="text-sm text-muted-foreground">
+          You can send them the link above to make it easier!
+        </p>
+
         <p className="text-sm text-muted-foreground">
           Feel free to go{" "}
           <Link href="/home">

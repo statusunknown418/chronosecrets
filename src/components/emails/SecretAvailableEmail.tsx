@@ -42,17 +42,17 @@ export const SecretAvailableEmail: FunctionComponent<NewSecretEmailProps> = ({
         <Head />
         <Preview>🫡 A secret made for you is available to be seen now!</Preview>
 
-        <Body className="mx-auto my-auto font-sans">
-          <Container className="rounded-lg border border-gray-500 p-5">
+        <Body className="font-sans">
+          <Container className="rounded-lg border border-gray-500">
             <Heading className="text-3xl font-bold">
               A secret has just reached its revealing date!
             </Heading>
 
             <Text className="flex items-center gap-1">
               Hi, <span>{receiverName}!</span>
-              <span className="font-bold">You will want to check this out!</span>
             </Text>
 
+            <Text className="font-bold">You will want to check this out!</Text>
             <Hr />
 
             <Section>

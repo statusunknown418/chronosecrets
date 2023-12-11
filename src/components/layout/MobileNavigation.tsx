@@ -1,4 +1,5 @@
 "use client";
+import { useWindowSize } from "@/lib/hooks/useWindowSize";
 import { RouterOutputs } from "@/lib/server/routers/_app";
 import { cn } from "@/lib/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -21,6 +22,7 @@ export const MobileNavigation = ({
 }) => {
   const selectedSegment = useSelectedLayoutSegment();
   const path = usePathname();
+  const { width } = useWindowSize();
 
   const { back } = useRouter();
   const [parent] = useAutoAnimate();
@@ -99,7 +101,7 @@ export const MobileNavigation = ({
         </nav>
       </div>
 
-      <DynamicRocketDropdown />
+      {width < 768 && <DynamicRocketDropdown />}
     </>
   );
 };

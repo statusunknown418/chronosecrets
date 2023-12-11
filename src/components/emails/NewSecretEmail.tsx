@@ -40,8 +40,8 @@ export const NewSecretEmail: FunctionComponent<NewSecretEmailProps> = ({
         <Head />
         <Preview>Hey, there&apos;s something new for you 🤫!</Preview>
 
-        <Body className="mx-auto my-auto font-sans">
-          <Container className="rounded-lg border border-gray-500 p-5">
+        <Body className="font-sans">
+          <Container className="rounded-lg border border-gray-500">
             <Heading className="text-3xl font-bold">
               Someone just created a secret for you!
             </Heading>

@@ -17,7 +17,7 @@ export type NotifyAvailabilityDefer = {
 
 const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) => {
   const emailPromise = resend.emails.send({
-    from: "ChronoSecrets - Revealing! <onboarding@resend.dev>",
+    from: "ChronoSecrets - [Revealing] <onboarding@resend.dev>",
     subject: "A secret has just been revealed!",
     text: "Powered by MeowStudios",
     to: "alvarodevcode@outlook.com",

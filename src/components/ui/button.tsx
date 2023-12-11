@@ -45,7 +45,7 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: "default",
       size: "default",
-      rounding: "full",
+      rounding: "lg",
       alignment: "default",
     },
   },

@@ -18,7 +18,7 @@ export default function SignIn({
 
   if (session) {
     return (
-      <Link href="home">
+      <Link href="/home">
         <Button rounding="full" size="sm" className="group gap-1">
           <span>App</span>
           <ArrowRight size={15} className="transition-all group-hover:translate-x-1" />

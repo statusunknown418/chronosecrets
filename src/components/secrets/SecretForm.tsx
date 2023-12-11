@@ -76,11 +76,6 @@ const SecretForm = ({
   });
 
   const onSuccess = async (action: "create" | "update" | "delete") => {
-    Promise.all([
-      utils.secrets.getSecrets.invalidate(),
-      utils.user.getFullViewer.refetch(),
-    ]);
-
     toast.success(`Secret ${action}d successfully`);
     closeModal ? closeModal() : router.push("/home");
   };
@@ -122,6 +117,7 @@ const SecretForm = ({
         Promise.all([
           utils.secrets.getSecrets.invalidate(),
           utils.secrets.getSecretById.refetch({ id: Number(id) }),
+          utils.user.getFullViewer.refetch(),
         ]);
 
         onSuccess("update");
@@ -178,7 +174,7 @@ const SecretForm = ({
     <Form {...form}>
       <form
         action="#"
-        className="flex flex-col gap-6 px-2 pb-3"
+        className="flex flex-col gap-6 pb-3"
         onSubmit={form.handleSubmit(onSubmit)}
         ref={mainForm}
       >
@@ -278,7 +274,7 @@ const SecretForm = ({
 
             <AlertDescription className="flex flex-col gap-2">
               <p>
-                After you edit this secret an{" "}
+                After you edit anything on this secret an{" "}
                 <span className="text-foreground">&quot;Edited&quot;</span> tag will be
                 added to it. This is optional but you can remove it below.
               </p>

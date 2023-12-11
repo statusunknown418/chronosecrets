@@ -39,7 +39,7 @@ export const notifySecretReceiver = async (input: NotifyReceiverInput) => {
   });
 
   return await resend.emails.send({
-    from: "ChronoSecrets - [Notifications] <onboarding@resend.dev>",
+    from: "ChronoSecrets - [Inbox] <onboarding@resend.dev>",
     subject: "There's a new secret for you!",
     text: "Powered by MeowStudios",
     to: "alvarodevcode@outlook.com",
@@ -70,7 +70,7 @@ export const newFriendRequestNotification = async (
   input: NewFriendRequestNotificationInput,
 ) => {
   return await resend.emails.send({
-    from: "ChronoSecrets - [Notifications] <onboarding@resend.dev>",
+    from: "ChronoSecrets - [Friendships] <onboarding@resend.dev>",
     subject: `${input.sourceUsername} wants to be your friend!`,
     text: "Powered by MeowStudios",
     to: "alvarodevcode@outlook.com",

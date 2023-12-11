@@ -24,6 +24,7 @@ export const AcceptRequest = ({
   return (
     <Button
       loading={isLoading}
+      rounding={"full"}
       onClick={() =>
         accept({
           sourceId,

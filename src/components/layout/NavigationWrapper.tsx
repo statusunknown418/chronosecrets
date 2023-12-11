@@ -7,14 +7,14 @@ import { MobileNavigation } from "./MobileNavigation";
 
 export const links = [
   {
-    name: "Home",
+    name: "Inbox",
     href: "/home",
-    icon: <Send size={20} />,
+    icon: <Inbox size={22} />,
   },
   {
-    name: "Inbox",
-    href: "/receiving",
-    icon: <Inbox size={22} />,
+    name: "Sent secrets",
+    href: "/sent",
+    icon: <Send size={20} />,
   },
   {
     name: "New Secret",
