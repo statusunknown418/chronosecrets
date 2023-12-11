@@ -30,8 +30,8 @@ dependencies:
     specifier: ^3.5.0
     version: 3.5.0
   '@lemonsqueezy/lemonsqueezy.js':
-    specifier: ^1.2.4
-    version: 1.2.4
+    specifier: ^1.2.2
+    version: 1.2.2
   '@paralleldrive/cuid2':
     specifier: ^2.2.2
     version: 2.2.2
@@ -1107,8 +1107,8 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /@lemonsqueezy/lemonsqueezy.js@1.2.4:
-    resolution: {integrity: sha512-WR/pEUvMssFVDJ4TJnbQaI0BcXtFgIBheDdwnBF4UzGyheodzx/ufYrSmd/7m1aaXLjYnLJ97bEmM0T8/DsLBA==}
+  /@lemonsqueezy/lemonsqueezy.js@1.2.2:
+    resolution: {integrity: sha512-6laXtCHYv89boG1TGM0fZtWrp3B8XWIDIeCWVyj37XO4ECyR1EeVIgMQlPbxixuuf7IL+UOGjkQX60Gi8DJKNQ==}
     dev: false
 
   /@lottiefiles/last-builder@1.0.0:
