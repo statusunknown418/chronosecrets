@@ -29,7 +29,8 @@ export const QuickFriendship = ({ sourceId }: { sourceId: string }) => {
         utils.friendships.getFriends.invalidate(),
         utils.friendships.getAcceptedFriends.invalidate(),
       ]);
-      replace("/home");
+
+      replace("/my/settings?tab=people");
     },
     onError: (error) => {
       toast.error(error.message);
