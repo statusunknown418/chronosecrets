@@ -1,9 +1,9 @@
-import { api } from "@/lib/trpc/api";
+import { getSecretsByReceiver } from "@/lib/api/secrets/queries";
 import { EmptyInboxState } from "../secrets-list";
 import { ReceivingSecretCard } from "./ReceivingSecretCard";
 
 export const ReceivingList = async () => {
-  const { mine } = await api.secrets.getSecretsByReceiver.query();
+  const { mine } = await getSecretsByReceiver();
 
   if (!mine || mine.length === 0) {
     return <EmptyInboxState />;

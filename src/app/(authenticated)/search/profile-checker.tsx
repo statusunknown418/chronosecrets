@@ -1,11 +1,11 @@
 import { CompletedProfile } from "@/components/people/completed-profile";
 import { UncompletedProfile } from "@/components/people/uncompleted-profile";
 import { Skeleton } from "@/components/ui/skeleton";
-import { api } from "@/lib/trpc/api";
-import { getVerified } from "./page";
+import { getFullUser } from "@/lib/auth/utils";
+import { getVerified } from "@/lib/hooks/server-only-context";
 
 export const ProfileChecker = async () => {
-  const data = await api.user.getFullViewer.query();
+  const data = await getFullUser();
   const verified = getVerified();
 
   if (!data) {

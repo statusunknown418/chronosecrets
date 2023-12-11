@@ -33,7 +33,19 @@ export const HomeTabs = () => {
       </TabsContent>
 
       <TabsContent value="delivered">
-        <DeliveredListWrapper />
+        <Suspense
+          fallback={
+            <section className="max-w-full pt-2">
+              <ul className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
+                {[1, 2, 3, 4, 5, 6].map((s) => (
+                  <Skeleton key={s} className="h-64 w-full" />
+                ))}
+              </ul>
+            </section>
+          }
+        >
+          <DeliveredListWrapper />
+        </Suspense>
       </TabsContent>
     </Tabs>
   );

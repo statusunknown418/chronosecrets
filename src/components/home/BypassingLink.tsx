@@ -87,7 +87,11 @@ const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => 
         <DropdownMenuContent
           sideOffset={5}
           align={mode === "mobile" ? "start" : "center"}
-          className="w-[200px]"
+          className={cn(
+            mode === "mobile"
+              ? "w-[200px]"
+              : "w-[var(--radix-dropdown-menu-trigger-width)]",
+          )}
         >
           <DropdownMenuLabel>Quick Access</DropdownMenuLabel>
 

@@ -15,3 +15,5 @@ const serverOnlyContext = <T>(defaultValue: T): [() => T, (v: T) => void] => {
 };
 
 export default serverOnlyContext;
+
+export const [getVerified, setVerified] = serverOnlyContext(false);
