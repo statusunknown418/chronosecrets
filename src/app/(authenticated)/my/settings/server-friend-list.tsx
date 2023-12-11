@@ -1,8 +1,8 @@
 import { FriendsList } from "@/components/my/FriendsList";
-import { getAllFriendships } from "@/lib/api/friendships/queries";
+import { api } from "@/lib/trpc/api";
 
 export const ServerFriendListRequests = async () => {
-  const friends = await getAllFriendships();
+  const friends = await api.friendships.getFriends.query();
 
   return <FriendsList friendships={friends} />;
 };
