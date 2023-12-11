@@ -5,7 +5,7 @@ export const config = {
     "/home/:path*",
     "/my/:path*",
     "/secrets/:path*",
-    "/receiving/:path*",
+    "/sent/:path*",
     "/quick/:path*",
     "/search/:path*",
     "/requests/:path*",

@@ -48,7 +48,7 @@ export default async function SecretSlugPage({ params: { id } }: SecretSlugPageP
 
   return (
     <main className="flex flex-col gap-4">
-      <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-4 pb-2 pt-4 backdrop-blur backdrop-filter">
+      <section className="sticky inset-0 z-10 flex flex-col gap-2 border-b bg-background/20 px-2 pb-2 pt-4 backdrop-blur backdrop-filter">
         <div className="flex items-center justify-between">
           <span className="flex h-7 w-max items-center justify-center rounded-full border border-blue-800 bg-blue-950 px-4 text-xs text-blue-500">
             Editing
@@ -59,7 +59,7 @@ export default async function SecretSlugPage({ params: { id } }: SecretSlugPageP
               size="xs"
               variant="outline"
               rounding="full"
-              className="rounded-full border border-indigo-500 px-2 py-1 text-xs text-indigo-400 sm:hidden"
+              className="gap-1 rounded-full border border-indigo-500 px-2 py-1 text-xs text-indigo-400 sm:hidden"
             >
               <span className="font-bold">{user?.credits} CBs</span> left{" "}
               <HelpCircle size={16} />
@@ -94,11 +94,13 @@ export default async function SecretSlugPage({ params: { id } }: SecretSlugPageP
         </header>
       </section>
 
-      <section className="px-4">
-        <Suspense>
-          <DynamicSecretForm secret={secret} />
-        </Suspense>
-      </section>
+      <div className="grid grid-cols-1 gap-10 px-2 md:grid-cols-3 lg:grid-cols-5">
+        <section className="col-span-3 max-w-3xl flex-grow">
+          <Suspense>
+            <DynamicSecretForm secret={secret} />
+          </Suspense>
+        </section>
+      </div>
     </main>
   );
 }

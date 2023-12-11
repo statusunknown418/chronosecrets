@@ -10,7 +10,9 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
       <section className="h-full w-full overflow-y-scroll">
         <PageHeader />
 
-        <section className="px-4 sm:px-12 md:px-12">{children}</section>
+        <section className="h-[calc(100%-60px)] px-4 sm:px-12 md:px-12">
+          {children}
+        </section>
       </section>
     </section>
   );

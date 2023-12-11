@@ -38,7 +38,7 @@ export default async function ReceiveSecretByIdPage({
             {secret.title}
           </h1>
 
-          <Link href="/receiving" className="focus-within:outline-none">
+          <Link href="/sent" className="focus-within:outline-none">
             <Button variant="ghost" size="icon">
               <X size={20} className="text-muted-foreground" />
             </Button>
