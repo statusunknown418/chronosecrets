@@ -34,7 +34,7 @@ export const Countdown = ({ secret }: { secret: Secret }) => {
   return (
     <div className={cn("rounded-b-2xl border-t py-3 font-medium text-neutral-100")}>
       {secret.revealed && secret.revealingDate < new Date() ? (
-        <Link href={`/receiving/${secret.id}`}>
+        <Link href={`/inbox/${secret.id}`}>
           <p className="group flex items-center justify-center gap-1">
             <Dot size={24} className="animate-ping text-green-500" />
 
