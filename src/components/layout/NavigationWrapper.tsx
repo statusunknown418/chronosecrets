@@ -12,7 +12,7 @@ export const links = [
     icon: <Inbox size={22} />,
   },
   {
-    name: "Sent secrets",
+    name: "My secrets",
     href: "/sent",
     icon: <Send size={20} />,
   },

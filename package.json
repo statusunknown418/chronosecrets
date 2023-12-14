@@ -103,7 +103,7 @@
     "superjson": "^2.2.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "uploadthing": "^6.0.4",
+    "uploadthing": "^6.1.0",
     "use-scramble": "^2.2.12",
     "zod": "3.22.4",
     "zustand": "^4.4.7"
