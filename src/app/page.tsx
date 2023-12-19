@@ -1,6 +1,8 @@
 import SignIn from "@/components/auth/SignIn";
+import { AnimationWrapper } from "@/components/home/AnimationWrapper";
 import { MainContent } from "@/components/layout/MainContent";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -34,12 +36,14 @@ export default function Home() {
         <SignIn callbackUrl="/home" />
       </nav>
 
-      <MainContent className="max-w-6xl gap-12 px-6 md:gap-20">
+      <MainContent className="max-w-6xl gap-12 px-6 md:gap-14">
         <HeroSection />
 
-        <section id="features" className="flex flex-col">
+        <section id="features" className="flex flex-col items-center gap-7">
           <header className="flex flex-col gap-2">
-            <h2 className="text-2xl font-medium lg:text-3xl">Control your messages</h2>
+            <h2 className="text-center text-3xl font-medium lg:text-4xl">
+              Control your messages
+            </h2>
             <p className="text-gray-500">
               Schedule and Send Encrypted Messages with{" "}
               <span className="text-foreground">ChronoSecrets</span>
@@ -55,7 +59,7 @@ export default function Home() {
 
 const HeroSection = () => {
   return (
-    <section id="hero" className="mt-12 flex flex-col gap-6">
+    <section id="hero" className="mt-12 flex flex-col gap-4">
       <header className="flex flex-col items-center gap-4">
         <h1 className="text-center text-4xl font-black md:text-5xl lg:text-6xl">
           Schedule and Send Encrypted Messages with Ease
@@ -67,9 +71,15 @@ const HeroSection = () => {
           </p>
 
           <div className="flex items-center justify-center gap-2">
-            <Button rounding="full" variant="primary">
+            <Link
+              href={"/home"}
+              className={buttonVariants({
+                rounding: "full",
+              })}
+            >
+              <Sparkles size={15} />
               Let&apos;s go!
-            </Button>
+            </Link>
 
             <Button variant="outline" rounding="full">
               Learn more
@@ -77,9 +87,8 @@ const HeroSection = () => {
           </div>
         </section>
       </header>
-
-      <div className="flex h-56 w-full flex-col items-center justify-center rounded-lg bg-popover text-sm text-muted-foreground">
-        Interactive animation
+      <div className="flex h-[300px] w-full items-center justify-center sm:h-[400px] md:h-[600px]">
+        <AnimationWrapper scene="https://prod.spline.design/QIFwSFfKV9dMHncU/scene.splinecode" />
       </div>
     </section>
   );
@@ -87,13 +96,16 @@ const HeroSection = () => {
 
 const FeatureListAutoAccordion = () => {
   return (
-    <div className="mt-6 grid grid-cols-1">
+    <div className="mt-6 grid grid-cols-1 md:gap-5">
       <article className="flex flex-col gap-4 rounded-t-lg border p-4">
         <header className="flex items-center justify-between text-sm font-medium">
           <h3>Private</h3>
         </header>
 
-        <h3 className="font-bold">Keep Your Messages Confidential and Secure</h3>
+        <h3 className="text-lg font-medium">
+          Keep Your Messages Confidential and Secure
+        </h3>
+
         <p className="text-sm text-gray-500">
           ChronoSecrets allows you to schedule and send encrypted messages that can only
           be revealed at a certain time and seen only by the person{" "}
@@ -111,7 +123,9 @@ const FeatureListAutoAccordion = () => {
           <h3>Encrypted</h3>
         </header>
 
-        <h3 className="font-bold">Send Messages with Advanced Encryption Technology</h3>
+        <h3 className="text-lg font-medium">
+          Send Messages with Advanced Encryption Technology
+        </h3>
 
         <p className="text-sm text-gray-500">
           We use state-of-the-art encryption technology to ensure the security of your
