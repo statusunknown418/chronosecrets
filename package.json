@@ -84,6 +84,7 @@
     "date-fns": "^2.30.0",
     "drizzle-orm": "^0.28.6",
     "drizzle-zod": "^0.5.1",
+    "embla-carousel-react": "8.0.0-rc17",
     "geist": "^1.2.0",
     "lucide-react": "^0.286.0",
     "next": "14.0.4",
@@ -105,6 +106,7 @@
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^6.1.0",
     "use-scramble": "^2.2.12",
+    "vaul": "^0.8.0",
     "zod": "3.22.4",
     "zustand": "^4.4.7"
   },
