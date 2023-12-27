@@ -97,41 +97,45 @@ const HeroSection = () => {
 const FeatureListAutoAccordion = () => {
   return (
     <div className="mt-6 grid grid-cols-1 md:gap-5">
-      <article className="flex flex-col gap-4 rounded-t-lg border p-4">
-        <header className="flex items-center justify-between text-sm font-medium">
-          <h3>Private</h3>
-        </header>
+      <article className="flex flex-col gap-4 rounded-xl border p-4 md:flex-row">
+        <div className="flex flex-col gap-4">
+          <header className="flex items-center justify-between text-sm font-medium">
+            <h3>Private</h3>
+          </header>
 
-        <h3 className="text-lg font-medium">
-          Keep Your Messages Confidential and Secure
-        </h3>
+          <h3 className="text-lg font-medium">
+            Keep Your Messages Confidential and Secure
+          </h3>
 
-        <p className="text-sm text-gray-500">
-          ChronoSecrets allows you to schedule and send encrypted messages that can only
-          be revealed at a certain time and seen only by the person{" "}
-          <span className="text-green-500">you choose</span>. Take control of your
-          messages and ensure their privacy.
-        </p>
+          <p className="text-sm text-gray-500">
+            ChronoSecrets allows you to schedule and send encrypted messages that can only
+            be revealed at a certain time and seen only by the person{" "}
+            <span className="text-green-500">you choose</span>. Take control of your
+            messages and ensure their privacy.
+          </p>
+        </div>
 
         <div className="flex h-56 w-full flex-col items-center justify-center rounded-lg bg-popover text-sm text-muted-foreground">
           Interactive animation
         </div>
       </article>
 
-      <article className="flex flex-col gap-4 border-x p-4">
-        <header className="flex items-center justify-between text-sm font-medium">
-          <h3>Encrypted</h3>
-        </header>
+      <article className="flex flex-col gap-4 rounded-xl border p-4 md:flex-row-reverse">
+        <div className="flex flex-col gap-4">
+          <header className="flex items-center justify-between text-sm font-medium">
+            <h3>Encrypted</h3>
+          </header>
 
-        <h3 className="text-lg font-medium">
-          Send Messages with Advanced Encryption Technology
-        </h3>
+          <h3 className="text-lg font-medium">
+            Send Messages with Advanced Encryption Technology
+          </h3>
 
-        <p className="text-sm text-gray-500">
-          We use state-of-the-art encryption technology to ensure the security of your
-          messages. Send confidential information with peace of mind, knowing that your
-          data is <span className="text-indigo-400">protected.</span>
-        </p>
+          <p className="text-sm text-gray-500">
+            We use state-of-the-art encryption technology to ensure the security of your
+            messages. Send confidential information with peace of mind, knowing that your
+            data is <span className="text-indigo-400">protected.</span>
+          </p>
+        </div>
 
         <div className="flex h-56 w-full flex-col items-center justify-center rounded-lg bg-popover text-sm text-muted-foreground">
           Interactive animation
