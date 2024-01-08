@@ -2,6 +2,12 @@ import SignIn from "@/components/auth/SignIn";
 import { AnimationWrapper } from "@/components/home/AnimationWrapper";
 import { MainContent } from "@/components/layout/MainContent";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { EncodedCard } from "@/components/ui/encoded-card";
+import {
+  TextRevealCard,
+  TextRevealCardDescription,
+  TextRevealCardTitle,
+} from "@/components/ui/reveal-text";
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,7 +42,7 @@ export default function Home() {
         <SignIn callbackUrl="/home" />
       </nav>
 
-      <MainContent className="max-w-6xl gap-12 px-6 md:gap-14">
+      <MainContent className="max-w-5xl gap-12 px-6 md:gap-14">
         <HeroSection />
 
         <section id="features" className="flex flex-col items-center gap-7">
@@ -87,7 +93,7 @@ const HeroSection = () => {
           </div>
         </section>
       </header>
-      <div className="flex h-[300px] w-full items-center justify-center sm:h-[400px] md:h-[600px]">
+      <div className="flex h-[300px] w-full items-center justify-center sm:h-[400px] md:h-[500px]">
         <AnimationWrapper scene="https://prod.spline.design/QIFwSFfKV9dMHncU/scene.splinecode" />
       </div>
     </section>
@@ -96,9 +102,11 @@ const HeroSection = () => {
 
 const FeatureListAutoAccordion = () => {
   return (
-    <div className="mt-6 grid grid-cols-1 md:gap-5">
-      <article className="flex flex-col gap-4 rounded-xl border p-4 md:flex-row">
-        <div className="flex flex-col gap-4">
+    <div className="mt-6 grid grid-cols-1 md:gap-10">
+      <article className="flex flex-col gap-5 md:flex-row">
+        <EncodedCard text="Shh" className="h-72 w-max rounded-3xl border" />
+
+        <div className="flex flex-col gap-4 rounded-xl border p-4">
           <header className="flex items-center justify-between text-sm font-medium">
             <h3>Private</h3>
           </header>
@@ -114,32 +122,19 @@ const FeatureListAutoAccordion = () => {
             messages and ensure their privacy.
           </p>
         </div>
-
-        <div className="flex h-56 w-full flex-col items-center justify-center rounded-lg bg-popover text-sm text-muted-foreground">
-          Interactive animation
-        </div>
       </article>
 
-      <article className="flex flex-col gap-4 rounded-xl border p-4 md:flex-row-reverse">
-        <div className="flex flex-col gap-4">
-          <header className="flex items-center justify-between text-sm font-medium">
-            <h3>Encrypted</h3>
-          </header>
-
-          <h3 className="text-lg font-medium">
-            Send Messages with Advanced Encryption Technology
-          </h3>
-
-          <p className="text-sm text-gray-500">
+      <article className="flex w-full gap-5">
+        <TextRevealCard text="Hidden message" revealText="The actual message">
+          <TextRevealCardTitle>Encrypted</TextRevealCardTitle>
+          <TextRevealCardDescription>
             We use state-of-the-art encryption technology to ensure the security of your
             messages. Send confidential information with peace of mind, knowing that your
             data is <span className="text-indigo-400">protected.</span>
-          </p>
-        </div>
+          </TextRevealCardDescription>
+        </TextRevealCard>
 
-        <div className="flex h-56 w-full flex-col items-center justify-center rounded-lg bg-popover text-sm text-muted-foreground">
-          Interactive animation
-        </div>
+        <div className="aspect-square w-80 rounded-xl border" />
       </article>
 
       <article className="flex flex-col gap-4 border p-4">Set a time</article>
