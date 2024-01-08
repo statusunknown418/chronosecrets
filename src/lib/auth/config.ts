@@ -1,14 +1,14 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { mysqlTable } from "drizzle-orm/mysql-core";
 import { NextAuthOptions } from "next-auth";
+import { Adapter } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "../db";
 import { env } from "../env.mjs";
 
 export const authOptions: NextAuthOptions = {
-  // @ts-expect-error weird
-  adapter: DrizzleAdapter(db, mysqlTable),
+  adapter: DrizzleAdapter(db, mysqlTable) as Adapter,
   callbacks: {
     jwt: ({ account, token, user }) => {
       if (account && user) {
