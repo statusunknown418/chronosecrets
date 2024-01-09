@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth/config";
-import { DefaultSession } from "next-auth";
+import { DefaultSession } from "@auth/core/types";
 import { DefaultJWT } from "next-auth/jwt";
 import NextAuth from "next-auth/next";
 
@@ -8,7 +8,7 @@ declare module "next-auth" {
     user: DefaultSession["user"] & {
       id: string;
       username: string;
-      emailVerified: Date;
+      credits: number;
     };
   }
 }

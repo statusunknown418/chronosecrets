@@ -134,7 +134,7 @@ export const updateSecret = async (
   try {
     if (session.credits < secret.cost) {
       throw new TRPCError({
-        code: "BAD_REQUEST",
+        code: "CONFLICT",
         message: `You need at least - ${secret.cost - session.credits}CB to do this!`,
         cause: "INSUFFICIENT_FUNDS",
       });
