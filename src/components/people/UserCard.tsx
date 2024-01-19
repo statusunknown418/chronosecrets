@@ -43,7 +43,6 @@ export const UserCard = ({
         viewer: prev?.viewer ?? {
           ...data,
           username: data?.username || "",
-          emailVerified: new Date(),
         },
         people: [
           ...(prev?.people ?? []),
