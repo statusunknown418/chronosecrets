@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     description: "Schedule a secret now, deal with the consequences later!",
     locale: "en_US",
     url: "https://wait4it.vercel.app",
-    images: [new URL("https://wait4it.vercel.app/opengraph-image.png")],
+    images: [new URL("https://wait4it.vercel.app/twitter-image.png")],
   },
   twitter: {
     card: "summary_large_image",
