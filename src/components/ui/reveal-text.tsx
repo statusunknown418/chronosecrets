@@ -61,7 +61,7 @@ export const TextRevealCard = ({
     >
       {children}
 
-      <div className="relative  flex h-40 items-center overflow-hidden">
+      <div className="relative hidden h-32 items-center overflow-hidden md:flex">
         <motion.div
           style={{
             width: "100%",
@@ -83,7 +83,7 @@ export const TextRevealCard = ({
             style={{
               textShadow: "4px 4px 15px rgba(0,0,0,0.5)",
             }}
-            className="bg-gradient-to-b from-white to-neutral-300 bg-clip-text py-10 text-base font-bold text-transparent text-white sm:text-[3rem]"
+            className="bg-gradient-to-b from-white to-neutral-300 bg-clip-text py-2 text-base font-bold text-transparent text-white sm:text-[3rem]"
           >
             {revealText}
           </p>
