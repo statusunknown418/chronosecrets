@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     template: "%s | ChronoSecrets",
   },
   description: "Schedule a secret now, deal with the consequences later!",
+  metadataBase: new URL("https://wait4it.vercel.app"),
   keywords: [
     "secrets",
     "friends",
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
     "connect",
     "schedule",
     "algorithms",
+    "messages",
   ],
   creator: "MeowStudios",
   generator: "Next.js",
@@ -29,7 +31,30 @@ export const metadata: Metadata = {
       name: "Alvaro Aquije",
       url: "https://x.com/@alvaro_dotdev",
     },
+    {
+      name: "Francisco Garcia",
+      url: "https://www.instagram.com/francisco19_03",
+    },
   ],
+  openGraph: {
+    type: "website",
+    description: "Schedule a secret now, deal with the consequences later!",
+    locale: "en_US",
+    url: "https://wait4it.vercel.app",
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@alvaro_dotdev",
+    site: "@alvaro_dotdev",
+    images: [
+      {
+        url: "https://wait4it.vercel.app/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ChronoSecrets",
+      },
+    ],
+  },
 };
 
 export const viewport: Viewport = {
