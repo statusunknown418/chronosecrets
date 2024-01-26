@@ -27,10 +27,13 @@ export const DesktopNavigation = ({
   return (
     <div className="md::h-full hidden min-w-[190px] grid-cols-1 grid-rows-3 border-r md:grid lg:min-w-[240px]">
       <header className="flex flex-col gap-6 px-4">
-        <div className="flex h-[60px] cursor-default select-none items-center gap-2 self-start">
+        <Link
+          className="flex h-[60px] select-none items-center gap-2 self-start"
+          href={"/"}
+        >
           <Image src="/favicon.ico" width={25} height={25} alt="app-logo" priority />
           <h1 className="text-sm font-semibold">ChronoSecrets</h1>
-        </div>
+        </Link>
 
         {user?.credits !== undefined ? (
           <div className="flex items-center gap-1">

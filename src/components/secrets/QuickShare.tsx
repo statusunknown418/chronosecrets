@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { Input } from "../ui/input";
 
 export const QuickShare = ({ url }: { url: string }) => {
   const copyToClipboard = () => {
@@ -34,10 +35,10 @@ export const ShareCustomLink = () => {
   const { data } = trpc.user.getFullViewer.useQuery();
   const [done, setDone] = useState(false);
 
+  const fullUrl = `${BASE_URL}/secrets/new?bypass=true&sendingId=${data?.id}&sendingUsername=${data?.username}`;
+
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(
-      `${BASE_URL}/secrets/new?bypass=true&sendingId=${data?.id}&sendingUsername=${data?.username}`,
-    );
+    navigator.clipboard.writeText(fullUrl);
 
     toast.success("Shareable link copied to clipboard!", {
       description: "Share it wherever you want!",
@@ -63,16 +64,10 @@ export const ShareCustomLink = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <DialogFooter>
+        <DialogFooter className="gap-0">
+          <Input value={fullUrl} readOnly />
           <Button onClick={copyToClipboard}>
-            {done ? (
-              <span className="flex items-center gap-2">
-                <CheckCircle size={16} />
-                Copied!
-              </span>
-            ) : (
-              "Copy to clipboard"
-            )}
+            {done ? <CheckCircle size={16} /> : "Copy"}
           </Button>
         </DialogFooter>
       </DialogContent>

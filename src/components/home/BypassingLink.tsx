@@ -24,6 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export const BASE_URL =
@@ -41,18 +42,18 @@ const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => 
 
   if (!data.username) return <AccountNotSetup />;
 
-  const copyToClipboard = () => {
-    const quickLink = `${BASE_URL}/secrets/new?bypass=true&sendingId=${data.id}&sendingUsername=${data.username}`;
+  const quickLink = `${BASE_URL}/secrets/new?bypass=true&sendingId=${data.id}&sendingUsername=${data.username}`;
 
+  const copyToClipboard = () => {
     navigator.clipboard.writeText(quickLink);
     toast.success("You've got the link!", {
       description: "Share it wherever you want!",
     });
   };
 
-  const shareProfileWithFriends = () => {
-    const shareProfileLink = `${BASE_URL}/quick/${data.username}?sourceId=${data.id}`;
+  const shareProfileLink = `${BASE_URL}/quick/${data.username}?sourceId=${data.id}`;
 
+  const shareProfileWithFriends = () => {
     navigator.clipboard.writeText(shareProfileLink);
     toast.success("it's copied!", {
       description: "Send it over to your friends!",
@@ -136,9 +137,10 @@ const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => 
           <DialogHeader>
             <DialogTitle>Bypassing link</DialogTitle>
 
+            {/* TODO: another animation here
             <div className="my-4 flex h-40 w-full items-center justify-center rounded-lg border text-sm text-muted-foreground">
               Link animation or small video here
-            </div>
+            </div> */}
 
             <DialogDescription>
               Share an instant, <span className="text-foreground">quick</span> secret
@@ -147,8 +149,9 @@ const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => 
           </DialogHeader>
 
           <DialogFooter className="mt-2">
-            <Button rounding="full" size="sm" onClick={copyToClipboard}>
-              I want it!
+            <Input value={quickLink} readOnly />
+            <Button rounding="full" onClick={copyToClipboard}>
+              Copy!
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -159,9 +162,10 @@ const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => 
           <DialogHeader>
             <DialogTitle>Share your profile!</DialogTitle>
 
+            {/* TODO: Add animations here
             <div className="my-4 flex h-40 w-full items-center justify-center rounded-lg border text-sm text-muted-foreground">
               Link animation or small video here
-            </div>
+            </div> */}
 
             <DialogDescription className="p-1 text-left">
               Share this to anyone you already know and want to join{" "}
@@ -173,8 +177,9 @@ const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => 
           </DialogHeader>
 
           <DialogFooter className="mt-2">
+            <Input value={shareProfileLink} readOnly />
             <Button rounding="full" onClick={shareProfileWithFriends}>
-              Let&apos;s do it!
+              Copy!
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -201,8 +206,9 @@ const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => 
           </DialogHeader>
 
           <DialogFooter className="mt-2">
+            <Input value={shareProfileLink} readOnly />
             <Button rounding="full" onClick={shareProfileWithFriends}>
-              Let&apos;s do it!
+              Copy!
             </Button>
           </DialogFooter>
         </DialogContent>

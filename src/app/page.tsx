@@ -1,17 +1,12 @@
 import SignIn from "@/components/auth/SignIn";
 import { MainContent } from "@/components/layout/MainContent";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { EncodedCard } from "@/components/ui/encoded-card";
-import {
-  TextRevealCard,
-  TextRevealCardDescription,
-  TextRevealCardTitle,
-} from "@/components/ui/reveal-text";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { WavyBackground } from "@/components/ui/wavy-background";
-import { ChevronRightIcon, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { FeatureListAutoAccordion } from "./(authenticated)/home/_ui/FeatureList";
 
 export default function Home() {
   return (
@@ -23,7 +18,17 @@ export default function Home() {
         </Button>
 
         <nav className="hidden flex-grow items-center gap-4 sm:flex">
-          This could be really fun <ChevronRightIcon className="h-4 w-4" />
+          <Link href={"#features"}>
+            <Button variant="ghost" rounding="full" size="sm">
+              Features
+            </Button>
+          </Link>
+
+          <Link href={"#scheduling"}>
+            <Button variant="ghost" rounding="full" size="sm">
+              Scheduling
+            </Button>
+          </Link>
         </nav>
 
         <SignIn callbackUrl="/home" />
@@ -32,7 +37,7 @@ export default function Home() {
       <MainContent className="w-full gap-0">
         <HeroSection />
 
-        <div className="h-1 w-full rounded-full bg-popover" />
+        <div className="h-0.5 w-full rounded-full bg-popover" />
 
         <section
           id="features"
@@ -53,7 +58,7 @@ export default function Home() {
             <FeatureListAutoAccordion />
           </div>
         </section>
-        <div className="h-1 w-full rounded-full bg-popover" />
+        <div className="h-0.5 w-full rounded-full bg-popover" />
 
         <section className="mt-10 border-b-2 px-4 py-20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.15)] backdrop-blur">
           <div className="mx-auto w-full max-w-screen-xl px-2.5 lg:px-20">
@@ -73,7 +78,7 @@ export default function Home() {
                 rel="noreferrer"
               >
                 <div className="flex items-center">
-                  <div className="flex h-10 items-center space-x-2 rounded-md border border-gray-600 bg-popover p-4">
+                  <div className="h-0.50 flex items-center space-x-2 rounded-lg border border-gray-600 bg-popover px-4 py-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -84,7 +89,7 @@ export default function Home() {
                     >
                       <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
                     </svg>
-                    <p className="font-medium text-white">Star ⭐️</p>
+                    <p className="text-sm font-medium text-white">Star ⭐️</p>
                   </div>
                 </div>
               </Link>
@@ -109,10 +114,10 @@ export default function Home() {
 
           <Link
             href={"/home"}
-            className="group relative inline-flex h-12 items-center justify-center self-center overflow-hidden rounded-full bg-indigo-600 px-6 font-medium text-neutral-200 duration-500"
+            className="group relative inline-flex h-10 items-center justify-center self-center overflow-hidden rounded-full bg-indigo-600 px-6 font-medium text-neutral-200 duration-500"
           >
             <div className="translate-x-0 opacity-100 transition group-hover:-translate-x-[150%] group-hover:opacity-0">
-              Get started!
+              Start now!
             </div>
 
             <div className="absolute translate-x-[150%] opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100">
@@ -127,8 +132,8 @@ export default function Home() {
                 <path
                   d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"
                   fill="currentColor"
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
             </div>
@@ -191,9 +196,12 @@ const HeroSection = () => {
                 Let&apos;s go!
               </Link>
 
-              <Button variant="outline" rounding="full">
+              <Link
+                href={"#features"}
+                className={buttonVariants({ rounding: "full", variant: "outline" })}
+              >
                 Learn more
-              </Button>
+              </Link>
             </div>
           </section>
         </header>
@@ -203,75 +211,3 @@ const HeroSection = () => {
   );
 };
 
-const FeatureListAutoAccordion = () => {
-  return (
-    <div className="mt-6 grid grid-cols-1 gap-5">
-      <article className="flex flex-col gap-5 md:flex-row">
-        <EncodedCard
-          text="👀"
-          className="hidden h-72 w-max rounded-3xl border bg-black md:block"
-        />
-
-        <div className="flex flex-col gap-4 rounded-xl border bg-[#1d1c20] p-4">
-          <header className="flex items-center justify-between text-sm font-medium text-[#a9a9a9]">
-            <h3>Private</h3>
-          </header>
-
-          <h3 className="text-lg font-bold">
-            Keep Your Messages Confidential and Secure
-          </h3>
-
-          <p className="text-sm text-[#a9a9a9]">
-            ChronoSecrets allows you to schedule and send encrypted messages that can only
-            be revealed at a certain time and seen only by the person{" "}
-            <span className="text-indigo-400">you choose</span>. Take control of your
-            messages and ensure their privacy.
-          </p>
-        </div>
-      </article>
-
-      <article className="flex w-full gap-5">
-        <TextRevealCard text="Hidden message" revealText="The actual message">
-          <header className="mb-2 flex items-center justify-between text-sm font-medium text-[#a9a9a9]">
-            <h3>Secure</h3>
-          </header>
-          <TextRevealCardTitle className="font-bold">Okay, but how?</TextRevealCardTitle>
-          <TextRevealCardDescription>
-            We use state-of-the-art encryption technology to ensure the security of your
-            messages. Send confidential information with peace of mind, knowing that your
-            data is <span className="text-indigo-400">protected.</span>
-          </TextRevealCardDescription>
-        </TextRevealCard>
-
-        <EncodedCard
-          text="💀"
-          className="hidden h-72 w-max rounded-3xl border bg-black md:block"
-        />
-      </article>
-
-      <article className="flex flex-col gap-5 md:flex-row">
-        <EncodedCard
-          text="🤯"
-          className="hidden h-72 w-max rounded-3xl border bg-black md:block"
-        />
-
-        <div className="flex flex-col gap-4 rounded-xl border bg-[#1d1c20] p-4">
-          <header className="flex items-center justify-between text-sm font-medium text-[#a9a9a9]">
-            <h3>Private</h3>
-          </header>
-
-          <h3 className="text-lg font-bold">
-            Select an adequate time for your message to be revealed
-          </h3>
-
-          <p className="text-sm text-[#a9a9a9]">
-            ChronoSecrets allows you to schedule and send encrypted messages that can only
-            be revealed at a certain time and seen only by the person{" "}
-            <span className="text-indigo-400">you choose</span>. Take control of your
-            messages and ensure their privacy.
-          </p>
-        </div>
-      </article>
-    </div>
-  );
-};
