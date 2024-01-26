@@ -28,9 +28,10 @@ export default function NewSecretPage() {
           </Suspense>
         </section>
 
+        {/* TODO: Update this with some graphic
         <div className="sticky left-0 top-[80px] col-span-2 hidden h-72 w-full items-center justify-center rounded-lg border bg-popover p-5 text-muted-foreground lg:flex">
           Select an encryption type to visualize it
-        </div>
+        </div> */}
       </div>
     </MainContent>
   );
