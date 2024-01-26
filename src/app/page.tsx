@@ -143,7 +143,7 @@ export default function Home() {
 
       <footer className="flex flex-col items-center justify-center gap-4 px-4 py-10">
         <p className="text-center text-sm text-gray-500">
-          Made with{" "}
+          Powered by <span className="text-indigo-400">Meow Studios</span> and Made with{" "}
           <span role="img" aria-label="love">
             ❤️
           </span>{" "}
