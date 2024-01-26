@@ -30,7 +30,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 export const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://wait4it.vercel.app";
+    : "https://chronosecrets.app";
 
 const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => {
   const { data, isLoading } = trpc.user.getFullViewer.useQuery();
