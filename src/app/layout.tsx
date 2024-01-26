@@ -67,7 +67,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="h-full">
-      <body className={cn(GeistSans.className, "dark h-full")}>
+      <body className={cn(GeistSans.className, "dark h-full overflow-hidden")}>
         <NextAuthProvider>
           <TrpcProvider>{children}</TrpcProvider>
 
