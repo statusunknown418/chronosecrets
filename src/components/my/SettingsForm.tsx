@@ -226,8 +226,8 @@ export const SettingsForm = ({
 
               <FormDescription>
                 We won&apos;t allow you to change your email for now due to security
-                reasons. Hope yo understand! :).
-                <hr className="py-2" />
+                reasons. Hope you understand! :).
+                <hr className="mt-2 py-2" />
                 This email is only used to notify you whenever you receive a new secret or
                 friend request.
               </FormDescription>
