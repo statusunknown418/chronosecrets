@@ -24,6 +24,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { RequiredLabel } from "../ui/required-label";
+import { Separator } from "../ui/separator";
 import { Spinner } from "../ui/spinner";
 
 export const SettingsForm = ({
@@ -37,6 +38,7 @@ export const SettingsForm = ({
   const goBackTo = useSearchParams().get("goBackTo");
   const q = useSearchParams().get("q");
   const verifyOn = useSearchParams().get("verifyOn");
+  const callback = useSearchParams().get("callbackUrl");
 
   const utils = trpc.useUtils();
   const [parent] = useAutoAnimate();
@@ -74,11 +76,21 @@ export const SettingsForm = ({
 
   const { mutate, isLoading } = trpc.user.updateUser.useMutation({
     onSuccess: async () => {
-      toast.success(`Updated!${goBackTo ? " - Redirecting you back..." : ""}`);
+      toast.success(
+        `Updated!${goBackTo || callback ? " - Redirecting you back..." : ""}`,
+      );
 
       const query = q ? `&q=${q}` : "";
 
       await utils.user.getFullViewer.refetch();
+
+      if (callback) {
+        setTimeout(() => {
+          router.push(`${callback}?verified=true${query}`);
+        }, 1000);
+
+        return;
+      }
 
       goBackTo &&
         setTimeout(() => {
@@ -227,7 +239,7 @@ export const SettingsForm = ({
               <FormDescription>
                 We won&apos;t allow you to change your email for now due to security
                 reasons. Hope you understand! :).
-                <hr className="mt-2 py-2" />
+                <Separator className="my-2" />
                 This email is only used to notify you whenever you receive a new secret or
                 friend request.
               </FormDescription>

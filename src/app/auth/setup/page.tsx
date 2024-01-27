@@ -2,6 +2,7 @@ import { SettingsForm } from "@/components/my/SettingsForm";
 import { getFullUser } from "@/lib/auth/utils";
 import { getRandomInt } from "@/lib/getBase64Blur";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function SetupNewUserPage() {
   const user = await getFullUser();
@@ -23,12 +24,14 @@ export default async function SetupNewUserPage() {
           want. You can also change your profile picture!
         </p>
 
-        <SettingsForm
-          user={{
-            ...user,
-            username: user.username || generatedUsername,
-          }}
-        />
+        <Suspense>
+          <SettingsForm
+            user={{
+              ...user,
+              username: user.username || generatedUsername,
+            }}
+          />
+        </Suspense>
       </div>
     </section>
   );
