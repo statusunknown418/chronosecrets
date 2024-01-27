@@ -160,7 +160,6 @@ export const SettingsForm = ({
                       setInitiallyDisabled(true);
                     }}
                     value={field.value || ""}
-                    placeholder="status.n_418"
                     className="h-full w-full bg-background px-3 text-sm focus:outline-none"
                   />
                 </FormControl>
@@ -225,6 +224,10 @@ export const SettingsForm = ({
                 <Input {...field} disabled placeholder="some@a.com" />
               </FormControl>
 
+              <FormDescription>
+                We won&apos;t allow you to change your email for now due to security
+                reasons. Hope yo understand!
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
