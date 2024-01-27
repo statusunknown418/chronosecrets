@@ -1,4 +1,4 @@
-export const APP_URL = "https://wait4it.vercel.app";
+export const APP_URL = "https://chronosecrets.app";
 
 export const EDIT_TITLE_COST = 10;
 export const EDIT_REVELATION_DATE_COST = 50;
