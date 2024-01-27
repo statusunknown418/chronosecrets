@@ -1,6 +1,7 @@
 import { NewFriendRequestEmail } from "@/components/emails/NewFriendRequestEmail";
 import { NewSecretEmail } from "@/components/emails/NewSecretEmail";
 import scheduleNotification from "@/defer/scheduleNotification";
+import { REPLY_TO_EMAIL } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { resend } from "@/lib/email";
 import { assignOptions } from "@defer/client";
@@ -39,11 +40,11 @@ export const notifySecretReceiver = async (input: NotifyReceiverInput) => {
   });
 
   return await resend.emails.send({
-    from: "ChronoSecrets - [Inbox] <onboarding@resend.dev>",
+    from: "ChronoSecrets - [Inbox] <onboarding@chronosecrets.app>",
     subject: "There's a new secret for you!",
     text: "Powered by MeowStudios",
-    to: "alvarodevcode@outlook.com",
-    reply_to: "alvaro.aquije@icloud.com",
+    to: receiverProfile.email,
+    reply_to: REPLY_TO_EMAIL,
     react: NewSecretEmail({
       receiverName: receiverProfile.name || "",
       receiverEmail: receiverProfile.email || "",
@@ -70,11 +71,11 @@ export const newFriendRequestNotification = async (
   input: NewFriendRequestNotificationInput,
 ) => {
   return await resend.emails.send({
-    from: "ChronoSecrets - [Friendships] <onboarding@resend.dev>",
+    from: "ChronoSecrets - [Friendships] <onboarding@chronosecrets.app>",
     subject: `${input.sourceUsername} wants to be your friend!`,
     text: "Powered by MeowStudios",
-    to: "alvarodevcode@outlook.com",
-    reply_to: "alvaro.aquije@icloud.com",
+    to: input.targetEmail,
+    reply_to: REPLY_TO_EMAIL,
     react: NewFriendRequestEmail(input),
   });
 };

@@ -60,7 +60,11 @@ export const NewSecretEmail: FunctionComponent<NewSecretEmailProps> = ({
 
             <Hr />
 
-            <Text className="mt-4">Click the button below to check it out!</Text>
+            <Text className="mt-4">
+              Click the button below to check it out! Just keep in mind it will be
+              encrypted until the date set for revealing. We&apos;ll send you an email
+              when it&apos;s ready to be seen!
+            </Text>
 
             <Button
               className="rounded-full px-5 py-3"

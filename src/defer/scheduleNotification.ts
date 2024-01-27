@@ -1,4 +1,5 @@
 import { SecretAvailableEmail } from "@/components/emails/SecretAvailableEmail";
+import { REPLY_TO_EMAIL } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { secrets } from "@/lib/db/schema";
 
@@ -17,11 +18,11 @@ export type NotifyAvailabilityDefer = {
 
 const scheduleNotificationForReceiver = async (input: NotifyAvailabilityDefer) => {
   const emailPromise = resend.emails.send({
-    from: "ChronoSecrets - [Revealing] <onboarding@resend.dev>",
+    from: "ChronoSecrets - [Revealing] <onboarding@chronosecrets.app>",
     subject: "A secret has just been revealed!",
     text: "Powered by MeowStudios",
-    to: "alvarodevcode@outlook.com",
-    reply_to: "alvarodevcode@outlook.com",
+    to: input.receiverEmail,
+    reply_to: REPLY_TO_EMAIL,
     react: SecretAvailableEmail(input),
   });
 
