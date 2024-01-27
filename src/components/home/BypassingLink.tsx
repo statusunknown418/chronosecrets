@@ -148,12 +148,10 @@ const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => 
             </DialogDescription>
           </DialogHeader>
 
-          <DialogFooter className="mt-2">
-            <Input value={quickLink} readOnly />
-            <Button rounding="full" onClick={copyToClipboard}>
-              Copy!
-            </Button>
-          </DialogFooter>
+          <Input value={quickLink} readOnly />
+          <Button rounding="full" onClick={copyToClipboard}>
+            Copy!
+          </Button>
         </DialogContent>
       </Dialog>
 
@@ -176,12 +174,10 @@ const BypassingLink = ({ mode = "mobile" }: { mode?: "desktop" | "mobile" }) => 
             </DialogDescription>
           </DialogHeader>
 
-          <DialogFooter className="mt-2">
-            <Input value={shareProfileLink} readOnly />
-            <Button rounding="full" onClick={shareProfileWithFriends}>
-              Copy!
-            </Button>
-          </DialogFooter>
+          <Input value={shareProfileLink} readOnly />
+          <Button rounding="full" onClick={shareProfileWithFriends}>
+            Copy!
+          </Button>
         </DialogContent>
       </Dialog>
 
