@@ -23,8 +23,6 @@ export const ReceivingList = async () => {
 
   return (
     <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      {JSON.stringify(mine)}
-
       {sorted.map((s) => (
         <ReceivingSecretCard key={s.secretId} secret={s.secret} />
       ))}
