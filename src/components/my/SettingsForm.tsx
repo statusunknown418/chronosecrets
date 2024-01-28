@@ -24,7 +24,6 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { RequiredLabel } from "../ui/required-label";
-import { Separator } from "../ui/separator";
 import { Spinner } from "../ui/spinner";
 
 export const SettingsForm = ({
@@ -236,12 +235,16 @@ export const SettingsForm = ({
                 <Input {...field} disabled placeholder="some@a.com" />
               </FormControl>
 
-              <FormDescription>
-                We won&apos;t allow you to change your email for now due to security
-                reasons. Hope you understand! :).
-                <Separator className="my-2" />
-                This email is only used to notify you whenever you receive a new secret or
-                friend request.
+              <FormDescription className="flex flex-col gap-2">
+                <span>
+                  We won&apos;t allow you to change your email for now due to security
+                  reasons. Hope you understand! :).
+                </span>
+                <span className="h-0.5 w-full bg-input" />
+                <span>
+                  This email is only used to notify you whenever you receive a new secret
+                  or friend request.
+                </span>
               </FormDescription>
               <FormMessage />
             </FormItem>

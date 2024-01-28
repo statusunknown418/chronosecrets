@@ -82,7 +82,8 @@ export const SecretIsNotRevealedYet = ({ secret }: { secret: Secret }) => {
           <h3 className="font-bold">Hmm, this secret has not been revealed yet!</h3>
           <p>Gotta wait a bit more</p>
           <p>
-            Don&apos;t worry, we&pos;ll send you an email once it&apos;s ready to be seen!
+            Don&apos;t worry, we&apos;ll send you an email once it&apos;s ready to be
+            seen!
           </p>
         </div>
 

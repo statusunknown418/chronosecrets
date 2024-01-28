@@ -95,5 +95,6 @@ module.exports = withUt({
     require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
     addVariablesForColors,
+    require("daisyui"),
   ],
 });
