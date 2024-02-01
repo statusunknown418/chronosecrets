@@ -1,4 +1,5 @@
 "use client";
+import { useReceiverDataStore } from "@/lib/hooks/useReceiverDataStore";
 import { useWindowSize } from "@/lib/hooks/useWindowSize";
 import { RouterOutputs } from "@/lib/server/routers/_app";
 import { cn } from "@/lib/utils";
@@ -23,6 +24,7 @@ export const MobileNavigation = ({
   const selectedSegment = useSelectedLayoutSegment();
   const path = usePathname();
   const { width } = useWindowSize();
+  const clearSyncedReceiver = useReceiverDataStore((s) => s.clear);
 
   const { back } = useRouter();
   const [parent] = useAutoAnimate();
@@ -63,7 +65,16 @@ export const MobileNavigation = ({
 
               {links.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} passHref className="focus:outline-none">
+                  <Link
+                    href={link.href}
+                    passHref
+                    className="focus:outline-none"
+                    onClick={() => {
+                      if (link.href === "/secrets/new") {
+                        clearSyncedReceiver();
+                      }
+                    }}
+                  >
                     <Button
                       size="icon"
                       variant="ghost"

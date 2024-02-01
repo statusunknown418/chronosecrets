@@ -1,3 +1,5 @@
+"use client";
+import { useReceiverDataStore } from "@/lib/hooks/useReceiverDataStore";
 import { RouterOutputs } from "@/lib/server/routers/_app";
 import { cn } from "@/lib/utils";
 import { animated, useSpring } from "@react-spring/web";
@@ -16,6 +18,7 @@ export const DesktopNavigation = ({
   user?: RouterOutputs["user"]["getFullViewer"];
 }) => {
   const path = usePathname();
+  const clearSyncedReceiver = useReceiverDataStore((s) => s.clear);
 
   const { number } = useSpring({
     from: { number: 0 },
@@ -74,6 +77,11 @@ export const DesktopNavigation = ({
                 ? "bg-popover text-indigo-400 shadow-black"
                 : "text-popover-foreground",
             )}
+            onClick={() => {
+              if (link.href === "/secrets/new") {
+                clearSyncedReceiver();
+              }
+            }}
           >
             {link.icon}
             <span>{link.name}</span>
