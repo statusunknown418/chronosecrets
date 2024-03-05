@@ -83,7 +83,7 @@ export const AttachmentsSection = ({
             onUploadError={(error) => {
               setDisableButton(false);
               toast.error(error.message, {
-                description: error.cause?.message ?? "Try again",
+                description: "There was an error on our side. Please try again",
               });
             }}
             config={{
